@@ -11,7 +11,7 @@ using Entities.Concrete;
 namespace Business.Concrete
 {
   public  class PersonManager:IPersonService
-  {
+  { 
       private IPersonDal _personDal;
 
       public PersonManager(IPersonDal personDal)
