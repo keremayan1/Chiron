@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Business.Abstract;
+using Business.Adapters.PersonService;
 using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
@@ -23,6 +24,10 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<PersonManager>().As<IPersonService>().SingleInstance();
             builder.RegisterType<EfPersonDal>().As<IPersonDal>().SingleInstance();
 
+            builder.RegisterType<PersonInformationManager>().As<IPersonInformationService>().SingleInstance();
+            builder.RegisterType<EfPersonInformationDal>().As<IPersonInformationDal>().SingleInstance();
+
+            builder.RegisterType<KpsServiceManager>().As<IKpsService>();
 
             var assembly = Assembly.GetExecutingAssembly();
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().EnableInterfaceInterceptors(

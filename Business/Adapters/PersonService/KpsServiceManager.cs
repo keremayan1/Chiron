@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
+using Entities.Concrete;
 using NationalIdValidate;
 
 namespace Business.Adapters.PersonService

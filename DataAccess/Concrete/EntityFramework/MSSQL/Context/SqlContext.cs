@@ -16,5 +16,6 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
         }
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<PersonInformation> PersonInformations { get; set; }
     }
 }
