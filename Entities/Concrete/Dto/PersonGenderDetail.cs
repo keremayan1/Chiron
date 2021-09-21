@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Entities;
 
-namespace Entities.Concrete
+namespace Entities.Concrete.Dto
 {
-   public class Gender:IEntity
+ public  class PersonGenderDetail:IDto
     {
-        public int GenderId { get; set; }
+        public int Id { get; set; }
+        public string PersonName { get; set; }
         public string GenderName { get; set; }
 
     }

@@ -27,7 +27,13 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<PersonInformationManager>().As<IPersonInformationService>().SingleInstance();
             builder.RegisterType<EfPersonInformationDal>().As<IPersonInformationDal>().SingleInstance();
 
-            builder.RegisterType<KpsServiceManager>().As<IKpsService>();
+            builder.RegisterType<GenderManager>().As<IGenderService>().SingleInstance();
+            builder.RegisterType<EfGenderDal>().As<IGenderDal>().SingleInstance();
+
+            builder.RegisterType<PersonGenderManager>().As<IPersonGenderService>().SingleInstance();
+            builder.RegisterType<EfPersonGenderDal>().As<IPersonGenderDal>().SingleInstance();
+
+            builder.RegisterType<KpsServiceManager>().As<IKpsService>().SingleInstance();
 
             var assembly = Assembly.GetExecutingAssembly();
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces().EnableInterfaceInterceptors(

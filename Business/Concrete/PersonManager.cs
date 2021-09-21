@@ -10,29 +10,29 @@ using Entities.Concrete;
 
 namespace Business.Concrete
 {
-  public  class PersonManager:IPersonService
-  { 
-      private IPersonDal _personDal;
+    public class PersonManager : IPersonService
+    {
+        private IPersonDal _personDal;
 
-      public PersonManager(IPersonDal personDal)
-      {
-          _personDal = personDal;
-      }
+        public PersonManager(IPersonDal personDal)
+        {
+            _personDal = personDal;
+        }
 
-      public async Task<IDataResult<List<Person>>> GetAllAsync()
-      {
-          return new SuccessDataResult<List<Person>>(await _personDal.GetAllAsync());
-      }
+        public async Task<IDataResult<List<Person>>> GetAllAsync()
+        {
+            return new SuccessDataResult<List<Person>>(await _personDal.GetAllAsync());
+        }
 
         public async Task<IDataResult<Person>> GetById(int personId)
         {
-            return new SuccessDataResult<Person>(await _personDal.GetAsync(p=>p.PersonId==personId));
+            return new SuccessDataResult<Person>(await _personDal.GetAsync(p => p.PersonId == personId));
         }
 
         public async Task<IResult> AddAsync(Person person)
         {
-           await _personDal.AddAsync(person);
-           return new SuccessResult();
+            await _personDal.AddAsync(person);
+            return new SuccessResult();
         }
 
         public async Task<IResult> DeleteAsync(Person person)
@@ -46,5 +46,7 @@ namespace Business.Concrete
             await _personDal.UpdateAsync(person);
             return new SuccessResult();
         }
+       
+
     }
 }
