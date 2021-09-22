@@ -58,6 +58,12 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        public async Task<IDataResult<List<Gender>>> GetByName(string genderName)
+        {
+            return new SuccessDataResult<List<Gender>>(
+                await _genderDal.GetAllAsync(g => g.GenderName.ToLower() == genderName.ToLower()));
+        }
+
         public IResult CheckIfGenderNameExists(string genderName)
         {
             var result = _genderDal.Any(g => g.GenderName.ToLower() == genderName.ToLower());

@@ -15,5 +15,6 @@ namespace Business.Abstract
       Task<IResult> Add(Gender gender);
       Task<IResult> Delete(Gender gender);
       Task<IResult> Update(Gender gender);
+      Task<IDataResult<List<Gender>>> GetByName(string genderName);
   }
 }

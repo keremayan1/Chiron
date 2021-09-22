@@ -14,6 +14,8 @@ namespace Business.Abstract
         Task<IDataResult<List<PersonGender>>> GetAll();
         Task<IDataResult<List<PersonGender>>> GetByGenderId(int genderId);
         Task<IDataResult<List<PersonGender>>> GetByPersonId(int personId);
+        Task<IDataResult<List<PersonGender>>> GetById(int id);
+       
         Task<IDataResult<List<PersonGender>>> GetByPersonIdAndGenderId(int personId,int genderId);
         Task<IResult> Add(PersonGender personGender);
         Task<IResult> Delete(PersonGender personGender);

@@ -33,6 +33,12 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<PersonGenderManager>().As<IPersonGenderService>().SingleInstance();
             builder.RegisterType<EfPersonGenderDal>().As<IPersonGenderDal>().SingleInstance();
 
+            builder.RegisterType<EducationStatusManager>().As<IEducationManagerService>().SingleInstance();
+            builder.RegisterType<EfEducationStatusDal>().As<IEducationStatusDal>().SingleInstance();
+
+            builder.RegisterType<ChildrenManager>().As<IChildrenService>().SingleInstance();
+            builder.RegisterType<EfChildrenDal>().As<IChildrenDal>().SingleInstance();
+
             builder.RegisterType<KpsServiceManager>().As<IKpsService>().SingleInstance();
 
             var assembly = Assembly.GetExecutingAssembly();

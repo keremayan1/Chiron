@@ -41,6 +41,14 @@ namespace Business.Concrete
             return new SuccessDataResult<List<PersonGender>>(await _personGenderDal.GetAllAsync(pg => pg.PersonId == personId));
         }
 
+        public async Task<IDataResult<List<PersonGender>>> GetById(int id)
+        {
+            return new SuccessDataResult<List<PersonGender>>(await _personGenderDal.GetAllAsync(ps => ps.Id == id));
+        }
+
+       
+
+
         public async Task<IDataResult<List<PersonGender>>> GetByPersonIdAndGenderId(int personId, int genderId)
         {
             return new SuccessDataResult<List<PersonGender>>(

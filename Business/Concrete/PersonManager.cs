@@ -46,7 +46,10 @@ namespace Business.Concrete
             await _personDal.UpdateAsync(person);
             return new SuccessResult();
         }
-       
 
+        public async Task<IDataResult<List<Person>>> GetByName(string name)
+        {
+            return new SuccessDataResult<List<Person>>(await _personDal.GetAllAsync(p => p.PersonName.ToLower() == name.ToLower()));
+        }
     }
 }

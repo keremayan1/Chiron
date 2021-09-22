@@ -17,12 +17,17 @@ namespace Business.Concrete
     {
         private IPersonInformationDal _personInformationDal;
         private IKpsService _kpsService;
-       
-        public PersonInformationManager(IPersonInformationDal personInformationDal, IKpsService kpsService, IGenderService genderService, IPersonService personService)
+        private IPersonGenderService _personGenderService;
+        private IGenderService _genderService;
+        private IPersonService _personService;
+
+        public PersonInformationManager(IPersonInformationDal personInformationDal, IKpsService kpsService, IGenderService genderService, IPersonService personService, IPersonGenderService personGenderService)
         {
             _personInformationDal = personInformationDal;
             _kpsService = kpsService;
-         
+            _genderService = genderService;
+            _personService = personService;
+            _personGenderService = personGenderService;
         }
 
         public async Task<IDataResult<List<PersonInformation>>> GetAllAsync()
@@ -33,16 +38,18 @@ namespace Business.Concrete
         public async Task<IDataResult<PersonInformation>> GetById(int personId)
         {
             return new SuccessDataResult<PersonInformation>(
-                await _personInformationDal.GetAsync(p => p.PersonId == personId));
+                await _personInformationDal.GetAsync(p => p.Id == personId));
         }
 
         public async Task<IResult> AddAsync(PersonInformation personInformation)
         {
-            var result = BusinessRules.Run(VerifyNationalId(personInformation));
+            var result = BusinessRules.Run(GetByPersonId(personInformation.PersonGenderId));
             if (result != null)
             {
                 return result;
             }
+
+            personInformation.PersonGenderId = _personGenderService.GetById(personInformation.PersonGenderId).Id;
             await _personInformationDal.AddAsync(personInformation);
             return new SuccessResult("Basarili");
         }
@@ -75,6 +82,21 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
+
+        public IResult GetByPersonId(int id)
+        {
+            var result = _personGenderService.GetById(id);
+            if (result.Result==null)
+            {
+                return new ErrorResult("Hata");
+            }
+
+            return new SuccessResult();
+        }
+
+       
+
+        
 
        
     }

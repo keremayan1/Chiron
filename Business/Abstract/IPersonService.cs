@@ -15,6 +15,8 @@ namespace Business.Abstract
        Task<IResult> AddAsync(Person person);
        Task<IResult> DeleteAsync(Person person);
        Task<IResult> UpdateAsync(Person person);
+       Task<IDataResult<List<Person>>> GetByName(string name);
+
 
    }
 }
