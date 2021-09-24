@@ -27,8 +27,10 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
                 join personInformation in context.PersonInformations on children.PersonInformationId equals
                     personInformation.Id
                 join personGender in context.PersonGenders on personInformation.PersonGenderId equals personGender.Id
+
                 join gender in context.Genders on personGender.GenderId equals gender.GenderId
                 join person in context.Persons on personGender.PersonId equals person.PersonId
+                
                 select new ChildrenDetail
                 {
                     Id = children.Id,

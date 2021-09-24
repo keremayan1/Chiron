@@ -18,15 +18,13 @@ namespace Business.Concrete
         private IPersonInformationDal _personInformationDal;
         private IKpsService _kpsService;
         private IPersonGenderService _personGenderService;
-        private IGenderService _genderService;
-        private IPersonService _personService;
+        
 
         public PersonInformationManager(IPersonInformationDal personInformationDal, IKpsService kpsService, IGenderService genderService, IPersonService personService, IPersonGenderService personGenderService)
         {
             _personInformationDal = personInformationDal;
             _kpsService = kpsService;
-            _genderService = genderService;
-            _personService = personService;
+            
             _personGenderService = personGenderService;
         }
 
@@ -43,13 +41,14 @@ namespace Business.Concrete
 
         public async Task<IResult> AddAsync(PersonInformation personInformation)
         {
-            var result = BusinessRules.Run(GetByPersonId(personInformation.PersonGenderId));
+            var result = BusinessRules.Run(/*VerifyNationalId(personInformation)*/);
+
             if (result != null)
             {
                 return result;
             }
 
-            personInformation.PersonGenderId = _personGenderService.GetById(personInformation.PersonGenderId).Id;
+           
             await _personInformationDal.AddAsync(personInformation);
             return new SuccessResult("Basarili");
         }
@@ -66,12 +65,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IDataResult<List<PersonInformationDetail>>> GetPersonInformationDetailAsync()
-        {
-            return new SuccessDataResult<List<PersonInformationDetail>>(await _personInformationDal
-                .GetPersonInformationDetail());
-        }
-
+       
         public IResult VerifyNationalId(PersonInformation personInformation)
         {
             var result = _kpsService.Verify(personInformation).Result;

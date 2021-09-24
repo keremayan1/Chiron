@@ -16,14 +16,15 @@ namespace Business.Concrete
       private IChildrenDal _childrenDal;
       private IPersonService _personService;
       private IPersonInformationService _personInformationService;
-      private IGenderService _genderService;
+      private IChildrenPersonDal _childrenPersonDal;
+    
 
-      public ChildrenManager(IChildrenDal childrenDal, IPersonService personService, IPersonInformationService personInformationService, IGenderService genderService)
+      public ChildrenManager(IChildrenDal childrenDal, IPersonService personService, IPersonInformationService personInformationService, IGenderService genderService, IChildrenPersonDal childrenPersonDal)
       {
           _childrenDal = childrenDal;
           _personService = personService;
           _personInformationService = personInformationService;
-          _genderService = genderService;
+          _childrenPersonDal = childrenPersonDal;
       }
 
       public async Task<IDataResult<List<Children>>> GetAll()
@@ -43,6 +44,7 @@ namespace Business.Concrete
             await _personInformationService.AddAsync(personInformation);
             children.PersonInformationId = personInformation.Id;
             await _childrenDal.AddAsync(children);
+            
             return new SuccessResult("Basarili");
         }
 
@@ -60,6 +62,7 @@ namespace Business.Concrete
         {
             var personInformation = new PersonInformation
             {
+                PersonGenderId = childrenDetail.PersonGenderId,
                 NationalId = childrenDetail.NationalId,
                 FirstName = childrenDetail.FirstName,
                 LastName = childrenDetail.LastName,
@@ -68,9 +71,14 @@ namespace Business.Concrete
             return personInformation;
         }
 
-        public Task<IResult> Update(ChildrenDetail childrenDetail)
+        public async Task<IResult> Update(ChildrenDetail childrenDetail)
         {
-            throw new NotImplementedException();
+            var personInformation = PersonInformation(childrenDetail);
+            var children = Children(childrenDetail);
+            await _personInformationService.UpdateAsync(personInformation);
+            children.PersonInformationId = personInformation.Id;
+            await _childrenDal.UpdateAsync(children);
+            return new SuccessResult("Basarili");
         }
 
         public Task<IResult> Delete(ChildrenDetail childrenDetail)

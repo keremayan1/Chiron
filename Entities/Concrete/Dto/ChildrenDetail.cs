@@ -10,6 +10,10 @@ namespace Entities.Concrete.Dto
    public class ChildrenDetail:IDto
     {
         public int Id { get; set; }
+        public int PersonInformationId { get; set; }
+        public int PersonGenderId { get; set; }
+
+
         public string PersonName { get; set; }
         public string NationalId { get; set; }
         public string FirstName { get; set; }

@@ -39,6 +39,15 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<ChildrenManager>().As<IChildrenService>().SingleInstance();
             builder.RegisterType<EfChildrenDal>().As<IChildrenDal>().SingleInstance();
 
+            builder.RegisterType<FamilyStatusManager>().As<IFamilyStatusService>().SingleInstance();
+            builder.RegisterType<EfFamilyStatusDal>().As<IFamilyStatusDal>().SingleInstance();
+
+            builder.RegisterType<JobManager>().As<IJobService>().SingleInstance();
+            builder.RegisterType<EfJobDal>().As<IJobDal>().SingleInstance();
+
+            builder.RegisterType<ChildrenPersonManager>().As<IChildrenPersonService>().SingleInstance();
+            builder.RegisterType<EfChildrenPersonDal>().As<IChildrenPersonDal>().SingleInstance();
+
             builder.RegisterType<KpsServiceManager>().As<IKpsService>().SingleInstance();
 
             var assembly = Assembly.GetExecutingAssembly();

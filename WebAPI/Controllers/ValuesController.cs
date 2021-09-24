@@ -12,19 +12,20 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonInformationsController : ControllerBase
+    public class JobsController : ControllerBase
     {
-        private IPersonInformationService _personInformationService;
+        private IJobService _jobService;
 
-        public PersonInformationsController(IPersonInformationService personInformationService)
+        public JobsController(IJobService jobService)
         {
-            _personInformationService = personInformationService;
+            _jobService = jobService;
         }
+
 
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            var result =await _personInformationService.GetAllAsync();
+            var result = await _jobService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
@@ -33,10 +34,21 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add(PersonInformation personInformation)
+        [HttpGet("getbyid")]
+        public async Task<IActionResult> GetByJobId(int jobId)
         {
-            var result = await _personInformationService.AddAsync(personInformation);
+            var result = await _jobService.GetByJobId(jobId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+        [HttpPost("add")]
+        public async Task<IActionResult> Add(Job job)
+        {
+            var result = await _jobService.Add(job);
             if (result.Success)
             {
                 return Ok(result);

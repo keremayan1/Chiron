@@ -21,6 +21,11 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
         public DbSet<PersonGender> PersonGenders { get; set; }
         public DbSet<EducationStatus> EducationStatus { get; set; }
         public DbSet<Children> Childrens { get; set; }
+        public DbSet<FamilyStatus> FamilyStatus { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<ChildrenPerson> ChildrenPersons { get; set; }
+
+
 
 
     }
