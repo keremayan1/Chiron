@@ -48,7 +48,7 @@ namespace Business.Concrete
                 return result;
             }
 
-           
+            
             await _personInformationDal.AddAsync(personInformation);
             return new SuccessResult("Basarili");
         }

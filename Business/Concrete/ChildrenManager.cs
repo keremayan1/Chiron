@@ -44,7 +44,6 @@ namespace Business.Concrete
             await _personInformationService.AddAsync(personInformation);
             children.PersonInformationId = personInformation.Id;
             await _childrenDal.AddAsync(children);
-            
             return new SuccessResult("Basarili");
         }
 

@@ -56,7 +56,7 @@ namespace Business.Concrete
 
         public IResult CheckIfEducationStatusNameExists(string educationStatusName)
         {
-            var result = _educationStatusDal.AnyAsync(es => es.Name.ToLower() == educationStatusName.ToLower()).Result;
+            var result = _educationStatusDal.Any(es => es.Name.ToLower() == educationStatusName.ToLower());
             if (result)
             {
                 return new ErrorResult("Boyle bir Ogrenim Durumu vardir");

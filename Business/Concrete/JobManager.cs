@@ -12,23 +12,23 @@ using Entities.Concrete;
 
 namespace Business.Concrete
 {
-  public  class JobManager:IJobService
-  {
-      private IJobDal _jobDal;
+    public class JobManager : IJobService
+    {
+        private IJobDal _jobDal;
 
-      public JobManager(IJobDal jobDal)
-      {
-          _jobDal = jobDal;
-      }
+        public JobManager(IJobDal jobDal)
+        {
+            _jobDal = jobDal;
+        }
 
-      public async Task<IDataResult<List<Job>>> GetAll()
-      {
-          return new ErrorDataResult<List<Job>>(await _jobDal.GetAllAsync());
-      }
+        public async Task<IDataResult<List<Job>>> GetAll()
+        {
+            return new ErrorDataResult<List<Job>>(await _jobDal.GetAllAsync());
+        }
 
         public async Task<IDataResult<Job>> GetByJobId(int jobId)
         {
-            var result = BusinessRules.Run( CheckIfJobIdExists(jobId));
+            var result = BusinessRules.Run(CheckIfJobIdExists(jobId));
             if (result != null)
             {
                 return new ErrorDataResult<Job>(result.Message);
@@ -39,7 +39,7 @@ namespace Business.Concrete
         public async Task<IResult> Add(Job job)
         {
             var result = BusinessRules.Run(CheckIfJobNameExists(job.Name));
-            if (result!=null)
+            if (result != null)
             {
                 return result;
             }
@@ -49,7 +49,7 @@ namespace Business.Concrete
 
         public async Task<IResult> Update(Job job)
         {
-            var result = BusinessRules.Run(CheckIfJobNameExists(job.Name),CheckIfJobIdExists(job.Id));
+            var result = BusinessRules.Run(CheckIfJobNameExists(job.Name), CheckIfJobIdExists(job.Id));
             if (result != null)
             {
                 return result;
@@ -71,8 +71,8 @@ namespace Business.Concrete
 
         public IResult CheckIfJobNameExists(string jobName)
         {
-            var result = _jobDal.AnyAsync(j => j.Name.ToLower().Trim() == jobName.ToLower().Trim()).Result;
-            if (!result)
+            var result = _jobDal.Any(j => j.Name.ToLower() == jobName.ToLower());
+            if (result)
             {
                 return new ErrorResult();
             }
@@ -90,5 +90,5 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
-  }
+    }
 }

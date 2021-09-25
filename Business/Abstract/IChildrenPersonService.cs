@@ -16,5 +16,10 @@ namespace Business.Abstract
         Task<IResult> Add(ChildrenPerson childrenPerson);
         Task<IResult> Update(ChildrenPerson childrenPerson);
         Task<IResult> Delete(ChildrenPerson childrenPerson);
+
+        Task<IResult> AddAsync(ChildrenPersonDetail childrenPersonDetail);
+        Task<IDataResult<List<ChildrenPersonDetail>>> GetChildrenPersonDetails();
+        Task<IResult>MultipleAdd(ChildrenPersonDetail childrenPersonDetail);
+        Task<IResult> AddAsync2(ChildrenPerson childrenPersonDetail);
     }
 }
