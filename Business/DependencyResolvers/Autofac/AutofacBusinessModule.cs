@@ -48,6 +48,12 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<ChildrenPersonManager>().As<IChildrenPersonService>().SingleInstance();
             builder.RegisterType<EfChildrenPersonDal>().As<IChildrenPersonDal>().SingleInstance();
 
+            builder.RegisterType<AddressManager>().As<IAddressService>().SingleInstance();
+            builder.RegisterType<EfAddressDal>().As<IAddressDal>().SingleInstance();
+
+            builder.RegisterType<TelephoneManager>().As<ITelephoneService>().SingleInstance();
+            builder.RegisterType<EfTelephoneDal>().As<ITelephoneDal>().SingleInstance();
+
             builder.RegisterType<KpsServiceManager>().As<IKpsService>().SingleInstance();
 
             var assembly = Assembly.GetExecutingAssembly();

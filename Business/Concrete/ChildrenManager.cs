@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -11,89 +12,70 @@ using Entities.Concrete.Dto;
 
 namespace Business.Concrete
 {
-  public  class ChildrenManager:IChildrenService
-  {
-      private IChildrenDal _childrenDal;
-      private IPersonService _personService;
-      private IPersonInformationService _personInformationService;
-      private IChildrenPersonDal _childrenPersonDal;
-    
+    public class ChildrenManager : IChildrenService
+    {
+        private IChildrenDal _childrenDal;
+        private IPersonService _personService;
+        private IPersonInformationService _personInformationService;
+        private IChildrenPersonDal _childrenPersonDal;
 
-      public ChildrenManager(IChildrenDal childrenDal, IPersonService personService, IPersonInformationService personInformationService, IGenderService genderService, IChildrenPersonDal childrenPersonDal)
-      {
-          _childrenDal = childrenDal;
-          _personService = personService;
-          _personInformationService = personInformationService;
-          _childrenPersonDal = childrenPersonDal;
-      }
 
-      public async Task<IDataResult<List<Children>>> GetAll()
-      {
-          return new SuccessDataResult<List<Children>>(await _childrenDal.GetAllAsync());
-      }
-
-        public async Task<IDataResult<Children>> GetById(int childrenId)
+        public ChildrenManager(IChildrenDal childrenDal, IPersonService personService, IPersonInformationService personInformationService, IGenderService genderService, IChildrenPersonDal childrenPersonDal)
         {
-            return new SuccessDataResult<Children>(await _childrenDal.GetAsync(c => c.Id == childrenId));
+            _childrenDal = childrenDal;
+            _personService = personService;
+            _personInformationService = personInformationService;
+            _childrenPersonDal = childrenPersonDal;
         }
 
-        public async Task<IResult> Add(ChildrenDetail childrenDetail)
+        public async Task<IDataResult<List<Children>>> GetAll()
         {
-            var personInformation = PersonInformation(childrenDetail);
-            var children = Children(childrenDetail);
-            await _personInformationService.AddAsync(personInformation);
-            children.PersonInformationId = personInformation.Id;
+            return new SuccessDataResult<List<Children>>(await _childrenDal.GetAllAsync());
+        }
+
+        public IDataResult<Children> GetById(int childrenId)
+        {
+
+            return new SuccessDataResult<Children>(_childrenDal.GetAsync(c => c.Id == childrenId).Result);
+        }
+
+        public async Task<IResult> Add(Children children)
+        {
             await _childrenDal.AddAsync(children);
             return new SuccessResult("Basarili");
         }
-
-        private static Children Children(ChildrenDetail childrenDetail)
+        public async Task<IResult> Update(Children children)
         {
-            var children = new Children
-            {
-                SchoolName = childrenDetail.SchoolName,
-                ClassName = childrenDetail.ClassName
-            };
-            return children;
-        }
-
-        private static PersonInformation PersonInformation(ChildrenDetail childrenDetail)
-        {
-            var personInformation = new PersonInformation
-            {
-                PersonGenderId = childrenDetail.PersonGenderId,
-                NationalId = childrenDetail.NationalId,
-                FirstName = childrenDetail.FirstName,
-                LastName = childrenDetail.LastName,
-                DateOfBirth = childrenDetail.DateOfBirth,
-            };
-            return personInformation;
-        }
-
-        public async Task<IResult> Update(ChildrenDetail childrenDetail)
-        {
-            var personInformation = PersonInformation(childrenDetail);
-            var children = Children(childrenDetail);
-            await _personInformationService.UpdateAsync(personInformation);
-            children.PersonInformationId = personInformation.Id;
             await _childrenDal.UpdateAsync(children);
             return new SuccessResult("Basarili");
         }
 
-        public Task<IResult> Delete(ChildrenDetail childrenDetail)
+        public async Task<IResult> Delete(Children children)
         {
-            throw new NotImplementedException();
+            await _childrenDal.DeleteAsync(children);
+            return new SuccessResult();
+
         }
 
-        public async Task<IDataResult<List<ChildrenDetail>>> GetChildrenDetails()
+        public IDataResult<List<ChildrenDetail>> GetChildrenDetails()
         {
-            return new SuccessDataResult<List<ChildrenDetail>>(await _childrenDal.GetChildrenDetails());
+            return new SuccessDataResult<List<ChildrenDetail>>(_childrenDal.GetChildrenDetails().Result);
         }
 
+        public IResult IsChildrenExists(int childrenId)
+        {
+            var result = _childrenDal.Any(p => p.Id == childrenId);
+            if (!result)
+            {
+                return new ErrorResult("Sistemde boyle bir kullanici yoktur");
+            }
+
+            return new SuccessResult();
+        }
         public IResult IsPersonAvaliable(int personId)
         {
             var result = _personService.GetById(personId).Result;
-            if (result!=null)
+            if (result != null)
             {
                 return new ErrorResult();
             }

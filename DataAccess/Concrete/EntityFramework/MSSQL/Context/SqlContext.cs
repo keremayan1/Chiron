@@ -15,6 +15,14 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
             optionsBuilder.UseSqlServer(@"Server = (localdb)\mssqllocaldb; Database = Chiron; Trusted_Connection = true");
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<PersonInformation>().ToTable("PersonInformations");
+            modelBuilder.Entity<Children>().ToTable("Childrens");
+            modelBuilder.Entity<ChildrenPerson>().ToTable("ChildrenPersons");
+        }
+
         public DbSet<Person> Persons { get; set; }
         public DbSet<PersonInformation> PersonInformations { get; set; }
         public DbSet<Gender> Genders { get; set; }
@@ -24,6 +32,8 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
         public DbSet<FamilyStatus> FamilyStatus { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<ChildrenPerson> ChildrenPersons { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Telephone> Telephones { get; set; }
 
 
 

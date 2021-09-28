@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Entities.Concrete;
 using Entities.Concrete.Dto;
 
 namespace WebAPI.Controllers
@@ -20,9 +21,9 @@ namespace WebAPI.Controllers
             _childrenService = childrenService;
         }
         [HttpGet("getall")]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            var result = await _childrenService.GetChildrenDetails();
+            var result =  _childrenService.GetChildrenDetails();
             if (result.Success)
             {
                 return Ok(result);
@@ -32,9 +33,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add(ChildrenDetail childrenDetail)
+        public async Task<IActionResult> Add(Children children)
         {
-            var result = await _childrenService.Add(childrenDetail);
+            var result = await _childrenService.Add(children);
             if (result.Success)
             {
                 return Ok(result);
@@ -42,5 +43,6 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
     }
 }

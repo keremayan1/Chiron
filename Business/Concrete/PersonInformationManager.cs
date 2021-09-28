@@ -41,7 +41,7 @@ namespace Business.Concrete
 
         public async Task<IResult> AddAsync(PersonInformation personInformation)
         {
-            var result = BusinessRules.Run(/*VerifyNationalId(personInformation)*/);
+            var result = BusinessRules.Run(/*VerifyNationalId(personInformation),*/CheckIfNationalIdExists(personInformation.NationalId));
 
             if (result != null)
             {
@@ -72,6 +72,17 @@ namespace Business.Concrete
             if (!result)
             {
                 return new ErrorResult("Hatali TC");
+            }
+
+            return new SuccessResult();
+        }
+
+        public IResult CheckIfNationalIdExists(string nationalId)
+        {
+            var result = _personInformationDal.Any(ps => ps.NationalId == nationalId);
+            if (result)
+            {
+                return new ErrorResult("Hata Boyle Bir Kullanici Sistemde Vardir");
             }
 
             return new SuccessResult();

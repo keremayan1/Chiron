@@ -11,6 +11,7 @@ namespace Core.DataAccess.EntityFramework
 {
     public class EfEntityRepository<TEntity, TContext> : IEntityRepository<TEntity>, IAsyncEntityRepository<TEntity> where TEntity : class, IEntity, new()
     where TContext : DbContext, new()
+    
     {
 
         public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
@@ -38,6 +39,8 @@ namespace Core.DataAccess.EntityFramework
                 context.SaveChanges();
             }
         }
+
+        
 
         public void Delete(TEntity entity)
         {
@@ -128,5 +131,7 @@ namespace Core.DataAccess.EntityFramework
         {
             return await contextAsync.Set<TEntity>().AnyAsync(filter);
         }
+
+      
     }
 }

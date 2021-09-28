@@ -24,30 +24,26 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
             //        personInformation.Id
             //    join gender in context.Genders on children.GenderId equals gender.GenderId
             var result = from children in context.Childrens
-                join personInformation in context.PersonInformations on children.PersonInformationId equals
-                    personInformation.Id
-                join personGender in context.PersonGenders on personInformation.PersonGenderId equals personGender.Id
-                join gender in context.Genders on personGender.GenderId equals gender.GenderId
-                join person in context.Persons on personGender.PersonId equals person.PersonId
-                join  childrenPerson in context.ChildrenPersons on children.Id equals childrenPerson.ChildrenId
-               
-               
+                         join personInformation in context.PersonInformations on children.Id equals
+                             personInformation.Id
+                         join personGender in context.PersonGenders on personInformation.PersonGenderId equals personGender.Id
+                         join gender in context.Genders on personGender.GenderId equals gender.GenderId
+                         join person in context.Persons on personGender.PersonId equals person.PersonId
 
-                
-                select new ChildrenDetail
-                {
-                    Id = children.Id,
-                    NationalId = personInformation.NationalId,
-                    PersonName = person.PersonName,
-                    GenderName = gender.GenderName,
-                    FirstName = personInformation.FirstName,
-                    LastName = personInformation.LastName,
-                    DateOfBirth = personInformation.DateOfBirth,
-                    ClassName = children.ClassName,
-                    SchoolName = children.SchoolName
+                         select new ChildrenDetail
+                         {
+                             Id = children.Id,
+                             NationalId = personInformation.NationalId,
+                             PersonName = person.PersonName,
+                             GenderName = gender.GenderName,
+                             FirstName = personInformation.FirstName,
+                             LastName = personInformation.LastName,
+                             DateOfBirth = personInformation.DateOfBirth,
+                             ClassName = children.ClassName,
+                             SchoolName = children.SchoolName
 
-                };
-                         
+                         };
+
             return filter == null ? await result.ToListAsync() : await result.Where(filter).ToListAsync();
 
         }

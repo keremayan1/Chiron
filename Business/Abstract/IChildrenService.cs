@@ -12,12 +12,12 @@ namespace Business.Abstract
    public interface IChildrenService
    {
        Task<IDataResult<List<Children>>> GetAll();
-       Task<IDataResult<Children>> GetById(int childrenId);
-       Task<IResult> Add(ChildrenDetail childrenDetail);
-       Task<IResult> Update(ChildrenDetail childrenDetail);
-       Task<IResult> Delete(ChildrenDetail childrenDetail);
+         IDataResult<Children> GetById(int childrenId);
+       Task<IResult> Add(Children children);
+       Task<IResult> Update(Children children);
+       Task<IResult> Delete(Children children);
 
-       Task<IDataResult<List<ChildrenDetail>>> GetChildrenDetails();
+       IDataResult<List<ChildrenDetail>> GetChildrenDetails();
 
    }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Adapters.PersonService;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -14,12 +16,18 @@ namespace Business.Concrete
     public class ChildrenPersonManager : IChildrenPersonService
     {
         private IChildrenPersonDal _childrenPersonDal;
-        private IChildrenService _childrenService;
+       
+        private IAddressService _addressService;
+        private ITelephoneService _telephoneService;
+        private IKpsService _kpsService;
 
-        public ChildrenPersonManager(IChildrenPersonDal childrenPersonDal, IChildrenService childrenService)
+        public ChildrenPersonManager(IChildrenPersonDal childrenPersonDal, IChildrenService childrenService, IAddressService addressService, ITelephoneService telephoneService, IKpsService kpsService)
         {
             _childrenPersonDal = childrenPersonDal;
-            _childrenService = childrenService;
+           
+            _addressService = addressService;
+            _telephoneService = telephoneService;
+            _kpsService = kpsService;
         }
 
 
@@ -36,15 +44,12 @@ namespace Business.Concrete
 
         public async Task<IResult> Add(ChildrenPerson childrenPerson)
         {
-            var childrenDetail = new ChildrenDetail
-            {
-
-            };
-            await _childrenService.Add(childrenDetail);
-            childrenPerson.ChildrenId = childrenDetail.Id;
+          
             await _childrenPersonDal.AddAsync(childrenPerson);
+             
 
-            return new SuccessResult();
+
+            return new SuccessResult("Basarili");
         }
 
         public async Task<IResult> Update(ChildrenPerson childrenPerson)
@@ -61,84 +66,109 @@ namespace Business.Concrete
 
         public async Task<IResult> AddAsync(ChildrenPersonDetail childrenPersonDetail)
         {
-            var childrenDetail = new ChildrenDetail
-            {
 
-                
-                PersonName = childrenPersonDetail.PersonName,
-                NationalId = childrenPersonDetail.NationalId,
-                FirstName = childrenPersonDetail.FirstName,
-                LastName = childrenPersonDetail.LastName,
-                GenderName = childrenPersonDetail.GenderName,
-                DateOfBirth = childrenPersonDetail.DateOfBirth, 
-            };
-            await _childrenService.Add(childrenDetail);
-            var childrenPerson = new ChildrenPerson
+            var childrenPerson = ChildrenPerson(childrenPersonDetail);
+            var address = Address(childrenPersonDetail);
+            var telephone = Telephone(childrenPersonDetail);
+            var result = BusinessRules.Run(CheckIfNationalIdExists(childrenPersonDetail.NationalId), CheckIfTelephoneNumberExists(childrenPersonDetail.TelephoneNumber),VerifyNationalId(childrenPerson));
+            if (result!=null)
             {
-                ChildrenId = childrenPersonDetail.ChildrenId,
-                PersonInformationId = childrenPersonDetail.PersonInformationId,
-                PersonGenderId = childrenPersonDetail.PersonGenderId,
-                EducationStatusId = childrenPersonDetail.EducationStatusId,
-                FamilyStatusId = childrenPersonDetail.FamilyStatusId,
-                JobsId = childrenPersonDetail.JobsId,
-            };
+                return result;
+            }
 
+            childrenPerson.ChildrenId = childrenPersonDetail.ChildrenId;
+            childrenPerson.Id = childrenPersonDetail.PersonInformationId;
             await _childrenPersonDal.AddAsync(childrenPerson);
+            address.PersonInformationId = childrenPerson.Id;
+            await _addressService.Add(address);
+            telephone.PersonInformationId = childrenPerson.Id;
+            await _telephoneService.Add(telephone);
             return new SuccessResult("Basarili");
         }
 
-        public async Task<IDataResult<List<ChildrenPersonDetail>>> GetChildrenPersonDetails()
+        public IResult CheckIfTelephoneNumberExists(long telephoneNumber)
         {
-            return new SuccessDataResult<List<ChildrenPersonDetail>>(
-                await _childrenPersonDal.GetChildrenPersonDetails());
-        }
-
-        List<ChildrenPerson> childrenPersons = new List<ChildrenPerson>();
-        public async Task<IResult> MultipleAdd(ChildrenPersonDetail childrenPersonDetail)
-        {
-
-            foreach (var childrenPersonLoop in childrenPersons)
+            var result = _telephoneService.CheckTelephoneNumberExists(telephoneNumber);
+            if (!result.Success)
             {
-                ChildrenPerson(childrenPersonDetail, out var childrenPerson);
-                var childrenDetail = ChildrenDetail(childrenPersonDetail);
-                await _childrenService.Add(childrenDetail);
+                return new ErrorResult("Sistemde Boyle Telefon No Vardir");
             }
-            await _childrenPersonDal.MultipleAddAsync(childrenPersons.ToArray());
+
             return new SuccessResult();
         }
-
-        public async Task<IResult> AddAsync2(ChildrenPerson childrenPersonDetail)
+        public IResult CheckIfNationalIdExists(string nationalId)
         {
-            return new SuccessResult();
-
-        }
-
-        private static void ChildrenPerson(ChildrenPersonDetail childrenPersonDetail, out ChildrenPerson childrenPerson)
-        {
-            childrenPerson = new ChildrenPerson
+            var result = _childrenPersonDal.Any(p => p.NationalId == nationalId);
+            if (result)
             {
-                ChildrenId = childrenPersonDetail.ChildrenId,
-                PersonGenderId = childrenPersonDetail.PersonGenderId,
-                PersonInformationId = childrenPersonDetail.PersonInformationId,
+                return new ErrorResult("sistemde Boyle bir kullanici vardir");
+            }
+
+            return new SuccessResult();
+        }
+
+        
+       
+        private static Telephone Telephone(ChildrenPersonDetail childrenPersonDetail)
+        {
+            var telephone = new Telephone
+            {
+                TelephoneNumber = childrenPersonDetail.TelephoneNumber
+            };
+            return telephone;
+        }
+
+        private static Address Address(ChildrenPersonDetail childrenPersonDetail)
+        {
+            var address = new Address
+            {
+                AddressName = childrenPersonDetail.AddressName,
+            };
+            return address;
+        }
+
+        private static ChildrenPerson ChildrenPerson(ChildrenPersonDetail childrenPersonDetail)
+        {
+            var childrenPerson = new ChildrenPerson
+            {
+                Id = childrenPersonDetail.PersonInformationId,
                 EducationStatusId = childrenPersonDetail.EducationStatusId,
                 FamilyStatusId = childrenPersonDetail.FamilyStatusId,
-                JobsId = childrenPersonDetail.JobsId
-            };
-        }
-
-        private static ChildrenDetail ChildrenDetail(ChildrenPersonDetail childrenPersonDetail)
-        {
-            var childrenDetail = new ChildrenDetail
-            {
-                PersonGenderId = childrenPersonDetail.PersonGenderId,
-                PersonInformationId = childrenPersonDetail.PersonInformationId,
+                JobsId = childrenPersonDetail.JobsId,
                 NationalId = childrenPersonDetail.NationalId,
                 FirstName = childrenPersonDetail.FirstName,
                 LastName = childrenPersonDetail.LastName,
-                GenderName = childrenPersonDetail.GenderName,
-                DateOfBirth = childrenPersonDetail.DateOfBirth
+                DateOfBirth = childrenPersonDetail.DateOfBirth,
+                PersonGenderId = childrenPersonDetail.PersonGenderId
             };
-            return childrenDetail;
+            return childrenPerson;
         }
+        public async Task<IDataResult<List<ChildrenPersonDetail>>> GetChildrenPersonDetails()
+        {
+            return new SuccessDataResult<List<ChildrenPersonDetail>>(await  _childrenPersonDal.GetChildrenPersonDetails()
+              );
+        }
+
+        public async Task<IResult> MultipleChildrenPersonAdd(ChildrenPerson[] childrenPersons)
+        {
+          
+            await _childrenPersonDal.MultipleAddAsync(childrenPersons);
+            
+            return new SuccessResult();
+        }
+
+        
+        public IResult VerifyNationalId(PersonInformation personInformation)
+        {
+            var result = _kpsService.Verify(personInformation).Result;
+            if (!result)
+            {
+                return new ErrorResult("Hatali TC");
+            }
+
+            return new SuccessResult();
+        }
+
+
     }
 }
