@@ -13,14 +13,14 @@ namespace Business.Abstract
     {
         Task<IDataResult<List<ChildrenPerson>>> GetAll();
         Task<IDataResult<ChildrenPerson>> GetById(int childrenPersonId);
-        Task<IResult> Add(ChildrenPerson childrenPerson);
+     
         Task<IResult> Update(ChildrenPerson childrenPerson);
         Task<IResult> Delete(ChildrenPerson childrenPerson);
 
 
         Task<IResult> AddAsync(ChildrenPersonDetail childrenPersonDetail);
         Task<IDataResult<List<ChildrenPersonDetail>>> GetChildrenPersonDetails();
-        Task<IResult> MultipleChildrenPersonAdd(ChildrenPerson[] childrenPersons);
+       
       
        
 

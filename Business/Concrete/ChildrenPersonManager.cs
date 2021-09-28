@@ -45,16 +45,7 @@ namespace Business.Concrete
                 await _childrenPersonDal.GetAsync(ch => ch.Id == childrenPersonId));
         }
 
-        public async Task<IResult> Add(ChildrenPerson childrenPerson)
-        {
-          
-            await _childrenPersonDal.AddAsync(childrenPerson);
-             
-
-
-            return new SuccessResult("Basarili");
-        }
-
+       
         public async Task<IResult> Update(ChildrenPerson childrenPerson)
         {
             await _childrenPersonDal.UpdateAsync(childrenPerson);
@@ -66,6 +57,7 @@ namespace Business.Concrete
             await _childrenPersonDal.DeleteAsync(childrenPerson);
             return new SuccessResult();
         }
+
         [ValidationAspect(typeof(ChildrenPersonValidator))]
         public async Task<IResult> AddAsync(ChildrenPersonDetail childrenPersonDetail)
         {
@@ -148,16 +140,6 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<ChildrenPersonDetail>>(await  _childrenPersonDal.GetChildrenPersonDetails());
         }
-
-        public async Task<IResult> MultipleChildrenPersonAdd(ChildrenPerson[] childrenPersons)
-        {
-          
-            await _childrenPersonDal.MultipleAddAsync(childrenPersons);
-            
-            return new SuccessResult();
-        }
-
-        
         public IResult VerifyNationalId(ChildrenPerson childrenPerson)
         {
             var result = _personInformationService.VerifyNationalId(childrenPerson);
