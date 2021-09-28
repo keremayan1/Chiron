@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -29,7 +31,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Telephone>(await _telephoneDal.GetAsync(p => p.Id == telephoneId));
         }
-
+        [ValidationAspect(typeof(TelephoneValidator))]
         public async Task<IResult> Add(Telephone telephone)
         {
             var result = BusinessRules.Run(CheckTelephoneNumberExists(telephone.TelephoneNumber));
@@ -58,7 +60,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IDataResult<Telephone>> GetByTelephoneNumber(long telephoneNumber)
+        public async Task<IDataResult<Telephone>> GetByTelephoneNumber(string telephoneNumber)
         {
             var result = BusinessRules.Run(CheckTelephoneNumberExists(telephoneNumber));
             if (result != null)
@@ -71,18 +73,18 @@ namespace Business.Concrete
 
        
 
-        public IDataResult<Telephone> GetByTelephoneNumber2(long telephoneNumber)
+        public IDataResult<Telephone> GetByTelephoneNumber2(string telephoneNumber)
         {
             return new SuccessDataResult<Telephone>(_telephoneDal.GetAsync(p => p.TelephoneNumber == telephoneNumber)
                 .Result);
         }
 
-        public IResult CheckTelephoneNumberExists(long telephoneNumber)
+        public IResult CheckTelephoneNumberExists(string telephoneNumber)
         {
             var result = _telephoneDal.Any(t => t.TelephoneNumber == telephoneNumber);
             if (result)
             {
-                return new ErrorResult("jkasdhgaslkdg");
+                return new ErrorResult("Girmiş Olduğunuz Telefon Numarası Sistemde Vardır!");
             }
 
             return new SuccessResult();

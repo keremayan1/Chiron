@@ -28,7 +28,7 @@ namespace Entities.Concrete.Dto
         public string EducationStausName { get; set; }
         public string JobName { get; set; }
         public string AddressName { get; set; }
-        public long TelephoneNumber { get; set; }
+        public string TelephoneNumber { get; set; }
 
 
 

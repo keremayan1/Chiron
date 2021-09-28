@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.Adapters.PersonService;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -38,7 +40,7 @@ namespace Business.Concrete
             return new SuccessDataResult<PersonInformation>(
                 await _personInformationDal.GetAsync(p => p.Id == personId));
         }
-
+        [ValidationAspect(typeof(PersonInformationValidator))]
         public async Task<IResult> AddAsync(PersonInformation personInformation)
         {
             var result = BusinessRules.Run(/*VerifyNationalId(personInformation),*/CheckIfNationalIdExists(personInformation.NationalId));
@@ -79,7 +81,7 @@ namespace Business.Concrete
 
         public IResult CheckIfNationalIdExists(string nationalId)
         {
-            var result = _personInformationDal.Any(ps => ps.NationalId == nationalId);
+            var result = _personInformationDal.AnyAsync(ps => ps.NationalId == nationalId).Result;
             if (result)
             {
                 return new ErrorResult("Hata Boyle Bir Kullanici Sistemde Vardir");

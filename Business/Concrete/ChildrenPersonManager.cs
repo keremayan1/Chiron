@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.Adapters.PersonService;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -19,15 +21,16 @@ namespace Business.Concrete
        
         private IAddressService _addressService;
         private ITelephoneService _telephoneService;
-        private IKpsService _kpsService;
+       
+        private IPersonInformationService _personInformationService;
 
-        public ChildrenPersonManager(IChildrenPersonDal childrenPersonDal, IChildrenService childrenService, IAddressService addressService, ITelephoneService telephoneService, IKpsService kpsService)
+        public ChildrenPersonManager(IChildrenPersonDal childrenPersonDal, IChildrenService childrenService, IAddressService addressService, ITelephoneService telephoneService, IKpsService kpsService, IPersonInformationService personInformationService)
         {
             _childrenPersonDal = childrenPersonDal;
-           
             _addressService = addressService;
             _telephoneService = telephoneService;
-            _kpsService = kpsService;
+          
+            _personInformationService = personInformationService;
         }
 
 
@@ -63,19 +66,17 @@ namespace Business.Concrete
             await _childrenPersonDal.DeleteAsync(childrenPerson);
             return new SuccessResult();
         }
-
+        [ValidationAspect(typeof(ChildrenPersonValidator))]
         public async Task<IResult> AddAsync(ChildrenPersonDetail childrenPersonDetail)
         {
-
             var childrenPerson = ChildrenPerson(childrenPersonDetail);
             var address = Address(childrenPersonDetail);
             var telephone = Telephone(childrenPersonDetail);
-            var result = BusinessRules.Run(CheckIfNationalIdExists(childrenPersonDetail.NationalId), CheckIfTelephoneNumberExists(childrenPersonDetail.TelephoneNumber),VerifyNationalId(childrenPerson));
+            var result = BusinessRules.Run( /*VerifyNationalId(childrenPerson),*/CheckIfNationalIdExists(childrenPersonDetail.NationalId), CheckIfTelephoneNumberExists(childrenPersonDetail.TelephoneNumber));
             if (result!=null)
             {
                 return result;
             }
-
             childrenPerson.ChildrenId = childrenPersonDetail.ChildrenId;
             childrenPerson.Id = childrenPersonDetail.PersonInformationId;
             await _childrenPersonDal.AddAsync(childrenPerson);
@@ -86,22 +87,22 @@ namespace Business.Concrete
             return new SuccessResult("Basarili");
         }
 
-        public IResult CheckIfTelephoneNumberExists(long telephoneNumber)
+        public IResult CheckIfTelephoneNumberExists(string telephoneNumber)
         {
             var result = _telephoneService.CheckTelephoneNumberExists(telephoneNumber);
             if (!result.Success)
             {
-                return new ErrorResult("Sistemde Boyle Telefon No Vardir");
+                return new ErrorResult(result.Message);
             }
 
             return new SuccessResult();
         }
         public IResult CheckIfNationalIdExists(string nationalId)
         {
-            var result = _childrenPersonDal.Any(p => p.NationalId == nationalId);
-            if (result)
+            var result = _personInformationService.CheckIfNationalIdExists(nationalId);
+            if (!result.Success)
             {
-                return new ErrorResult("sistemde Boyle bir kullanici vardir");
+                return new ErrorResult(result.Message);
             }
 
             return new SuccessResult();
@@ -145,8 +146,7 @@ namespace Business.Concrete
         }
         public async Task<IDataResult<List<ChildrenPersonDetail>>> GetChildrenPersonDetails()
         {
-            return new SuccessDataResult<List<ChildrenPersonDetail>>(await  _childrenPersonDal.GetChildrenPersonDetails()
-              );
+            return new SuccessDataResult<List<ChildrenPersonDetail>>(await  _childrenPersonDal.GetChildrenPersonDetails());
         }
 
         public async Task<IResult> MultipleChildrenPersonAdd(ChildrenPerson[] childrenPersons)
@@ -158,12 +158,12 @@ namespace Business.Concrete
         }
 
         
-        public IResult VerifyNationalId(PersonInformation personInformation)
+        public IResult VerifyNationalId(ChildrenPerson childrenPerson)
         {
-            var result = _kpsService.Verify(personInformation).Result;
-            if (!result)
+            var result = _personInformationService.VerifyNationalId(childrenPerson);
+            if (!result.Success)
             {
-                return new ErrorResult("Hatali TC");
+                return new ErrorResult(result.Message);
             }
 
             return new SuccessResult();

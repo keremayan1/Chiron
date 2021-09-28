@@ -15,8 +15,8 @@ namespace Business.Abstract
         Task<IResult> Add(Telephone telephone);
         Task<IResult> Update(Telephone telephone);
         Task<IResult> Delete(Telephone telephone);
-        Task<IDataResult<Telephone>> GetByTelephoneNumber(long telephoneNumber);
+        Task<IDataResult<Telephone>> GetByTelephoneNumber(string telephoneNumber);
        
-        IResult CheckTelephoneNumberExists(long telephoneNumber);
+        IResult CheckTelephoneNumberExists(string telephoneNumber);
     }
 }

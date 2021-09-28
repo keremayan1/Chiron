@@ -11,6 +11,6 @@ namespace Entities.Concrete
     {
         public int Id { get; set; }
         public int PersonInformationId { get; set; }
-        public long TelephoneNumber { get; set; }
+        public string TelephoneNumber { get; set; }
     }
 }

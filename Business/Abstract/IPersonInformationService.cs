@@ -16,6 +16,10 @@ namespace Business.Abstract
         Task<IResult> AddAsync(PersonInformation person);
         Task<IResult> DeleteAsync(PersonInformation person);
         Task<IResult> UpdateAsync(PersonInformation person);
-      
+        //Business Rule
+        IResult CheckIfNationalIdExists(string nationalId);
+        IResult VerifyNationalId(PersonInformation personInformation);
+
+
     }
 }

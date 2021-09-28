@@ -41,6 +41,11 @@ namespace Business.Concrete
 
         public async Task<IResult> Add(Children children)
         {
+            var result = BusinessRules.Run(VerifyNationalId(children), CheckIfNationalIdExists(children.NationalId));
+            if (result!=null)
+            {
+                return result;
+            }
             await _childrenDal.AddAsync(children);
             return new SuccessResult("Basarili");
         }
@@ -62,22 +67,35 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ChildrenDetail>>(_childrenDal.GetChildrenDetails().Result);
         }
 
-        public IResult IsChildrenExists(int childrenId)
-        {
-            var result = _childrenDal.Any(p => p.Id == childrenId);
-            if (!result)
-            {
-                return new ErrorResult("Sistemde boyle bir kullanici yoktur");
-            }
-
-            return new SuccessResult();
-        }
+       
         public IResult IsPersonAvaliable(int personId)
         {
             var result = _personService.GetById(personId).Result;
             if (result != null)
             {
                 return new ErrorResult();
+            }
+
+            return new SuccessResult();
+        }
+
+        public IResult CheckIfNationalIdExists(string nationalId)
+        {
+            var result = _personInformationService.CheckIfNationalIdExists(nationalId);
+            if (!result.Success)
+            {
+                return new ErrorResult(result.Message);
+            }
+
+            return new SuccessResult();
+        }
+
+        public IResult VerifyNationalId(Children children)
+        {
+            var result = _personInformationService.VerifyNationalId(children);
+            if (!result.Success)
+            {
+                return new ErrorResult(result.Message);
             }
 
             return new SuccessResult();

@@ -2,17 +2,17 @@
 
 namespace Core.CrossCuttingConcerns.Validation.FluentValidation
 {
-   public static class ValidationTool
-   {
-       public static void Validate(IValidator validator, object entity)
-       {
-           var result = new ValidationContext<object>(entity);
-           var validate = validator.Validate(result);
-           if (!validate.IsValid)
-           {
-               throw new ValidationException(validate.Errors);
-           }
-       }
+    public static class ValidationTool
+    {
+        public static void Validate(IValidator validator, object entity)
+        {
+            var context = new ValidationContext<object>(entity);
+            var result = validator.Validate(context);
+            if (!result.IsValid)
+            {
+                throw new ValidationException(result.Errors);
+            }
+        }
 
-   }
+    }
 }

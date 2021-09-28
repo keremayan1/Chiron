@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add([FromBody] ChildrenPersonDetail childrenPersonDetail)
+        public async Task<IActionResult> Add( ChildrenPersonDetail childrenPersonDetail)
         {
             var result = await  _childrenPersonService.AddAsync(childrenPersonDetail);
             if (result.Success)
