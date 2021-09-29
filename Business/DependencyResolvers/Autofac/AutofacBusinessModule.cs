@@ -11,6 +11,7 @@ using Business.Adapters.PersonService;
 using Business.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
+using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.MSSQL;
 using Module = Autofac.Module;
@@ -53,6 +54,16 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<TelephoneManager>().As<ITelephoneService>().SingleInstance();
             builder.RegisterType<EfTelephoneDal>().As<ITelephoneDal>().SingleInstance();
+
+            builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
+            builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
+
+            builder.RegisterType<AuthManager>().As<IAuthService>();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
+
+            builder.RegisterType<UserOperationClaimManager>().As<IUserOperationClaimService>().SingleInstance();
+            builder.RegisterType<EfUserOperationClaimDal>().As<IUserOperationClaimDal>().SingleInstance();
+
 
             builder.RegisterType<KpsServiceManager>().As<IKpsService>().SingleInstance();
 

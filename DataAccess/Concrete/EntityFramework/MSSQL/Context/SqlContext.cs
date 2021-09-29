@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +35,9 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
         public DbSet<ChildrenPerson> ChildrenPersons { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Telephone> Telephones { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+        public DbSet<OperationClaim> OperationClaims { get; set; }
 
 
 
