@@ -31,7 +31,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Telephone>(await _telephoneDal.GetAsync(p => p.Id == telephoneId));
         }
-        [ValidationAspect(typeof(TelephoneValidator))]
+       // [ValidationAspect(typeof(TelephoneValidator))]
         public async Task<IResult> Add(Telephone telephone)
         {
             var result = BusinessRules.Run(CheckTelephoneNumberExists(telephone.TelephoneNumber));

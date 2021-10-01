@@ -67,7 +67,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<QuestionManager>().As<IQuestionService>().SingleInstance();
             builder.RegisterType<EfQuestionDal>().As<IQuestionDal>().SingleInstance();
 
-            builder.RegisterType<QuestionTitleManager>().As<IQuestionService>().SingleInstance();
+            builder.RegisterType<QuestionTitleManager>().As<IQuestionTitleService>().SingleInstance();
             builder.RegisterType<EfQuestionTitleDal>().As<IQuestionTitleDal>().SingleInstance();
 
             builder.RegisterType<QuestionAnswerManager>().As<IQuestionAnswerService>().SingleInstance();

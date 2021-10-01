@@ -140,6 +140,31 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<ChildrenPersonDetail>>(await  _childrenPersonDal.GetChildrenPersonDetails());
         }
+
+        public async Task<IResult> MultipleAdd2(ChildrenPersonDetail[] childrenPersonDetails)
+        {
+            foreach (var childrenPersonDetail in childrenPersonDetails)
+            {
+                var childrenPerson = ChildrenPerson(childrenPersonDetail);
+                var address = Address(childrenPersonDetail);
+                var telephone = Telephone(childrenPersonDetail);
+                var result = BusinessRules.Run( VerifyNationalId(childrenPerson),CheckIfNationalIdExists(childrenPersonDetail.NationalId), CheckIfTelephoneNumberExists(childrenPersonDetail.TelephoneNumber));
+                if (result != null)
+                {
+                    return result;
+                }
+                childrenPerson.ChildrenId = childrenPersonDetail.ChildrenId;
+                childrenPerson.Id = childrenPersonDetail.PersonInformationId;
+                await _childrenPersonDal.AddAsync(childrenPerson);
+                address.PersonInformationId = childrenPerson.Id;
+                await _addressService.Add(address);
+                telephone.PersonInformationId = childrenPerson.Id;
+                await _telephoneService.Add(telephone);
+            }
+
+            return new SuccessResult();
+        }
+
         public IResult VerifyNationalId(ChildrenPerson childrenPerson)
         {
             var result = _personInformationService.VerifyNationalId(childrenPerson);

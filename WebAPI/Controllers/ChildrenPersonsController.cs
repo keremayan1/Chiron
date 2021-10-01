@@ -45,6 +45,17 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
-      
+        [HttpPost("addmultiple")]
+        public async Task<IActionResult> Add2(ChildrenPersonDetail[] childrenPersonDetail)
+        {
+            var result = await _childrenPersonService.MultipleAdd2(childrenPersonDetail);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
     }
 }

@@ -47,6 +47,15 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-       
+        public IResult CheckIfQuestionId(int questionId)
+        {
+            var result = _questionDal.Any(q => q.Id == questionId);
+            if (!result)
+            {
+                return new ErrorResult("Boyle Bir Soru Yoktur");
+            }
+
+            return new SuccessResult();
+        }
     }
 }

@@ -20,9 +20,10 @@ namespace Business.Abstract
 
         Task<IResult> AddAsync(ChildrenPersonDetail childrenPersonDetail);
         Task<IDataResult<List<ChildrenPersonDetail>>> GetChildrenPersonDetails();
-       
-      
-       
+        Task<IResult> MultipleAdd2(ChildrenPersonDetail[] childrenPersonDetails);
+
+
+
 
     }
 }

@@ -16,6 +16,7 @@ namespace Business.Abstract
         Task<IResult> Add(QuestionAnswer questionAnswer);
         Task<IResult> Update(QuestionAnswer questionAnswer);
         Task<IResult> Delete(QuestionAnswer questionAnswer);
+        Task<IResult> MultipleAdd(QuestionAnswer[] questionAnswers);
 
     }
 }

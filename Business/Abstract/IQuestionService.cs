@@ -15,5 +15,8 @@ namespace Business.Abstract
         Task<IResult> Add(Question question);
         Task<IResult> Update(Question question);
         Task<IResult> Delete(Question question);
+        //Business Code
+        IResult CheckIfQuestionId(int questionId);
+
     }
 }
