@@ -14,7 +14,7 @@ namespace Business.Abstract
         Task<IResult> Add(User entity);
         Task<IResult> Update(User entity);
         Task<IResult> Delete(User entity);
-        List<OperationClaim> GetClaims(User user);
-        User GetByMail(string email);
+       List<OperationClaim> GetClaims(User user);
+       User  GetByMail(string email);
     }
 }

@@ -42,9 +42,9 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public List<OperationClaim> GetClaims(User user)
+        public  List<OperationClaim> GetClaims(User user)
         {
-            return _userDal.GetClaims(user);
+            return  _userDal.GetClaims(user);
         }
 
         public User GetByMail(string email)
