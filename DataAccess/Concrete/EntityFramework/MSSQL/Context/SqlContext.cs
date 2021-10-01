@@ -40,6 +40,7 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionTitle> QuestionTitles { get; set; }
+        public DbSet<QuestionAnswer>     QuestionAnswers { get; set; }
 
 
 
