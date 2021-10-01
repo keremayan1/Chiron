@@ -18,7 +18,7 @@ namespace Business.BusinessAspects.Autofac
       private string[] _roles;
       private IHttpContextAccessor _contextAccessor;
 
-      public SecuredOperation(string roles, IHttpContextAccessor contextAccessor)
+      public SecuredOperation(string roles)
       {
           _roles = roles.Split(',');
           _contextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();

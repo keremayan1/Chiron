@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-  public  class Question:IEntity
+   public class QuestionTitle:IEntity
     {
         public int Id { get; set; }
-        public int QuestionTitleId { get; set; }
-        public string QuestionName { get; set; }
+        public int PersonId { get; set; }
+        public string QuestionTitleName { get; set; }
 
     }
 }

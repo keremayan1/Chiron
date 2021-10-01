@@ -64,6 +64,15 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<UserOperationClaimManager>().As<IUserOperationClaimService>().SingleInstance();
             builder.RegisterType<EfUserOperationClaimDal>().As<IUserOperationClaimDal>().SingleInstance();
 
+            builder.RegisterType<QuestionManager>().As<IQuestionService>().SingleInstance();
+            builder.RegisterType<EfQuestionDal>().As<IQuestionDal>().SingleInstance();
+
+            builder.RegisterType<QuestionTitleManager>().As<IQuestionService>().SingleInstance();
+            builder.RegisterType<EfQuestionTitleDal>().As<IQuestionTitleDal>().SingleInstance();
+
+            builder.RegisterType<QuestionAnswerManager>().As<IQuestionAnswerService>().SingleInstance();
+            builder.RegisterType<EfQuestionAnswerDal>().As<IQuestionAnswerDal>().SingleInstance();
+
 
             builder.RegisterType<KpsServiceManager>().As<IKpsService>().SingleInstance();
 
