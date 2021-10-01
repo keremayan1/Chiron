@@ -59,12 +59,12 @@ namespace Business.Concrete
           });
       }
 
-      public Task< IDataResult<User>> Login(UserForLoginDto userForLoginDto)
+      public  IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
             var userToCheck = _userService.GetByMail(userForLoginDto.Email);
             if (userToCheck ==null)
             {
-                return new ErrorDataResult<User>(await ,"Kullanici Bulunamadi");
+                return new ErrorDataResult<User>("Kullanici Bulunamadi");
             }
 
             if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password,userToCheck.PasswordHash,userToCheck.PasswordSalt))
