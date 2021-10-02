@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.Rules;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -17,15 +18,16 @@ namespace Business.Concrete
         private IChildrenDal _childrenDal;
         private IPersonService _personService;
         private IPersonInformationService _personInformationService;
-        private IChildrenPersonDal _childrenPersonDal;
+        private ITelephoneService _telephoneService;
+       
 
 
-        public ChildrenManager(IChildrenDal childrenDal, IPersonService personService, IPersonInformationService personInformationService, IGenderService genderService, IChildrenPersonDal childrenPersonDal)
+        public ChildrenManager(IChildrenDal childrenDal, IPersonService personService, IPersonInformationService personInformationService, IGenderService genderService, IChildrenPersonDal childrenPersonDal, ITelephoneService telephoneService)
         {
             _childrenDal = childrenDal;
             _personService = personService;
             _personInformationService = personInformationService;
-            _childrenPersonDal = childrenPersonDal;
+            _telephoneService = telephoneService;
         }
 
         public async Task<IDataResult<List<Children>>> GetAll()
@@ -67,7 +69,70 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ChildrenDetail>>(_childrenDal.GetChildrenDetails().Result);
         }
 
-       
+        public async Task<IResult> MultipleAdd(ChildrenDetail[] childrenDetails)
+        {
+            foreach (var childrenDetail in childrenDetails)
+            {
+                var result = BusinessRules.Run(CheckTelephoneNumberExists(childrenDetail.TelephoneNumber),CheckIfNationalIdExists(childrenDetail.NationalId));
+                if (result!=null)
+                {
+                    return result;
+                }
+                var children = new Children
+                {
+                    FirstName = childrenDetail.FirstName,
+                    LastName = childrenDetail.LastName,
+                    ClassName = childrenDetail.ClassName,
+                    DateOfBirth = childrenDetail.DateOfBirth,
+                    NationalId = childrenDetail.NationalId,
+                    SchoolName = childrenDetail.SchoolName,
+                    PersonGenderId = childrenDetail.PersonGenderId
+                };
+                await _childrenDal.AddAsync(children);
+            }
+
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> MultipleDelete(ChildrenDetail[] childrenDetails)
+        {
+            foreach (var childrenDetail in childrenDetails)
+            {
+                var children = new Children
+                {
+                    FirstName = childrenDetail.FirstName,
+                    LastName = childrenDetail.LastName,
+                    ClassName = childrenDetail.ClassName,
+                    DateOfBirth = childrenDetail.DateOfBirth,
+                    NationalId = childrenDetail.NationalId,
+                    SchoolName = childrenDetail.SchoolName,
+                    PersonGenderId = childrenDetail.PersonGenderId
+                };
+                await _childrenDal.DeleteAsync(children);
+            }
+
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> MultipleUpdate(ChildrenDetail[] childrenDetails)
+        {
+            foreach (var childrenDetail in childrenDetails)
+            {
+                var children = new Children
+                {
+                    FirstName = childrenDetail.FirstName,
+                    LastName = childrenDetail.LastName,
+                    ClassName = childrenDetail.ClassName,
+                    DateOfBirth = childrenDetail.DateOfBirth,
+                    NationalId = childrenDetail.NationalId,
+                    SchoolName = childrenDetail.SchoolName,
+                    PersonGenderId = childrenDetail.PersonGenderId
+                };
+                await _childrenDal.UpdateAsync(children);
+            }
+
+            return new SuccessResult();
+        }
         public IResult IsPersonAvaliable(int personId)
         {
             var result = _personService.GetById(personId).Result;
@@ -89,9 +154,9 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
-
         public IResult VerifyNationalId(Children children)
         {
+            
             var result = _personInformationService.VerifyNationalId(children);
             if (!result.Success)
             {
@@ -100,5 +165,17 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
+
+        public IResult CheckTelephoneNumberExists(string telephoneNumber)
+        {
+            var result = _telephoneService.CheckTelephoneNumberExists(telephoneNumber);
+            if (!result.Success)
+            {
+                return new ErrorResult(result.Message);
+            }
+
+            return new SuccessResult();
+        }
+
     }
 }

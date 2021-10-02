@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Utilities.Business;
 
 namespace Business.Concrete
 {
@@ -19,9 +20,14 @@ namespace Business.Concrete
         {
             _questionTitleDal = questionTitleDal;
         }
-        [SecuredOperation("admin")]
+       // [SecuredOperation("admin")]
         public async Task<IResult> Add(QuestionTitle questionTitle)
         {
+            var result = BusinessRules.Run(QuestionTitleToUpper(questionTitle));
+            if (result!=null)
+            {
+                return result;
+            }
             await _questionTitleDal.AddAsync(questionTitle);
             return new SuccessResult();
         }
@@ -50,6 +56,11 @@ namespace Business.Concrete
         public async Task<IResult> Update(QuestionTitle questionTitle)
         {
             await _questionTitleDal.UpdateAsync(questionTitle);
+            return new SuccessResult();
+        }
+        public IResult QuestionTitleToUpper(QuestionTitle questionTitle)
+        {
+            questionTitle.QuestionTitleName = questionTitle.QuestionTitleName.ToUpper();
             return new SuccessResult();
         }
     }

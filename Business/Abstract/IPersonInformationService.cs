@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Business.Rules;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.Concrete.Dto;
 
 namespace Business.Abstract
 {
-   public interface IPersonInformationService
+   public interface IPersonInformationService:IPersonInformationRuleService<PersonInformation>
     {
         Task<IDataResult<List<PersonInformation>>> GetAllAsync();
         Task<IDataResult<PersonInformation>> GetById(int personId);
@@ -17,8 +18,7 @@ namespace Business.Abstract
         Task<IResult> DeleteAsync(PersonInformation person);
         Task<IResult> UpdateAsync(PersonInformation person);
         //Business Rule
-        IResult CheckIfNationalIdExists(string nationalId);
-        IResult VerifyNationalId(PersonInformation personInformation);
+   
 
 
     }

@@ -10,6 +10,7 @@ namespace Entities.Concrete.Dto
    public class ChildrenDetail:IDto
     {
         public int Id { get; set; }
+        public int PersonGenderId { get; set; }
         public string PersonName { get; set; }
         public string NationalId { get; set; }
         public string FirstName { get; set; }
@@ -18,6 +19,7 @@ namespace Entities.Concrete.Dto
         public DateTime DateOfBirth { get; set; }
         public string SchoolName { get; set; }
         public string ClassName { get; set; }
+        public string TelephoneNumber { get; set; }
         
         
 

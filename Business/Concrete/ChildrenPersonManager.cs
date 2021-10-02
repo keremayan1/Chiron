@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.Adapters.PersonService;
+using Business.Rules;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
@@ -18,10 +19,8 @@ namespace Business.Concrete
     public class ChildrenPersonManager : IChildrenPersonService
     {
         private IChildrenPersonDal _childrenPersonDal;
-       
         private IAddressService _addressService;
         private ITelephoneService _telephoneService;
-       
         private IPersonInformationService _personInformationService;
 
         public ChildrenPersonManager(IChildrenPersonDal childrenPersonDal, IChildrenService childrenService, IAddressService addressService, ITelephoneService telephoneService, IKpsService kpsService, IPersonInformationService personInformationService)
@@ -33,7 +32,10 @@ namespace Business.Concrete
             _personInformationService = personInformationService;
         }
 
-
+        /// <summary>
+        /// CRUD process
+        /// </summary>
+        /// <returns></returns>
         public async Task<IDataResult<List<ChildrenPerson>>> GetAll()
         {
             return new SuccessDataResult<List<ChildrenPerson>>(await _childrenPersonDal.GetAllAsync());
@@ -64,7 +66,7 @@ namespace Business.Concrete
             var childrenPerson = ChildrenPerson(childrenPersonDetail);
             var address = Address(childrenPersonDetail);
             var telephone = Telephone(childrenPersonDetail);
-            var result = BusinessRules.Run( /*VerifyNationalId(childrenPerson),*/CheckIfNationalIdExists(childrenPersonDetail.NationalId), CheckIfTelephoneNumberExists(childrenPersonDetail.TelephoneNumber));
+            var result = BusinessRules.Run( /*VerifyNationalId(childrenPerson),*/CheckIfNationalIdExists(childrenPersonDetail.NationalId), CheckTelephoneNumberExists(childrenPersonDetail.TelephoneNumber));
             if (result!=null)
             {
                 return result;
@@ -79,7 +81,7 @@ namespace Business.Concrete
             return new SuccessResult("Basarili");
         }
 
-        public IResult CheckIfTelephoneNumberExists(string telephoneNumber)
+        public IResult CheckTelephoneNumberExists(string telephoneNumber)
         {
             var result = _telephoneService.CheckTelephoneNumberExists(telephoneNumber);
             if (!result.Success)
@@ -89,36 +91,7 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
-        public IResult CheckIfNationalIdExists(string nationalId)
-        {
-            var result = _personInformationService.CheckIfNationalIdExists(nationalId);
-            if (!result.Success)
-            {
-                return new ErrorResult(result.Message);
-            }
-
-            return new SuccessResult();
-        }
-
-        
        
-        private static Telephone Telephone(ChildrenPersonDetail childrenPersonDetail)
-        {
-            var telephone = new Telephone
-            {
-                TelephoneNumber = childrenPersonDetail.TelephoneNumber
-            };
-            return telephone;
-        }
-
-        private static Address Address(ChildrenPersonDetail childrenPersonDetail)
-        {
-            var address = new Address
-            {
-                AddressName = childrenPersonDetail.AddressName,
-            };
-            return address;
-        }
 
         private static ChildrenPerson ChildrenPerson(ChildrenPersonDetail childrenPersonDetail)
         {
@@ -148,7 +121,7 @@ namespace Business.Concrete
                 var childrenPerson = ChildrenPerson(childrenPersonDetail);
                 var address = Address(childrenPersonDetail);
                 var telephone = Telephone(childrenPersonDetail);
-                var result = BusinessRules.Run( VerifyNationalId(childrenPerson),CheckIfNationalIdExists(childrenPersonDetail.NationalId), CheckIfTelephoneNumberExists(childrenPersonDetail.TelephoneNumber));
+                var result = BusinessRules.Run(/*VerifyNationalId(childrenPerson),CheckIfNationalIdExists(childrenPersonDetail.NationalId), CheckIfTelephoneNumberExists(childrenPersonDetail.TelephoneNumber)*/);
                 if (result != null)
                 {
                     return result;
@@ -164,7 +137,11 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
-
+        /// <summary>
+        /// Rule process
+        /// </summary>
+        /// <param name="childrenPerson"></param>
+        /// <returns></returns>
         public IResult VerifyNationalId(ChildrenPerson childrenPerson)
         {
             var result = _personInformationService.VerifyNationalId(childrenPerson);
@@ -174,6 +151,38 @@ namespace Business.Concrete
             }
 
             return new SuccessResult();
+        }
+        public IResult CheckIfNationalIdExists(string nationalId)
+        {
+            var result = _personInformationService.CheckIfNationalIdExists(nationalId);
+            if (!result.Success)
+            {
+                return new ErrorResult(result.Message);
+            }
+
+            return new SuccessResult();
+        }
+        /// <summary>
+        /// Entities process
+        /// </summary>
+        /// <param name="childrenPersonDetail"></param>
+        /// <returns></returns>
+        private static Telephone Telephone(ChildrenPersonDetail childrenPersonDetail)
+        {
+            var telephone = new Telephone
+            {
+                TelephoneNumber = childrenPersonDetail.TelephoneNumber
+            };
+            return telephone;
+        }
+
+        private static Address Address(ChildrenPersonDetail childrenPersonDetail)
+        {
+            var address = new Address
+            {
+                AddressName = childrenPersonDetail.AddressName,
+            };
+            return address;
         }
 
 

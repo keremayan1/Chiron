@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.Adapters.PersonService;
+using Business.Rules;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
@@ -81,7 +82,7 @@ namespace Business.Concrete
 
         public IResult CheckIfNationalIdExists(string nationalId)
         {
-            var result = _personInformationDal.AnyAsync(ps => ps.NationalId == nationalId).Result;
+            var result = _personInformationDal.Any(ps => ps.NationalId == nationalId);
             if (result)
             {
                 return new ErrorResult("Hata Boyle Bir Kullanici Sistemde Vardir");

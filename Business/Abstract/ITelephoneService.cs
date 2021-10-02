@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Business.Rules;
 using Core.Utilities.Results;
 using Entities.Concrete;
 
 namespace Business.Abstract
 {
-  public  interface ITelephoneService
+  public  interface ITelephoneService:ITelephoneRuleService
     {
         Task<IDataResult<List<Telephone>>> GetAll();
         Task<IDataResult<Telephone>> GetById(int telephoneId);
@@ -17,6 +18,6 @@ namespace Business.Abstract
         Task<IResult> Delete(Telephone telephone);
         Task<IDataResult<Telephone>> GetByTelephoneNumber(string telephoneNumber);
        
-        IResult CheckTelephoneNumberExists(string telephoneNumber);
+        
     }
 }

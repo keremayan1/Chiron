@@ -18,17 +18,14 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
        private SqlContext context = new SqlContext();
         public async Task<List<ChildrenDetail>> GetChildrenDetails(Expression<Func<ChildrenDetail, bool>> filter = null)
         {
-            //var result = from children in context.Childrens
-            //    join person in context.Persons on children.PersonId equals person.PersonId
-            //    join personInformation in context.PersonInformations on children.PersonInformationId equals
-            //        personInformation.Id
-            //    join gender in context.Genders on children.GenderId equals gender.GenderId
+            
             var result = from children in context.Childrens
                          join personInformation in context.PersonInformations on children.Id equals
                              personInformation.Id
                          join personGender in context.PersonGenders on personInformation.PersonGenderId equals personGender.Id
                          join gender in context.Genders on personGender.GenderId equals gender.GenderId
                          join person in context.Persons on personGender.PersonId equals person.PersonId
+                         join telephone in context.Telephones on personInformation.Id equals telephone.PersonInformationId 
 
                          select new ChildrenDetail
                          {
@@ -40,7 +37,8 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
                              LastName = personInformation.LastName,
                              DateOfBirth = personInformation.DateOfBirth,
                              ClassName = children.ClassName,
-                             SchoolName = children.SchoolName
+                             SchoolName = children.SchoolName,
+                             TelephoneNumber = telephone.TelephoneNumber
 
                          };
 
