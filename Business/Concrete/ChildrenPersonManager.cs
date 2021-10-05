@@ -23,7 +23,7 @@ namespace Business.Concrete
         private ITelephoneService _telephoneService;
         private IPersonInformationService _personInformationService;
 
-        public ChildrenPersonManager(IChildrenPersonDal childrenPersonDal, IChildrenService childrenService, IAddressService addressService, ITelephoneService telephoneService, IKpsService kpsService, IPersonInformationService personInformationService)
+        public ChildrenPersonManager(IChildrenPersonDal childrenPersonDal, IAddressService addressService, ITelephoneService telephoneService, IKpsService kpsService, IPersonInformationService personInformationService)
         {
             _childrenPersonDal = childrenPersonDal;
             _addressService = addressService;
@@ -63,17 +63,21 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ChildrenPersonValidator))]
         public async Task<IResult> AddAsync(ChildrenPersonDetail childrenPersonDetail)
         {
+            
             var childrenPerson = ChildrenPerson(childrenPersonDetail);
+            
             var address = Address(childrenPersonDetail);
             var telephone = Telephone(childrenPersonDetail);
-            var result = BusinessRules.Run( /*VerifyNationalId(childrenPerson),*/CheckIfNationalIdExists(childrenPersonDetail.NationalId), CheckTelephoneNumberExists(childrenPersonDetail.TelephoneNumber));
+            
+            var result = BusinessRules.Run( /*VerifyNationalId(childrenPerson),*//*CheckIfNationalIdExists(childrenPersonDetail.NationalId),*/ /*CheckTelephoneNumberExists(childrenPersonDetail.TelephoneNumber*/);
             if (result!=null)
             {
                 return result;
             }
-            childrenPerson.ChildrenId = childrenPersonDetail.ChildrenId;
             childrenPerson.Id = childrenPersonDetail.PersonInformationId;
             await _childrenPersonDal.AddAsync(childrenPerson);
+
+
             address.PersonInformationId = childrenPerson.Id;
             await _addressService.Add(address);
             telephone.PersonInformationId = childrenPerson.Id;
@@ -98,6 +102,7 @@ namespace Business.Concrete
             var childrenPerson = new ChildrenPerson
             {
                 Id = childrenPersonDetail.PersonInformationId,
+                ChildrenId = childrenPersonDetail.ChildrenId,
                 EducationStatusId = childrenPersonDetail.EducationStatusId,
                 FamilyStatusId = childrenPersonDetail.FamilyStatusId,
                 JobsId = childrenPersonDetail.JobsId,
@@ -118,6 +123,7 @@ namespace Business.Concrete
         {
             foreach (var childrenPersonDetail in childrenPersonDetails)
             {
+                
                 var childrenPerson = ChildrenPerson(childrenPersonDetail);
                 var address = Address(childrenPersonDetail);
                 var telephone = Telephone(childrenPersonDetail);
@@ -126,11 +132,11 @@ namespace Business.Concrete
                 {
                     return result;
                 }
-                childrenPerson.ChildrenId = childrenPersonDetail.ChildrenId;
+               
                 childrenPerson.Id = childrenPersonDetail.PersonInformationId;
                 await _childrenPersonDal.AddAsync(childrenPerson);
-                address.PersonInformationId = childrenPerson.Id;
-                await _addressService.Add(address);
+                //address.PersonInformationId = childrenPerson.Id;
+                //await _addressService.MultipleAdd(childrenPersonDetail.Addresses.ToArray());
                 telephone.PersonInformationId = childrenPerson.Id;
                 await _telephoneService.Add(telephone);
             }

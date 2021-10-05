@@ -30,6 +30,8 @@ namespace Entities.Concrete.Dto
         public string AddressName { get; set; }
         public string TelephoneNumber { get; set; }
 
+        public Address[] Addresses { get; set; }
+
 
 
 

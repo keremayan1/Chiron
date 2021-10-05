@@ -24,9 +24,9 @@ namespace Business.Concrete
            return new SuccessDataResult<List<Address>>(await _addressDal.GetAllAsync());
        }
 
-        public  IDataResult<Address> GetById(int addressId)
+        public async Task<IDataResult<Address>> GetById(int addressId)
         {
-            return new SuccessDataResult<Address>(_addressDal.GetAsync(p => p.AddressId == addressId).Result);
+            return new SuccessDataResult<Address>(await _addressDal.GetAsync(p => p.AddressId == addressId));
         }
 
         public async Task<IResult> Add(Address address)
@@ -46,5 +46,12 @@ namespace Business.Concrete
             await _addressDal.DeleteAsync(address);
             return new SuccessResult();
         }
-    }
+
+        public async Task<IResult> MultipleAdd(Address[] addresses)
+        {
+            await _addressDal.MultipleAddAsync(addresses);
+
+            return new SuccessResult();
+        }
+   }
 }

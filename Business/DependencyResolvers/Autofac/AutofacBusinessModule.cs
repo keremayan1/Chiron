@@ -14,6 +14,7 @@ using Core.Utilities.Interceptors;
 using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.MSSQL;
+using Microsoft.Extensions.DependencyModel;
 using Module = Autofac.Module;
 
 namespace Business.DependencyResolvers.Autofac
@@ -48,6 +49,7 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<ChildrenPersonManager>().As<IChildrenPersonService>().SingleInstance();
             builder.RegisterType<EfChildrenPersonDal>().As<IChildrenPersonDal>().SingleInstance();
+            
 
             builder.RegisterType<AddressManager>().As<IAddressService>().SingleInstance();
             builder.RegisterType<EfAddressDal>().As<IAddressDal>().SingleInstance();
@@ -72,6 +74,9 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<QuestionAnswerManager>().As<IQuestionAnswerService>().SingleInstance();
             builder.RegisterType<EfQuestionAnswerDal>().As<IQuestionAnswerDal>().SingleInstance();
+
+            builder.RegisterType<MarriedStatusManager>().As<IMarriedStatusService>().SingleInstance();
+            builder.RegisterType<EfMarriedStatusDal>().As<IMarriedStatusDal>().SingleInstance();
 
 
             builder.RegisterType<KpsServiceManager>().As<IKpsService>().SingleInstance();

@@ -19,15 +19,18 @@ namespace Business.Concrete
         private IPersonService _personService;
         private IPersonInformationService _personInformationService;
         private ITelephoneService _telephoneService;
-       
+        private IChildrenPersonService _childrenPersonService;
+        private IAddressService _addressService;
 
 
-        public ChildrenManager(IChildrenDal childrenDal, IPersonService personService, IPersonInformationService personInformationService, IGenderService genderService, IChildrenPersonDal childrenPersonDal, ITelephoneService telephoneService)
+        public ChildrenManager(IChildrenDal childrenDal, IPersonService personService, IPersonInformationService personInformationService, IGenderService genderService, IChildrenPersonDal childrenPersonDal, ITelephoneService telephoneService, IChildrenPersonService childrenPersonService, IAddressService addressService)
         {
             _childrenDal = childrenDal;
             _personService = personService;
             _personInformationService = personInformationService;
             _telephoneService = telephoneService;
+            _childrenPersonService = childrenPersonService;
+            _addressService = addressService;
         }
 
         public async Task<IDataResult<List<Children>>> GetAll()
@@ -43,8 +46,8 @@ namespace Business.Concrete
 
         public async Task<IResult> Add(Children children)
         {
-            var result = BusinessRules.Run(VerifyNationalId(children), CheckIfNationalIdExists(children.NationalId));
-            if (result!=null)
+            var result = BusinessRules.Run(/*VerifyNationalId(children), CheckIfNationalIdExists(children.NationalId)*/);
+            if (result != null)
             {
                 return result;
             }
@@ -71,28 +74,48 @@ namespace Business.Concrete
 
         public async Task<IResult> MultipleAdd(ChildrenDetail[] childrenDetails)
         {
+          
             foreach (var childrenDetail in childrenDetails)
             {
-                var result = BusinessRules.Run(CheckTelephoneNumberExists(childrenDetail.TelephoneNumber),CheckIfNationalIdExists(childrenDetail.NationalId));
-                if (result!=null)
+                var result = BusinessRules.Run(/*CheckTelephoneNumberExists(childrenDetail.TelephoneNumber),CheckIfNationalIdExists(childrenDetail.NationalId)*/);
+                if (result != null)
                 {
                     return result;
                 }
-                var children = new Children
+
+                await _childrenDal.AddAsync(childrenDetail.Children);
+                NewMethod(childrenDetail);
+
+                await _childrenPersonService.MultipleAdd2(childrenDetail.ChildrenPersonDetail.ToArray());
+
+
+                foreach (var c in childrenDetail.ChildrenPersonDetail)
                 {
-                    FirstName = childrenDetail.FirstName,
-                    LastName = childrenDetail.LastName,
-                    ClassName = childrenDetail.ClassName,
-                    DateOfBirth = childrenDetail.DateOfBirth,
-                    NationalId = childrenDetail.NationalId,
-                    SchoolName = childrenDetail.SchoolName,
-                    PersonGenderId = childrenDetail.PersonGenderId
-                };
-                await _childrenDal.AddAsync(children);
+                    foreach (var address in childrenDetail.Address)
+                    {
+                        address.PersonInformationId = c.Id;
+                    }
+
+                }
+                
+
+                await _addressService.MultipleAdd(childrenDetail.Address.ToArray());
+                //await _telephoneService.Add(childrenDetail.Telephone);
             }
 
             return new SuccessResult();
         }
+
+        private static void NewMethod(ChildrenDetail childrenDetail)
+        {
+            foreach (var c in childrenDetail.ChildrenPersonDetail)
+            {
+                c.ChildrenId = childrenDetail.Children.Id;
+                
+            }
+        }
+
+       
 
         public async Task<IResult> MultipleDelete(ChildrenDetail[] childrenDetails)
         {
@@ -100,13 +123,7 @@ namespace Business.Concrete
             {
                 var children = new Children
                 {
-                    FirstName = childrenDetail.FirstName,
-                    LastName = childrenDetail.LastName,
-                    ClassName = childrenDetail.ClassName,
-                    DateOfBirth = childrenDetail.DateOfBirth,
-                    NationalId = childrenDetail.NationalId,
-                    SchoolName = childrenDetail.SchoolName,
-                    PersonGenderId = childrenDetail.PersonGenderId
+
                 };
                 await _childrenDal.DeleteAsync(children);
             }
@@ -120,13 +137,6 @@ namespace Business.Concrete
             {
                 var children = new Children
                 {
-                    FirstName = childrenDetail.FirstName,
-                    LastName = childrenDetail.LastName,
-                    ClassName = childrenDetail.ClassName,
-                    DateOfBirth = childrenDetail.DateOfBirth,
-                    NationalId = childrenDetail.NationalId,
-                    SchoolName = childrenDetail.SchoolName,
-                    PersonGenderId = childrenDetail.PersonGenderId
                 };
                 await _childrenDal.UpdateAsync(children);
             }
@@ -156,7 +166,7 @@ namespace Business.Concrete
         }
         public IResult VerifyNationalId(Children children)
         {
-            
+
             var result = _personInformationService.VerifyNationalId(children);
             if (!result.Success)
             {
@@ -176,6 +186,22 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
+        private static Telephone Telephone(ChildrenPersonDetail childrenPersonDetail)
+        {
+            var telephone = new Telephone
+            {
+                TelephoneNumber = childrenPersonDetail.TelephoneNumber
+            };
+            return telephone;
+        }
 
+        private static Address Address(ChildrenPersonDetail childrenPersonDetail)
+        {
+            var address = new Address
+            {
+                AddressName = childrenPersonDetail.AddressName,
+            };
+            return address;
+        }
     }
 }

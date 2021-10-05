@@ -11,9 +11,10 @@ namespace Business.Abstract
   public  interface IAddressService
     {
         Task<IDataResult<List<Address>>> GetAll();
-        IDataResult<Address> GetById(int addressId);
+       Task< IDataResult<Address>> GetById(int addressId);
         Task<IResult> Add(Address address);
         Task<IResult> Update(Address address);
         Task<IResult> Delete(Address address);
+        Task<IResult> MultipleAdd(Address[] addresses);
     }
 }

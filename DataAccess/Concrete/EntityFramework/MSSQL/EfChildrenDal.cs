@@ -29,16 +29,19 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
 
                          select new ChildrenDetail
                          {
-                             Id = children.Id,
-                             NationalId = personInformation.NationalId,
-                             PersonName = person.PersonName,
-                             GenderName = gender.GenderName,
-                             FirstName = personInformation.FirstName,
-                             LastName = personInformation.LastName,
-                             DateOfBirth = personInformation.DateOfBirth,
-                             ClassName = children.ClassName,
-                             SchoolName = children.SchoolName,
-                             TelephoneNumber = telephone.TelephoneNumber
+                          Children = new Children
+                          {
+                              FirstName = children.FirstName,
+                              LastName = children.LastName,
+                          }, Telephone = new Telephone
+                          {
+                              TelephoneNumber = telephone.TelephoneNumber
+                          },
+                        
+                          
+                        
+                         
+                       
 
                          };
 

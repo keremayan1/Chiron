@@ -22,6 +22,7 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
             modelBuilder.Entity<PersonInformation>().ToTable("PersonInformations");
             modelBuilder.Entity<Children>().ToTable("Childrens");
             modelBuilder.Entity<ChildrenPerson>().ToTable("ChildrenPersons");
+           // modelBuilder.Entity<Adult>().ToTable("Adults");
         }
 
         public DbSet<Person> Persons { get; set; }
@@ -41,6 +42,9 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionTitle> QuestionTitles { get; set; }
         public DbSet<QuestionAnswer>     QuestionAnswers { get; set; }
+        public DbSet<MarriedStatus> MarriedStatus { get; set; }
+       // public DbSet<Adult> Adults { get; set; }
+
 
 
 
