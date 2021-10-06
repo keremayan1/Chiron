@@ -29,14 +29,7 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
 
                          select new ChildrenDetail
                          {
-                          Children = new Children
-                          {
-                              FirstName = children.FirstName,
-                              LastName = children.LastName,
-                          }, Telephone = new Telephone
-                          {
-                              TelephoneNumber = telephone.TelephoneNumber
-                          },
+                          
                         
                           
                         

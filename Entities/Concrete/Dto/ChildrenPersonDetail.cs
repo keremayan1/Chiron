@@ -17,7 +17,7 @@ namespace Entities.Concrete.Dto
         public int EducationStatusId { get; set; }
         public int JobsId { get; set; }
 
-        public string ChildrenName { get; set; }
+
         public string NationalId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -27,10 +27,10 @@ namespace Entities.Concrete.Dto
         public string FamilyName { get; set; }
         public string EducationStausName { get; set; }
         public string JobName { get; set; }
-        public string AddressName { get; set; }
-        public string TelephoneNumber { get; set; }
+      
 
         public Address[] Addresses { get; set; }
+        public Telephone[] Telephone { get; set; }
 
 
 

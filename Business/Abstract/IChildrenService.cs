@@ -22,6 +22,7 @@ namespace Business.Abstract
        Task<IResult> MultipleAdd(ChildrenDetail[] childrenDetails);
        Task<IResult> MultipleDelete(ChildrenDetail[] childrenDetails);
        Task<IResult> MultipleUpdate(ChildrenDetail[] childrenDetails);
+      
 
    }
 }

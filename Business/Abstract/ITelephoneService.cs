@@ -17,7 +17,8 @@ namespace Business.Abstract
         Task<IResult> Update(Telephone telephone);
         Task<IResult> Delete(Telephone telephone);
         Task<IDataResult<Telephone>> GetByTelephoneNumber(string telephoneNumber);
-       
-        
+        Task<IResult> MultipleAddWithTelephones(Telephone[] telephones);
+
+
     }
 }

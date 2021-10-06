@@ -20,7 +20,7 @@ namespace Business.Concrete
         private IPersonInformationService _personInformationService;
         private ITelephoneService _telephoneService;
         private IChildrenPersonService _childrenPersonService;
-        private IAddressService _addressService;
+       
 
 
         public ChildrenManager(IChildrenDal childrenDal, IPersonService personService, IPersonInformationService personInformationService, IGenderService genderService, IChildrenPersonDal childrenPersonDal, ITelephoneService telephoneService, IChildrenPersonService childrenPersonService, IAddressService addressService)
@@ -30,7 +30,7 @@ namespace Business.Concrete
             _personInformationService = personInformationService;
             _telephoneService = telephoneService;
             _childrenPersonService = childrenPersonService;
-            _addressService = addressService;
+        
         }
 
         public async Task<IDataResult<List<Children>>> GetAll()
@@ -82,40 +82,37 @@ namespace Business.Concrete
                 {
                     return result;
                 }
-
-                await _childrenDal.AddAsync(childrenDetail.Children);
-                NewMethod(childrenDetail);
-
+                await _childrenDal.MultipleAddAsync(childrenDetail.Children.ToArray());
+                MultipleAddInChildrenPerson(childrenDetail);
                 await _childrenPersonService.MultipleAdd2(childrenDetail.ChildrenPersonDetail.ToArray());
-
-
-                foreach (var c in childrenDetail.ChildrenPersonDetail)
-                {
-                    foreach (var address in childrenDetail.Address)
-                    {
-                        address.PersonInformationId = c.Id;
-                    }
-
-                }
-                
-
-                await _addressService.MultipleAdd(childrenDetail.Address.ToArray());
-                //await _telephoneService.Add(childrenDetail.Telephone);
+                MultipleAddInTelephonesOnChildren(childrenDetail);
+                await _telephoneService.MultipleAddWithTelephones(childrenDetail.Telephones.ToArray());
             }
 
             return new SuccessResult();
         }
 
-        private static void NewMethod(ChildrenDetail childrenDetail)
+        private static void MultipleAddInChildrenPerson(ChildrenDetail childrenDetail)
         {
             foreach (var c in childrenDetail.ChildrenPersonDetail)
             {
-                c.ChildrenId = childrenDetail.Children.Id;
-                
+                foreach (var childrenDetailChild in childrenDetail.Children)
+                {
+                    c.ChildrenId = childrenDetailChild.Id;
+                }
             }
         }
 
-       
+        private static void MultipleAddInTelephonesOnChildren(ChildrenDetail childrenDetail)
+        {
+            foreach (var telephone in childrenDetail.Telephones)
+            {
+                foreach (var childrenDetailChild in childrenDetail.Children)
+                {
+                    telephone.PersonInformationId = childrenDetailChild.Id;
+                }
+            }
+        }
 
         public async Task<IResult> MultipleDelete(ChildrenDetail[] childrenDetails)
         {
@@ -143,6 +140,9 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
+
+       
+
         public IResult IsPersonAvaliable(int personId)
         {
             var result = _personService.GetById(personId).Result;
@@ -186,22 +186,6 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
-        private static Telephone Telephone(ChildrenPersonDetail childrenPersonDetail)
-        {
-            var telephone = new Telephone
-            {
-                TelephoneNumber = childrenPersonDetail.TelephoneNumber
-            };
-            return telephone;
-        }
-
-        private static Address Address(ChildrenPersonDetail childrenPersonDetail)
-        {
-            var address = new Address
-            {
-                AddressName = childrenPersonDetail.AddressName,
-            };
-            return address;
-        }
+      
     }
 }

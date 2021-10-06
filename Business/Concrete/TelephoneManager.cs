@@ -71,7 +71,12 @@ namespace Business.Concrete
                 await _telephoneDal.GetAsync(p => p.TelephoneNumber == telephoneNumber));
         }
 
-       
+        public async Task<IResult> MultipleAddWithTelephones(Telephone[] telephones)
+        {
+            await _telephoneDal.MultipleAddAsync(telephones);
+            return new SuccessResult();
+        }
+
 
         public IDataResult<Telephone> GetByTelephoneNumber2(string telephoneNumber)
         {

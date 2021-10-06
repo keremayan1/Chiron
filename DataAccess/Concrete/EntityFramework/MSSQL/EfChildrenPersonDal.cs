@@ -34,7 +34,7 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
                          select new ChildrenPersonDetail
                          {
                              Id = childrenPerson.Id,
-                             ChildrenId = children.Id,
+                            
                              NationalId = personInformation.NationalId,
                              FirstName = personInformation.FirstName,
                              LastName = personInformation.FirstName,
@@ -44,8 +44,7 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
                              EducationStausName = educationStatus.Name,
                              FamilyName = familyStatus.Name,
                              JobName = jobs.Name,
-                             AddressName = address.AddressName,
-                             TelephoneNumber = telephone.TelephoneNumber
+                            
 
                          };
             return filter == null ? await result.ToListAsync() : await result.Where(filter).ToListAsync();
