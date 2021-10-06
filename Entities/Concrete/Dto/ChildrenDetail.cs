@@ -11,9 +11,9 @@ namespace Entities.Concrete.Dto
     {
         //public int Id { get; set; }
         //public int PersonGenderId { get; set; }
-        public int PersonInformationId { get; set; }
+        //public int PersonInformationId { get; set; }
       
-        public string PersonName { get; set; }
+        //public string PersonName { get; set; }
         //public string NationalId { get; set; }
         //public string FirstName { get; set; }
         //public string LastName { get; set; }
@@ -22,6 +22,7 @@ namespace Entities.Concrete.Dto
         //public string SchoolName { get; set; }
         //public string ClassName { get; set; }
         public Children[] Children { get; set; }
+        
         public Telephone[] Telephones { get; set; }
         //public string TelephoneNumber { get; set; }
         public ChildrenPersonDetail[] ChildrenPersonDetail { get; set; }
