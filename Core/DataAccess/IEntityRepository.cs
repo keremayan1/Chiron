@@ -17,5 +17,6 @@ namespace Core.DataAccess
        void Update(T entity);
        bool Any(Expression<Func<T,bool>>filter);
        void MultipleAdd(T[] entities);
+       void MultipleAddWithList(List<T> entities);
    }
 }

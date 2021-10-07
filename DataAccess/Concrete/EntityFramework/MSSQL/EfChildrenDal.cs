@@ -16,7 +16,7 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
    public class EfChildrenDal:EfEntityRepository<Children,SqlContext>,IChildrenDal
    {
        private SqlContext context = new SqlContext();
-        public async Task<List<ChildrenDetail>> GetChildrenDetails(Expression<Func<ChildrenDetail, bool>> filter = null)
+        public async Task<List<GetByChildrenDetailDto>> GetChildrenDetails(Expression<Func<GetByChildrenDetailDto, bool>> filter = null)
         {
             
             var result = from children in context.Childrens
@@ -27,8 +27,15 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
                          join person in context.Persons on personGender.PersonId equals person.PersonId
                          join telephone in context.Telephones on personInformation.Id equals telephone.PersonInformationId 
 
-                         select new ChildrenDetail
+                         select new GetByChildrenDetailDto
                          {
+                          Id = children.Id,
+                          NationalId = personInformation.NationalId,
+                          FirstName = personInformation.FirstName,
+                             LastName = personInformation.LastName,
+                             PersonName = person.PersonName,
+                             GenderName = gender.GenderName,
+                             TelephoneNumber = telephone.TelephoneNumber
                           
                         
                           

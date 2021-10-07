@@ -86,8 +86,9 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<ChildrenPersonDetail>>(await  _childrenPersonDal.GetChildrenPersonDetails());
         }
+       
 
-        public async Task<IResult> MultipleAdd2(ChildrenPersonDetail[] childrenPersonDetails)
+        public async Task<IResult> MultipleAddWithList(List<ChildrenPersonDetail> childrenPersonDetails)
         {
             foreach (var childrenPersonDetail in childrenPersonDetails)
             {
@@ -100,13 +101,14 @@ namespace Business.Concrete
                 childrenPerson.Id = childrenPersonDetail.PersonInformationId;
                 await _childrenPersonDal.AddAsync(childrenPerson);
                 MultipleAddInAdressesOnChildrenPerson(childrenPersonDetail, childrenPerson);
-                await _addressService.MultipleAdd(childrenPersonDetail.Addresses.ToArray());
+                await _addressService.MultipleAdd2(childrenPersonDetail.Addresses);
                 MultipleAddInTelephonesOnChildrenPerson(childrenPersonDetail, childrenPerson);
-                await _telephoneService.MultipleAddWithTelephones(childrenPersonDetail.Telephone.ToArray());
-            }
+                await _telephoneService.MultipleAdd(childrenPersonDetail.Telephones);
 
+            }
             return new SuccessResult();
         }
+
         /// <summary>
         /// Veri Alma
         /// </summary>
@@ -122,7 +124,7 @@ namespace Business.Concrete
 
         public  static void MultipleAddInTelephonesOnChildrenPerson(ChildrenPersonDetail childrenPersonDetail, ChildrenPerson childrenPerson)
         {
-            foreach (var telephones in childrenPersonDetail.Telephone)
+            foreach (var telephones in childrenPersonDetail.Telephones)
             {
                 telephones.PersonInformationId = childrenPerson.Id;
             }

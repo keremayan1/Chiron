@@ -11,8 +11,9 @@ namespace Business.ValidationRules.FluentValidation
    public class TelephoneValidator:AbstractValidator<Telephone> {
        public TelephoneValidator()
        {
-           RuleFor(t => t.TelephoneNumber).NotEmpty();
-           RuleFor(t => t.TelephoneNumber).MinimumLength(10).WithMessage("10 karakter");
+           RuleFor(t => t.TelephoneNumber).NotEmpty().WithMessage("Telefon Numarası Boş Olamaz!");
+           RuleFor(t => t.TelephoneNumber).MinimumLength(10).WithMessage("Telefon Numarası 10 Karakterden Az Olamaz!");
+           
        }
     }
 }

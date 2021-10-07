@@ -19,10 +19,11 @@ namespace Business.Abstract
        Task<IResult> Delete(Children children);
 
        IDataResult<List<ChildrenDetail>> GetChildrenDetails();
-       Task<IResult> MultipleAdd(ChildrenDetail[] childrenDetails);
-       Task<IResult> MultipleDelete(ChildrenDetail[] childrenDetails);
-       Task<IResult> MultipleUpdate(ChildrenDetail[] childrenDetails);
-      
+       Task<IResult> MultipleAdd(List<ChildrenDetail> childrenDetails);
+       Task<IResult> MultipleDelete(List<ChildrenDetail> childrenDetails);
+       Task<IResult> MultipleUpdate(List<ChildrenDetail> childrenDetails);
+      Task< IDataResult<List<GetByChildrenDetailDto>>> GetChildrenDetailss();
+
 
    }
 }

@@ -17,12 +17,9 @@ namespace Business.Abstract
      
         Task<IResult> Update(ChildrenPerson childrenPerson);
         Task<IResult> Delete(ChildrenPerson childrenPerson);
-
-
-      
         Task<IDataResult<List<ChildrenPersonDetail>>> GetChildrenPersonDetails();
-        Task<IResult> MultipleAdd2(ChildrenPersonDetail[] childrenPersonDetails);
-    
+        Task<IResult> MultipleAddWithList(List<ChildrenPersonDetail> childrenPersonDetails);
+
 
 
 

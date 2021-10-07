@@ -24,7 +24,7 @@ namespace Business.BusinessAspects.Autofac
           _contextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
       }
 
-      public override void OnBefore(IInvocation invocation)
+      protected override void OnBefore(IInvocation invocation)
       {
           var roleClaims = _contextAccessor.HttpContext.User.ClaimRoles();
           foreach (var role in _roles)

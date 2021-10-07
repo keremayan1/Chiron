@@ -83,6 +83,19 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
+        public void MultipleAddWithList(List<TEntity> entities)
+        {
+            using (var context = new TContext())
+            {
+                foreach (var entity in entities)
+                {
+                    var addedState = context.Entry(entity);
+                    addedState.State = EntityState.Added;
+                    context.SaveChanges();
+                }
+            }
+        }
+
         private TContext contextAsync = new TContext();
         public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
         {
@@ -132,6 +145,14 @@ namespace Core.DataAccess.EntityFramework
             return await contextAsync.Set<TEntity>().AnyAsync(filter);
         }
 
-      
+        public async Task MultipleAddAsyncWithList(List<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                var addedState = contextAsync.Entry(entity);
+                addedState.State = EntityState.Added;
+                await contextAsync.SaveChangesAsync();
+            }
+        }
     }
 }

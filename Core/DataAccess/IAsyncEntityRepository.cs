@@ -17,6 +17,7 @@ namespace Core.DataAccess
        Task UpdateAsync(T entity);
        Task MultipleAddAsync(T[] entities);
        Task<bool> AnyAsync(Expression<Func<T, bool>> filter);
+       Task MultipleAddAsyncWithList(List<T> entities);
 
    }
 }

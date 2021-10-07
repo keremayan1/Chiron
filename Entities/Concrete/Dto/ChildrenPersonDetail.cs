@@ -29,8 +29,9 @@ namespace Entities.Concrete.Dto
         public string JobName { get; set; }
       
 
-        public Address[] Addresses { get; set; }
-        public Telephone[] Telephone { get; set; }
+   
+        public List<Address> Addresses { get; set; }
+        public List<Telephone> Telephones { get; set; }
 
 
 

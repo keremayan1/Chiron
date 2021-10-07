@@ -47,10 +47,11 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IResult> MultipleAdd(Address[] addresses)
-        {
-            await _addressDal.MultipleAddAsync(addresses);
+       
 
+        public async Task<IResult> MultipleAdd2(List<Address> addresses)
+        {
+            await _addressDal.MultipleAddAsyncWithList(addresses);
             return new SuccessResult();
         }
    }

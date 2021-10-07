@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
 using Business.Rules;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -20,6 +22,7 @@ namespace Business.Concrete
         private IPersonInformationService _personInformationService;
         private ITelephoneService _telephoneService;
         private IChildrenPersonService _childrenPersonService;
+        private IAddressService _addressService;
        
 
 
@@ -30,7 +33,7 @@ namespace Business.Concrete
             _personInformationService = personInformationService;
             _telephoneService = telephoneService;
             _childrenPersonService = childrenPersonService;
-        
+            _addressService = addressService;
         }
 
         public async Task<IDataResult<List<Children>>> GetAll()
@@ -69,10 +72,10 @@ namespace Business.Concrete
 
         public IDataResult<List<ChildrenDetail>> GetChildrenDetails()
         {
-            return new SuccessDataResult<List<ChildrenDetail>>(_childrenDal.GetChildrenDetails().Result);
+            return new SuccessDataResult<List<ChildrenDetail>>();
         }
-
-        public async Task<IResult> MultipleAdd(ChildrenDetail[] childrenDetails)
+        [ValidationAspect(typeof(ChildrenDetailValidator))]
+        public async Task<IResult> MultipleAdd(List<ChildrenDetail> childrenDetails)
         {
           
             foreach (var childrenDetail in childrenDetails)
@@ -82,11 +85,11 @@ namespace Business.Concrete
                 {
                     return result;
                 }
-                await _childrenDal.MultipleAddAsync(childrenDetail.Children.ToArray());
+                await _childrenDal.MultipleAddAsyncWithList(childrenDetail.Children);
                 MultipleAddInChildrenPerson(childrenDetail);
-                await _childrenPersonService.MultipleAdd2(childrenDetail.ChildrenPersonDetail.ToArray());
+                await _childrenPersonService.MultipleAddWithList(childrenDetail.ChildrenPersonDetail);
                 MultipleAddInTelephonesOnChildren(childrenDetail);
-                await _telephoneService.MultipleAddWithTelephones(childrenDetail.Telephones.ToArray());
+                await _telephoneService.MultipleAdd(childrenDetail.Telephones);
             }
 
             return new SuccessResult();
@@ -114,7 +117,7 @@ namespace Business.Concrete
             }
         }
 
-        public async Task<IResult> MultipleDelete(ChildrenDetail[] childrenDetails)
+        public async Task<IResult> MultipleDelete(List<ChildrenDetail> childrenDetails)
         {
             foreach (var childrenDetail in childrenDetails)
             {
@@ -128,7 +131,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IResult> MultipleUpdate(ChildrenDetail[] childrenDetails)
+        public async Task<IResult> MultipleUpdate(List<ChildrenDetail> childrenDetails)
         {
             foreach (var childrenDetail in childrenDetails)
             {
@@ -141,7 +144,11 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-       
+        public async Task<IDataResult<List<GetByChildrenDetailDto>>> GetChildrenDetailss()
+        {
+            return new SuccessDataResult<List<GetByChildrenDetailDto>>(await _childrenDal.GetChildrenDetails());
+        }
+
 
         public IResult IsPersonAvaliable(int personId)
         {

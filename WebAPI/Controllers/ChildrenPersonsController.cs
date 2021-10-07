@@ -35,10 +35,10 @@ namespace WebAPI.Controllers
         }
 
       
-        [HttpPost("addmultiple")]
-        public async Task<IActionResult> Add2(ChildrenPersonDetail[] childrenPersonDetail)
+        [HttpPost("add")]
+        public async Task<IActionResult> Add(List<ChildrenPersonDetail> childrenPersonDetail)
         {
-            var result = await _childrenPersonService.MultipleAdd2(childrenPersonDetail);
+            var result = await _childrenPersonService.MultipleAddWithList(childrenPersonDetail);
             if (result.Success)
             {
                 return Ok(result);

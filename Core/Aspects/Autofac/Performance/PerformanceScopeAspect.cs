@@ -20,12 +20,12 @@ namespace Core.Aspects.Autofac.Performance
            _stopwatch = stopwatch;
        }
 
-       public override void OnBefore(IInvocation invocation)
+       protected override void OnBefore(IInvocation invocation)
        {
            _stopwatch.Start();
        }
 
-       public override void OnAfter(IInvocation invocation)
+       protected override void OnAfter(IInvocation invocation)
        {
            if (_stopwatch.Elapsed.TotalSeconds > _interval)
            {

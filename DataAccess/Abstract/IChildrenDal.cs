@@ -12,6 +12,6 @@ namespace DataAccess.Abstract
 {
   public  interface IChildrenDal:IEntityRepository<Children>,IAsyncEntityRepository<Children>
   {
-      Task<List<ChildrenDetail>> GetChildrenDetails(Expression<Func<ChildrenDetail, bool>> filter = null);
+      Task<List<GetByChildrenDetailDto>> GetChildrenDetails(Expression<Func<GetByChildrenDetailDto, bool>> filter = null);
   }
 }

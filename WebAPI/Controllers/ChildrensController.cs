@@ -21,9 +21,9 @@ namespace WebAPI.Controllers
             _childrenService = childrenService;
         }
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var result =  _childrenService.GetChildrenDetails();
+            var result =await  _childrenService.GetChildrenDetailss();
             if (result.Success)
             {
                 return Ok(result);
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add(ChildrenDetail[] children)
+        public async Task<IActionResult> Add(List<ChildrenDetail> children)
         {
             var result = await _childrenService.MultipleAdd(children);
             if (result.Success)

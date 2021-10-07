@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Core.Utilities.Interceptors
 {
-    [AttributeUsage(AttributeTargets.Method|AttributeTargets.Class,AllowMultiple = true,Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class|AttributeTargets.Method,AllowMultiple = true,Inherited = true)]
  public abstract  class MethodInterceptionBaseAttribute:Attribute,IInterceptor
     {
         public int Priority { get; set; }

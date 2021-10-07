@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.0.4" />
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.8.*" />
     <PackageReference Include="System.ServiceModel.Http" Version="4.8.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.8.*" />

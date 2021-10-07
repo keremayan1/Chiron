@@ -7,11 +7,12 @@ using Core.Entities;
 
 namespace Entities.Concrete
 {
-   public class Adult:IEntity
+   public class Adult:PersonInformation,IEntity
     {
         public int EducationStatusId { get; set; }
         public int MarriedStatusId { get; set; }
         public int JobId { get; set; }
+
  
 
     }

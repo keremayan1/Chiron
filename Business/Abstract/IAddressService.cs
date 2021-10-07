@@ -15,6 +15,7 @@ namespace Business.Abstract
         Task<IResult> Add(Address address);
         Task<IResult> Update(Address address);
         Task<IResult> Delete(Address address);
-        Task<IResult> MultipleAdd(Address[] addresses);
+      
+        Task<IResult> MultipleAdd2(List<Address> addresses);
     }
 }
