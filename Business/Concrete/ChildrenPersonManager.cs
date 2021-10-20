@@ -21,15 +21,15 @@ namespace Business.Concrete
         private IChildrenPersonDal _childrenPersonDal;
         private IAddressService _addressService;
         private ITelephoneService _telephoneService;
-        private IPersonInformationService _personInformationService;
+        
 
-        public ChildrenPersonManager(IChildrenPersonDal childrenPersonDal, IAddressService addressService, ITelephoneService telephoneService, IKpsService kpsService, IPersonInformationService personInformationService)
+        public ChildrenPersonManager(IChildrenPersonDal childrenPersonDal, IAddressService addressService, ITelephoneService telephoneService)
         {
             _childrenPersonDal = childrenPersonDal;
             _addressService = addressService;
             _telephoneService = telephoneService;
           
-            _personInformationService = personInformationService;
+            
         }
 
         /// <summary>
@@ -59,55 +59,102 @@ namespace Business.Concrete
             await _childrenPersonDal.DeleteAsync(childrenPerson);
             return new SuccessResult();
         }
-
-       
-
-       
-       
-
-        private static ChildrenPerson ChildrenPerson(ChildrenPersonDetail childrenPersonDetail)
-        {
-            var childrenPerson = new ChildrenPerson
-            {
-                Id = childrenPersonDetail.PersonInformationId,
-                ChildrenId = childrenPersonDetail.ChildrenId,
-                EducationStatusId = childrenPersonDetail.EducationStatusId,
-                FamilyStatusId = childrenPersonDetail.FamilyStatusId,
-                JobsId = childrenPersonDetail.JobsId,
-                NationalId = childrenPersonDetail.NationalId,
-                FirstName = childrenPersonDetail.FirstName,
-                LastName = childrenPersonDetail.LastName,
-                DateOfBirth = childrenPersonDetail.DateOfBirth,
-                PersonGenderId = childrenPersonDetail.PersonGenderId
-            };
-            return childrenPerson;
-        }
+      
         public async Task<IDataResult<List<ChildrenPersonDetail>>> GetChildrenPersonDetails()
         {
             return new SuccessDataResult<List<ChildrenPersonDetail>>(await  _childrenPersonDal.GetChildrenPersonDetails());
         }
-       
-
+     //   [ValidationAspect(typeof(ChildrenPersonDetailValidator))]
         public async Task<IResult> MultipleAddWithList(List<ChildrenPersonDetail> childrenPersonDetails)
         {
             foreach (var childrenPersonDetail in childrenPersonDetails)
             {
-                var childrenPerson = ChildrenPerson(childrenPersonDetail);
-                var result = BusinessRules.Run(/*VerifyNationalId(childrenPerson),CheckIfNationalIdExists(childrenPersonDetail.NationalId), CheckIfTelephoneNumberExists(childrenPersonDetail.TelephoneNumber)*/);
+              
+                var result = BusinessRules.Run(CheckTelephoneNumberExists(childrenPersonDetail.Telephones));
                 if (result != null)
                 {
                     return result;
                 }
-                childrenPerson.Id = childrenPersonDetail.PersonInformationId;
-                await _childrenPersonDal.AddAsync(childrenPerson);
-                MultipleAddInAdressesOnChildrenPerson(childrenPersonDetail, childrenPerson);
-                await _addressService.MultipleAdd2(childrenPersonDetail.Addresses);
-                MultipleAddInTelephonesOnChildrenPerson(childrenPersonDetail, childrenPerson);
-                await _telephoneService.MultipleAdd(childrenPersonDetail.Telephones);
-
+                await _childrenPersonDal.AddAsync(childrenPersonDetail.ChildrenPerson);
+                MultipleAddInAdressesOnChildrenPerson(childrenPersonDetail, childrenPersonDetail.ChildrenPerson);
+                await _addressService.MultipleAddWithList(childrenPersonDetail.Addresses);
+                MultipleAddInTelephonesOnChildrenPerson(childrenPersonDetail, childrenPersonDetail.ChildrenPerson);
+                await _telephoneService.MultipleAddWithList(childrenPersonDetail.Telephones);
             }
+
             return new SuccessResult();
         }
+
+        public async Task<IResult> MultipleDeleteWithList(List<ChildrenPersonDetail> childrenPersonDetails)
+        {
+            foreach (var childrenPersonDetail in childrenPersonDetails)
+            {
+               
+                var result = BusinessRules.Run(CheckTelephoneNumberExists(childrenPersonDetail.Telephones));
+                if (result != null)
+                {
+                    return result;
+                }
+                await _childrenPersonDal.DeleteAsync(childrenPersonDetail.ChildrenPerson);
+                MultipleAddInAdressesOnChildrenPerson(childrenPersonDetail, childrenPersonDetail.ChildrenPerson);
+                await _addressService.MultipleDeleteWithList(childrenPersonDetail.Addresses);
+                MultipleAddInTelephonesOnChildrenPerson(childrenPersonDetail, childrenPersonDetail.ChildrenPerson);
+                await _telephoneService.MultipleDeleteWithList(childrenPersonDetail.Telephones);
+            }
+
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> MultipleUpdateWithList(List<ChildrenPersonDetail> childrenPersonDetails)
+        {
+            foreach (var childrenPersonDetail in childrenPersonDetails)
+            {
+              
+                var result = BusinessRules.Run( CheckTelephoneNumberExists(childrenPersonDetail.Telephones));
+                if (result != null)
+                {
+                    return result;
+                }
+                await _childrenPersonDal.UpdateAsync(childrenPersonDetail.ChildrenPerson);
+                MultipleAddInAdressesOnChildrenPerson(childrenPersonDetail, childrenPersonDetail.ChildrenPerson);
+                await _addressService.MultipleUpdateWithList(childrenPersonDetail.Addresses);
+                MultipleAddInTelephonesOnChildrenPerson(childrenPersonDetail, childrenPersonDetail.ChildrenPerson);
+                await _telephoneService.MultipleUpdateWithList(childrenPersonDetail.Telephones);
+            }
+
+            return new SuccessResult();
+        }
+        [ValidationAspect(typeof(ChildrenPersonDetailValidator))]
+        public async Task<IResult> AddChildrenPersonDetail(ChildrenPersonDetail childrenPersonDetail)
+        {
+          
+            var result = BusinessRules.Run(CheckTelephoneNumberExists(childrenPersonDetail.Telephones));
+            if (result != null)
+            {
+                return result;
+            }
+            await _childrenPersonDal.AddAsync(childrenPersonDetail.ChildrenPerson);
+            MultipleAddInAdressesOnChildrenPerson(childrenPersonDetail, childrenPersonDetail.ChildrenPerson);
+            await _addressService.MultipleAddWithList(childrenPersonDetail.Addresses);
+            MultipleAddInTelephonesOnChildrenPerson(childrenPersonDetail, childrenPersonDetail.ChildrenPerson);
+            await _telephoneService.MultipleAddWithList(childrenPersonDetail.Telephones);
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> Add(ChildrenPerson childrenPerson)
+        {
+            await _childrenPersonDal.AddAsync(childrenPerson);
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> AddWithList(List<ChildrenPerson> childrenPersons)
+        {
+            await _childrenPersonDal.MultipleAddAsyncWithList(childrenPersons);
+            return new SuccessResult();
+        }
+
+     
+       
 
         /// <summary>
         /// Veri Alma
@@ -135,26 +182,20 @@ namespace Business.Concrete
         /// </summary>
         /// <param name="childrenPerson"></param>
         /// <returns></returns>
-        public IResult VerifyNationalId(ChildrenPerson childrenPerson)
+     
+        public IResult CheckTelephoneNumberExists(List<Telephone> telephoneNumber)
         {
-            var result = _personInformationService.VerifyNationalId(childrenPerson);
-            if (!result.Success)
-            {
-                return new ErrorResult(result.Message);
-            }
+            var result = _telephoneService.CheckTelephoneListNumberExists(telephoneNumber);
+                if (!result.Success)
+                {
+                    return new ErrorResult(result.Message);
+                }
+            
 
             return new SuccessResult();
         }
-        public IResult CheckIfNationalIdExists(string nationalId)
-        {
-            var result = _personInformationService.CheckIfNationalIdExists(nationalId);
-            if (!result.Success)
-            {
-                return new ErrorResult(result.Message);
-            }
 
-            return new SuccessResult();
-        }
+
         public IResult CheckTelephoneNumberExists(string telephoneNumber)
         {
             var result = _telephoneService.CheckTelephoneNumberExists(telephoneNumber);
@@ -165,8 +206,16 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
-     
 
+        public IResult CheckTelephoneListNumberExists(List<Telephone> telephones)
+        {
+            var result = _telephoneService.CheckTelephoneListNumberExists(telephones);
+            if (!result.Success)
+            {
+                return new ErrorResult(result.Message);
+            }
 
+            return new SuccessResult();
+        }
     }
 }

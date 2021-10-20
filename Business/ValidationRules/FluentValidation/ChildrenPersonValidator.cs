@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities.Concrete;
-using Entities.Concrete.Dto;
 using FluentValidation;
 
 namespace Business.ValidationRules.FluentValidation
 {
-   public class ChildrenPersonValidator:AbstractValidator<ChildrenPersonDetail>
+   public class ChildrenPersonValidator:AbstractValidator<ChildrenPerson>
     {
         public ChildrenPersonValidator()
         {
-            RuleFor(ps => ps.NationalId).NotEmpty().WithMessage("TC-Kimlik No Boş Olamaz!");
-            RuleFor(ps => ps.NationalId).MinimumLength(11).WithMessage("TC-Kimlik No Minimum 11 Karakter Olmalıdır");
-            RuleFor(ps => ps.NationalId).Length(11).WithMessage("TC-Kimlik No 11 Karakter Olmalıdır");
+           // RuleFor(ps => ps.NationalId).NotEmpty().WithMessage("TC-Kimlik No Boş Olamaz!");
+            //RuleFor(ps => ps.NationalId).MinimumLength(11).WithMessage("TC-Kimlik No Minimum 11 Karakter Olmalıdır");
+            //RuleFor(ps => ps.NationalId).Length(11).WithMessage("TC-Kimlik No 11 Karakter Olmalıdır");
             RuleFor(ps => ps.FirstName).NotEmpty().WithMessage("Ad Boş Olamaz!");
-            RuleForEach(p => p.Telephones).SetValidator(new TelephoneValidator());
+            RuleFor(c => c.LastName).NotEmpty().WithMessage("Soyad Boş Olamaz!");
+            RuleFor(c => c.LastName).MinimumLength(2).WithMessage("Soyad Minimum 2 Karakterli Olmalıdır!");
         }
     }
 }

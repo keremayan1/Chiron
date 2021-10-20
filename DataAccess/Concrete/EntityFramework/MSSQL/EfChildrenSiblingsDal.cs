@@ -10,7 +10,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework.MSSQL
 {
-  public  class EfJobDal:EfEntityRepository<Job,SqlContext>,IJobDal
+   public class EfChildrenSiblingsDal:EfEntityRepository<ChildrenSiblings,SqlContext>,IChildrenSiblingsDal
     {
     }
 }

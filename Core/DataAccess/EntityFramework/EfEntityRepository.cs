@@ -154,5 +154,25 @@ namespace Core.DataAccess.EntityFramework
                 await contextAsync.SaveChangesAsync();
             }
         }
+
+        public async Task MultipleUpdateAsyncWithList(List<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                var updatedState = contextAsync.Entry(entity);
+                updatedState.State = EntityState.Modified;
+                await contextAsync.SaveChangesAsync();
+            }
+        }
+
+        public async Task MultipleDeleteAsyncWithList(List<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                var deletedState = contextAsync.Entry(entity);
+                deletedState.State = EntityState.Deleted;
+                await contextAsync.SaveChangesAsync();
+            }
+        }
     }
 }

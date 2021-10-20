@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -28,7 +30,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Address>(await _addressDal.GetAsync(p => p.AddressId == addressId));
         }
-
+        [ValidationAspect(typeof(AddressValidator))]
         public async Task<IResult> Add(Address address)
         {
           await  _addressDal.AddAsync(address);
@@ -47,8 +49,26 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-       
+        public async Task<IResult> MultipleAddWithList(List<Address> addresses)
+        {
+           await _addressDal.MultipleAddAsyncWithList(addresses);
+           return new SuccessResult();
+        }
 
+        public async Task<IResult> MultipleDeleteWithList(List<Address> addresses)
+        {
+            await _addressDal.MultipleDeleteAsyncWithList(addresses);
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> MultipleUpdateWithList(List<Address> addresses)
+        {
+            await _addressDal.MultipleUpdateAsyncWithList(addresses);
+            return new SuccessResult();
+        }
+
+
+        [ValidationAspect(typeof(AddressValidator))]
         public async Task<IResult> MultipleAdd2(List<Address> addresses)
         {
             await _addressDal.MultipleAddAsyncWithList(addresses);

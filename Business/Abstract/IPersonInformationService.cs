@@ -10,14 +10,14 @@ using Entities.Concrete.Dto;
 
 namespace Business.Abstract
 {
-   public interface IPersonInformationService:IPersonInformationRuleService<PersonInformation>
+   public interface IPersonInformationService
     {
         Task<IDataResult<List<PersonInformation>>> GetAllAsync();
         Task<IDataResult<PersonInformation>> GetById(int personId);
         Task<IResult> AddAsync(PersonInformation person);
         Task<IResult> DeleteAsync(PersonInformation person);
         Task<IResult> UpdateAsync(PersonInformation person);
-        //Business Rule
+        
    
 
 

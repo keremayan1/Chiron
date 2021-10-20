@@ -1,0 +1,16 @@
+﻿using Entities.Concrete.Dto;
+using FluentValidation;
+using FluentValidation.Validators;
+
+namespace Business.ValidationRules.FluentValidation
+{
+    public class AdultChildrenDetailValidator : AbstractValidator<AdultChildrenDetailDto>
+    {
+        public AdultChildrenDetailValidator()
+        {
+            RuleForEach(ac => ac.Childrens).SetValidator(new ChildrenValidator());
+            RuleFor(ac => ac.AdultChildren).SetValidator(new AdultChildrenValidator());
+            RuleFor(ac => ac.FamilyStatusId).GreaterThan(0).WithMessage("Aile Durumu Id'si 0'dan buyuk olmalidir");
+        }
+    }
+}

@@ -11,17 +11,19 @@ namespace Business.Adapters.PersonService
 {
   public  class KpsServiceManager:IKpsService
     {
-        public async Task<bool> Verify(PersonInformation personInformation)
+        public async Task<bool> Verify(ContactInformation contactInformation)
         {
-         return  await VerifyId(personInformation);
+         return  await VerifyId(contactInformation);
         }
 
-        public async Task<bool> VerifyId(PersonInformation personInformation)
+      
+
+        public async Task<bool> VerifyId(ContactInformation contactInformation)
         {
             var kps = new KPSPublicSoapClient(KPSPublicSoapClient.EndpointConfiguration.KPSPublicSoap);
-            var kpsVerification = await kps.TCKimlikNoDogrulaAsync(Convert.ToInt64(personInformation.NationalId),
-                personInformation.FirstName.ToUpper(), personInformation.LastName.ToUpper(),
-                personInformation.DateOfBirth.Year);
+            var kpsVerification = await kps.TCKimlikNoDogrulaAsync(Convert.ToInt64(contactInformation.NationalId),
+                contactInformation.FirstName.ToUpper(), contactInformation.LastName.ToUpper(),
+                contactInformation.DateOfBirth.Year);
             return kpsVerification.Body.TCKimlikNoDogrulaResult;
         }
     }

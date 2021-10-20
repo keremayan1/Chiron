@@ -7,10 +7,10 @@ using Core.Entities;
 
 namespace Entities.Concrete
 {
-   public class Job:IEntity
+   public class AdultChildren:IEntity
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int HowManyChildrens { get; set; }
 
     }
 }

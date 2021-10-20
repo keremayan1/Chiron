@@ -71,6 +71,24 @@ namespace Business.Concrete
                 await _telephoneDal.GetAsync(p => p.TelephoneNumber == telephoneNumber));
         }
 
+        public async Task<IResult> MultipleAddWithList(List<Telephone> telephones)
+        {
+            await _telephoneDal.MultipleAddAsyncWithList(telephones);
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> MultipleDeleteWithList(List<Telephone> telephones)
+        {
+            await _telephoneDal.MultipleDeleteAsyncWithList(telephones);
+            return new SuccessResult();
+        }
+
+        public async Task<IResult> MultipleUpdateWithList(List<Telephone> telephones)
+        {
+            await _telephoneDal.MultipleUpdateAsyncWithList(telephones);
+            return new SuccessResult();
+        }
+
         public async Task<IResult> MultipleAdd(List<Telephone> telephones)
         {
             await _telephoneDal.MultipleAddAsyncWithList(telephones);
@@ -84,6 +102,8 @@ namespace Business.Concrete
                 .Result);
         }
 
+      
+
         public IResult CheckTelephoneNumberExists(string telephoneNumber)
         {
             var result = _telephoneDal.Any(t => t.TelephoneNumber == telephoneNumber);
@@ -95,5 +115,18 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        public IResult CheckTelephoneListNumberExists(List<Telephone> telephones)
+        {
+            foreach (var telephone in telephones)
+            {
+                var result = _telephoneDal.Any(t => t.TelephoneNumber == telephone.TelephoneNumber);
+                if (result)
+                {
+                    return new ErrorResult("Girmiş Olduğunuz Telefon Numarası Sistemde Vardır!");
+                }
+            }
+
+            return new SuccessResult();
+        }
     }
 }

@@ -13,7 +13,9 @@ using Castle.DynamicProxy;
 using Core.Utilities.Interceptors;
 using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.EntityFramework.MSSQL;
+using Entities.Concrete;
 using Microsoft.Extensions.DependencyModel;
 using Module = Autofac.Module;
 
@@ -35,7 +37,7 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<PersonGenderManager>().As<IPersonGenderService>().SingleInstance();
             builder.RegisterType<EfPersonGenderDal>().As<IPersonGenderDal>().SingleInstance();
 
-            builder.RegisterType<EducationStatusManager>().As<IEducationManagerService>().SingleInstance();
+            builder.RegisterType<EducationStatusManager>().As<IEducationStatusService>().SingleInstance();
             builder.RegisterType<EfEducationStatusDal>().As<IEducationStatusDal>().SingleInstance();
 
             builder.RegisterType<ChildrenManager>().As<IChildrenService>().SingleInstance();
@@ -43,13 +45,10 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<FamilyStatusManager>().As<IFamilyStatusService>().SingleInstance();
             builder.RegisterType<EfFamilyStatusDal>().As<IFamilyStatusDal>().SingleInstance();
-
-            builder.RegisterType<JobManager>().As<IJobService>().SingleInstance();
-            builder.RegisterType<EfJobDal>().As<IJobDal>().SingleInstance();
+         
 
             builder.RegisterType<ChildrenPersonManager>().As<IChildrenPersonService>().SingleInstance();
             builder.RegisterType<EfChildrenPersonDal>().As<IChildrenPersonDal>().SingleInstance();
-            
 
             builder.RegisterType<AddressManager>().As<IAddressService>().SingleInstance();
             builder.RegisterType<EfAddressDal>().As<IAddressDal>().SingleInstance();
@@ -78,7 +77,24 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<MarriedStatusManager>().As<IMarriedStatusService>().SingleInstance();
             builder.RegisterType<EfMarriedStatusDal>().As<IMarriedStatusDal>().SingleInstance();
 
+            builder.RegisterType<ReligionManager>().As<IReligionService>().SingleInstance();
+            builder.RegisterType<EfReligionDal>().As<IReligionDal>().SingleInstance();
 
+            builder.RegisterType<AdultManager>().As<IAdultService>().SingleInstance();
+            builder.RegisterType<EfAdultDal>().As<IAdultDal>().SingleInstance();
+
+            builder.RegisterType<AdultWifeManager>().As<IAdultWifeService>().SingleInstance();
+            builder.RegisterType<EfAdultWifeDal>().As<IAdultWifeDal>().SingleInstance();
+
+            builder.RegisterType<AdultChildrenManager>().As<IAdultChildrenService>().SingleInstance();
+            builder.RegisterType<EfAdultChildrenDal>().As<IAdultChildrenDal>().SingleInstance();
+
+            builder.RegisterType<ContactInformationManager>().As<IContactInformationService>().SingleInstance();
+            builder.RegisterType<EfContactInformationDal>().As<IContactInformationDal>().SingleInstance();
+
+            builder.RegisterType<ChildrenSiblingsManager>().As<IChildrenSiblingsService>().SingleInstance();
+            builder.RegisterType<EfChildrenSiblingsDal>().As<IChildrenSiblingsDal>().SingleInstance();
+                
             builder.RegisterType<KpsServiceManager>().As<IKpsService>().SingleInstance();
 
             var assembly = Assembly.GetExecutingAssembly();

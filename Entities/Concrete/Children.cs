@@ -7,9 +7,10 @@ using Core.Entities;
 
 namespace Entities.Concrete
 {
-    public class Children:PersonInformation,IEntity
+    public class Children:ContactInformation,IEntity
     {
-       
+      
+
         public string SchoolName { get; set; }
         public string ClassName { get; set; }
 

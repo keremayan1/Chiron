@@ -10,20 +10,24 @@ using Entities.Concrete.Dto;
 
 namespace Business.Abstract
 {
-   public interface IChildrenService:IPersonInformationRuleService<Children>,ITelephoneRuleService
-   {
-       Task<IDataResult<List<Children>>> GetAll();
-         IDataResult<Children> GetById(int childrenId);
-       Task<IResult> Add(Children children);
-       Task<IResult> Update(Children children);
-       Task<IResult> Delete(Children children);
-
-       IDataResult<List<ChildrenDetail>> GetChildrenDetails();
-       Task<IResult> MultipleAdd(List<ChildrenDetail> childrenDetails);
-       Task<IResult> MultipleDelete(List<ChildrenDetail> childrenDetails);
-       Task<IResult> MultipleUpdate(List<ChildrenDetail> childrenDetails);
-      Task< IDataResult<List<GetByChildrenDetailDto>>> GetChildrenDetailss();
+    public interface IChildrenService : ITelephoneRuleService,ITelephoneRuleServiceList,IContactInformationRuleService<Children>
+    {
+        Task<IDataResult<List<Children>>> GetAll();
+        IDataResult<Children> GetById(int childrenId);
+        Task<IResult> Add(Children children);
+        Task<IResult> Delete(Children children);
+        Task<IResult> Update(Children children);
+        Task<IResult> MultipleAdd(List<Children> childrens);
 
 
-   }
+
+        //ChildrenDetail
+        IDataResult<List<ChildrenDetail>> GetChildrenDetails();
+        Task<IResult> MultipleChildrenDetailAdd(ChildrenDetail children);
+        Task<IResult> MultipleChildrenDetailUpdate(ChildrenDetail children);
+        Task<IResult> MultipleChildrenDetailDelete(ChildrenDetail children);
+        //
+        Task<IDataResult<List<GetByChildrenDetailDto>>> GetChildrenDetailss();
+
+    }
 }

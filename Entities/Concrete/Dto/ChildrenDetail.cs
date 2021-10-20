@@ -9,17 +9,19 @@ namespace Entities.Concrete.Dto
 {
    public class ChildrenDetail:IDto
     {
-        
-        public List<Children> Children { get; set; }
+      
+        public Children Children { get; set; }
         
         public List<Telephone> Telephones { get; set; }
 
-        public List< ChildrenPersonDetail> ChildrenPersonDetail { get; set; }
-   
-        
-       
-       
-        
+        public List<ChildrenPersonDetail> ChildrenPersonDetail { get; set; }
+
+        public List<ChildrenSiblings> ChildrenSiblings { get; set; }
+
+
+
+
+
 
 
     }

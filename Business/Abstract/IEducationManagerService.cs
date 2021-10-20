@@ -8,7 +8,7 @@ using Entities.Concrete;
 
 namespace Business.Abstract
 {
-   public interface IEducationManagerService
+   public interface IEducationStatusService
    {
        Task<IDataResult<List<EducationStatus>>> GetAll();
        Task<IDataResult<EducationStatus>> GetByEducationId(int educationId);

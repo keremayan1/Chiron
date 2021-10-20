@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Core.DataAccess;
 using Entities.Concrete;
+using FluentValidation;
 
-namespace DataAccess.Abstract
+namespace Business.ValidationRules.FluentValidation
 {
-   public interface IJobDal:IEntityRepository<Job>,IAsyncEntityRepository<Job>
+   public class GenderValidator:AbstractValidator<Gender>
     {
     }
 }

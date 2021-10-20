@@ -9,7 +9,7 @@ using Entities.Concrete;
 
 namespace Business.Abstract
 {
-  public  interface ITelephoneService:ITelephoneRuleService
+  public  interface ITelephoneService:ITelephoneRuleService,ITelephoneRuleServiceList
     {
         Task<IDataResult<List<Telephone>>> GetAll();
         Task<IDataResult<Telephone>> GetById(int telephoneId);
@@ -17,7 +17,11 @@ namespace Business.Abstract
         Task<IResult> Update(Telephone telephone);
         Task<IResult> Delete(Telephone telephone);
         Task<IDataResult<Telephone>> GetByTelephoneNumber(string telephoneNumber);
-        Task<IResult> MultipleAdd(List<Telephone> telephones);
+       
+
+        Task<IResult> MultipleAddWithList(List<Telephone> telephones);
+        Task<IResult> MultipleDeleteWithList(List<Telephone> telephones);
+        Task<IResult> MultipleUpdateWithList(List<Telephone> telephones);
 
 
     }

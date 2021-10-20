@@ -21,5 +21,21 @@ namespace Core.Utilities.Business
 
             return null;
         }
+
+        public static IResult ListRun(params List<IResult>[] logics)
+        {
+            foreach (var logic in logics)
+            {
+                foreach (var result in logic)
+                {
+                    if (!result.Success)
+                    {
+                        return result;
+                    }  
+                } 
+            }
+
+            return null;
+        }
     }
 }

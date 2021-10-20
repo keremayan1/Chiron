@@ -8,7 +8,7 @@ using Entities.Concrete;
 
 namespace Business.Rules
 {
-  public  interface IPersonInformationRuleService<T>
+  public  interface IContactInformationRuleService<T>
     {
         IResult CheckIfNationalIdExists(string nationalId);
         IResult VerifyNationalId(T personInformation);

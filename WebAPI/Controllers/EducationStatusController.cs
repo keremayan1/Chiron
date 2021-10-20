@@ -13,9 +13,9 @@ namespace WebAPI.Controllers
     [ApiController]
     public class EducationStatusController : ControllerBase
     {
-        private IEducationManagerService _educationManagerService;
+        private IEducationStatusService _educationManagerService;
 
-        public EducationStatusController(IEducationManagerService educationManagerService)
+        public EducationStatusController(IEducationStatusService educationManagerService)
         {
             _educationManagerService = educationManagerService;
         }

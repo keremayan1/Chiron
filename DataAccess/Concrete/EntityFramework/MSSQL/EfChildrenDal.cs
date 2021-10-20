@@ -20,7 +20,7 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
         {
             
             var result = from children in context.Childrens
-                         join personInformation in context.PersonInformations on children.Id equals
+                         join personInformation in context.PersonInformations on  children.Id equals
                              personInformation.Id
                          join personGender in context.PersonGenders on personInformation.PersonGenderId equals personGender.Id
                          join gender in context.Genders on personGender.GenderId equals gender.GenderId
@@ -29,13 +29,13 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
 
                          select new GetByChildrenDetailDto
                          {
-                          Id = children.Id,
-                          NationalId = personInformation.NationalId,
-                          FirstName = personInformation.FirstName,
-                             LastName = personInformation.LastName,
-                             PersonName = person.PersonName,
-                             GenderName = gender.GenderName,
-                             TelephoneNumber = telephone.TelephoneNumber
+                          //Id = children.Id,
+                          //NationalId = personInformation.NationalId,
+                          //FirstName = personInformation.FirstName,
+                          //   LastName = personInformation.LastName,
+                          //   PersonName = person.PersonName,
+                          //   GenderName = gender.GenderName,
+                          //   TelephoneNumber = telephone.TelephoneNumber
                           
                         
                           

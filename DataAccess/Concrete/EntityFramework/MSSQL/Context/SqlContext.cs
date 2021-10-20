@@ -22,7 +22,11 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
             modelBuilder.Entity<PersonInformation>().ToTable("PersonInformations");
             modelBuilder.Entity<Children>().ToTable("Childrens");
             modelBuilder.Entity<ChildrenPerson>().ToTable("ChildrenPersons");
-           // modelBuilder.Entity<Adult>().ToTable("Adults");
+            modelBuilder.Entity<Adult>().ToTable("Adults");
+            modelBuilder.Entity<AdultWife>().ToTable("AdultWifes");
+            modelBuilder.Entity<AdultChildren>().ToTable("AdultChildrens");
+            modelBuilder.Entity<ContactInformation>().ToTable("ContactInformations");
+            modelBuilder.Entity<ChildrenSiblings>().ToTable("ChildrenSiblings");
         }
 
         public DbSet<Person> Persons { get; set; }
@@ -32,7 +36,7 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
         public DbSet<EducationStatus> EducationStatus { get; set; }
         public DbSet<Children> Childrens { get; set; }
         public DbSet<FamilyStatus> FamilyStatus { get; set; }
-        public DbSet<Job> Jobs { get; set; }
+      
         public DbSet<ChildrenPerson> ChildrenPersons { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Telephone> Telephones { get; set; }
@@ -43,7 +47,12 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
         public DbSet<QuestionTitle> QuestionTitles { get; set; }
         public DbSet<QuestionAnswer>     QuestionAnswers { get; set; }
         public DbSet<MarriedStatus> MarriedStatus { get; set; }
-       // public DbSet<Adult> Adults { get; set; }
+        public DbSet<Adult> Adults { get; set; }
+       public DbSet<Religion> Religions { get; set; }
+       public DbSet<AdultWife> AdultWifes { get; set; }
+       public DbSet<AdultChildren> AdultChildrens { get; set; }
+       public DbSet<ContactInformation> ContactInformations { get; set; }
+       public DbSet<ChildrenSiblings> ChildrenSiblings { get; set; }
 
 
 

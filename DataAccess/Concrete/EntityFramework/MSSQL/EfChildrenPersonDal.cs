@@ -28,22 +28,21 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
                          join familyStatus in context.FamilyStatus on childrenPerson.FamilyStatusId equals familyStatus.Id
                          join educationStatus in context.EducationStatus on childrenPerson.EducationStatusId equals
                              educationStatus.Id
-                         join jobs in context.Jobs on childrenPerson.JobsId equals jobs.Id
+                         
                          join address in context.Addresses on childrenPerson.Id equals address.PersonInformationId
                          join telephone in context.Telephones on childrenPerson.Id equals telephone.PersonInformationId 
                          select new ChildrenPersonDetail
                          {
-                             Id = childrenPerson.Id,
-                            
-                             NationalId = personInformation.NationalId,
-                             FirstName = personInformation.FirstName,
-                             LastName = personInformation.FirstName,
-                             PersonName = person.PersonName,
-                             GenderName = gender.GenderName,
-                             DateOfBirth = personInformation.DateOfBirth,
-                             EducationStausName = educationStatus.Name,
-                             FamilyName = familyStatus.Name,
-                             JobName = jobs.Name,
+                             //Id = childrenPerson.Id,
+                             //NationalId = personInformation.NationalId,
+                             //FirstName = personInformation.FirstName,
+                             //LastName = personInformation.FirstName,
+                             //PersonName = person.PersonName,
+                             //GenderName = gender.GenderName,
+                             //DateOfBirth = personInformation.DateOfBirth,
+                             //EducationStausName = educationStatus.Name,
+                             //FamilyName = familyStatus.Name,
+                             //JobName = jobs.Name,
                             
 
                          };

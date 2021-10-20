@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.Concrete.Dto;
 
 namespace Business.Abstract
 {
@@ -16,6 +17,9 @@ namespace Business.Abstract
         Task<IResult> Update(Address address);
         Task<IResult> Delete(Address address);
       
-        Task<IResult> MultipleAdd2(List<Address> addresses);
+        Task<IResult> MultipleAddWithList(List<Address> addresses);
+        Task<IResult> MultipleDeleteWithList(List<Address> childrenPersonDetails);
+        Task<IResult> MultipleUpdateWithList(List<Address> childrenPersonDetails);
+
     }
 }

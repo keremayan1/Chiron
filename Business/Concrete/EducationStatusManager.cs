@@ -11,7 +11,7 @@ using Entities.Concrete;
 
 namespace Business.Concrete
 {
-    public class EducationStatusManager : IEducationManagerService
+    public class EducationStatusManager : IEducationStatusService
     {
         private IEducationStatusDal _educationStatusDal;
 

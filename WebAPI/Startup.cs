@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.DependencyResolvers;
 using Core.Extensions;
+using Core.Utilities.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.Jwt;
 using Microsoft.IdentityModel.Tokens;
@@ -35,7 +36,7 @@ namespace WebAPI
 
             services.AddControllers();
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
-
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {

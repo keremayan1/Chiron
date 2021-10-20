@@ -18,6 +18,8 @@ namespace Core.DataAccess
        Task MultipleAddAsync(T[] entities);
        Task<bool> AnyAsync(Expression<Func<T, bool>> filter);
        Task MultipleAddAsyncWithList(List<T> entities);
+       Task MultipleUpdateAsyncWithList(List<T> entities);
+       Task MultipleDeleteAsyncWithList(List<T> entities);
 
-   }
+    }
 }

@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+using Core.DataAccess;
+using Entities.Concrete;
+using Entities.Concrete.Dto.SelectProcess;
+
+namespace DataAccess.Abstract
+{
+   public interface IAdultChildrenDal:IEntityRepository<AdultChildren>,IAsyncEntityRepository<AdultChildren>
+   {
+       Task<List<GetAdultChildrenDto>>
+           GetAdultChildrenDetail(Expression<Func<GetAdultChildrenDto, bool>> filter = null);
+   }
+}

@@ -12,8 +12,9 @@ namespace Business.ValidationRules.FluentValidation
     {
         public ChildrenDetailValidator()
         {
-            RuleForEach(p => p.Children).SetValidator(new ChildrenValidator());
-            RuleForEach(p => p.ChildrenPersonDetail).SetValidator(new ChildrenPersonValidator());
+            
+            RuleFor(p => p.Children).SetValidator(new ChildrenValidator());
+            RuleForEach(p => p.ChildrenPersonDetail).SetValidator(new ChildrenPersonDetailValidator());
             RuleForEach(p => p.Telephones).SetValidator(new TelephoneValidator());
             
         }

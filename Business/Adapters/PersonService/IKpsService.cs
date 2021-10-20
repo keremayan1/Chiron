@@ -5,7 +5,7 @@ namespace Business.Adapters.PersonService
 {
   public  interface IKpsService
   {
-      Task<bool> Verify(PersonInformation personInformation);
+      Task<bool> Verify(ContactInformation contactInformation);
   }
 
  
