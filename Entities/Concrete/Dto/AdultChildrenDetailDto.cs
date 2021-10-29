@@ -9,16 +9,9 @@ namespace Entities.Concrete.Dto
 {
   public  class AdultChildrenDetailDto:IDto
     {
-      
-   
-        
-        public List<Children> Childrens { get; set; }
-        public AdultChildren AdultChildren { get; set; }
-        public int FamilyStatusId { get; set; }
-
-
        
-
+        public List<AdultChildren> AdultChildren { get; set; }
+        public int FamilyStatusId { get; set; }
       
     }
 }

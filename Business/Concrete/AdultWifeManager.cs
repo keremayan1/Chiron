@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -28,15 +30,25 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<AdultWife>(await _adultWifeDal.GetAsync(aw => aw.Id == adultWifeId));
         }
-
+       
         public async Task<IResult> Add(AdultWife adultWife)
         {
+            var result = BusinessRules.Run(ToUpper(adultWife));
+            if (result!=null)
+            {
+                return result;
+            }
             await _adultWifeDal.AddAsync(adultWife);
             return new SuccessResult();
         }
 
         public async Task<IResult> Update(AdultWife adultWife)
         {
+            var result = BusinessRules.Run(ToUpper(adultWife));
+            if (result != null)
+            {
+                return result;
+            }
             await _adultWifeDal.UpdateAsync(adultWife);
             return new SuccessResult();
 
@@ -45,6 +57,14 @@ namespace Business.Concrete
         public async Task<IResult> Delete(AdultWife adultWife)
         {
             await _adultWifeDal.DeleteAsync(adultWife);
+            return new SuccessResult();
+        }
+
+        public IResult ToUpper(AdultWife adultWife)
+        {
+            adultWife.FirstName = adultWife.FirstName.ToUpper();
+            adultWife.LastName = adultWife.LastName.ToUpper();
+            adultWife.JobName = adultWife.JobName.ToUpper();
             return new SuccessResult();
         }
     }

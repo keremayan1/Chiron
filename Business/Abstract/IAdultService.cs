@@ -20,6 +20,6 @@ namespace Business.Abstract
         Task<IResult> Delete(Adult adult);
         Task<IDataResult<List<AdultDetailDto>>> GetAdultDetails();
       
-        Task<IResult> MultipleAdd(AdultDetailDto adultDetail);
+        Task<IResult> AdultDetailDtoAdd(AdultDetailDto adultDetail);
     }
 }

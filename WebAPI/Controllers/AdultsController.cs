@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> Add(AdultDetailDto adultChildrenDetail)
         {
-            var result = await _adultService.MultipleAdd(adultChildrenDetail);
+            var result = await _adultService.AdultDetailDtoAdd(adultChildrenDetail);
             if (result.Success)
             {
                 return Ok(result);

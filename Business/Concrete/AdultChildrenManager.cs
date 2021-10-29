@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Business.Abstract;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -15,15 +17,11 @@ namespace Business.Concrete
     public class AdultChildrenManager : IAdultChildrenService
     {
         private IAdultChildrenDal _adultChildrenDal;
-        private IChildrenService _childrenService;
-        private IPersonInformationService _personInformationService;
-        private IChildrenPersonService _childrenPersonService;
+       
         public AdultChildrenManager(IAdultChildrenDal adultChildrenDal, IChildrenService childrenService, IPersonInformationService personInformationService, IChildrenPersonService childrenPersonService)
         {
             _adultChildrenDal = adultChildrenDal;
-            _childrenService = childrenService;
-            _personInformationService = personInformationService;
-            _childrenPersonService = childrenPersonService;
+            
         }
 
         public async Task<IDataResult<List<AdultChildren>>> GetAll()
@@ -45,29 +43,38 @@ namespace Business.Concrete
         {
             throw new NotImplementedException();
         }
-
+        [ValidationAspect(typeof(AdultChildrenDetailValidator))]
         public async Task<IResult> AddAdultChildrenDetail(AdultChildrenDetailDto adultChildrenDetailDto)
         {
             var result = BusinessRules.Run(ToUpper(adultChildrenDetailDto));
-            if (result!=null)
+            if (result != null)
             {
                 return result;
             }
-            await _childrenService.MultipleAdd(adultChildrenDetailDto.Childrens);
-           GetByChildrenIdToAdultChildrenId(adultChildrenDetailDto);
-            await _adultChildrenDal.AddAsync(adultChildrenDetailDto.AdultChildren);
-           return new SuccessResult();
-
+            await _adultChildrenDal.MultipleAddAsyncWithList(adultChildrenDetailDto.AdultChildren);
+            return new SuccessResult();
         }
 
         public async Task<IResult> UpdateAdultChildrenDetail(AdultChildrenDetailDto adultChildrenDetailDto)
         {
-            throw new NotImplementedException();
+            var result = BusinessRules.Run(ToUpper(adultChildrenDetailDto));
+            if (result != null)
+            {
+                return result;
+            }
+            await _adultChildrenDal.MultipleUpdateAsyncWithList(adultChildrenDetailDto.AdultChildren);
+            return new SuccessResult();
         }
 
         public async Task<IResult> DeleteAdultChildrenDetail(AdultChildrenDetailDto adultChildrenDetailDto)
         {
-            throw new NotImplementedException();
+            var result = BusinessRules.Run(ToUpper(adultChildrenDetailDto));
+            if (result != null)
+            {
+                return result;
+            }
+            await _adultChildrenDal.MultipleDeleteAsyncWithList(adultChildrenDetailDto.AdultChildren);
+            return new SuccessResult();
         }
 
         public async Task<IResult> MultipleAddAdultChildrenList(List<AdultChildrenDetailDto> adultChildrenDetailDto)
@@ -79,29 +86,23 @@ namespace Business.Concrete
                 {
                     return result;
                 }
-                await _childrenService.MultipleAdd(childrenDetailDto.Childrens);
-                GetByChildrenIdToAdultChildrenId(childrenDetailDto);
-                await _adultChildrenDal.AddAsync(childrenDetailDto.AdultChildren);
-               
+
+
+                await _adultChildrenDal.MultipleAddAsyncWithList(childrenDetailDto.AdultChildren);
+
             }
             return new SuccessResult();
         }
 
-        private static void GetByChildrenIdToAdultChildrenId(AdultChildrenDetailDto childrenDetailDto)
-        {
-            foreach (var children in childrenDetailDto.Childrens)
-            {
-                childrenDetailDto.AdultChildren.Id = children.Id;
-            }
-        }
+
         public IResult ToUpper(AdultChildrenDetailDto adultChildrenDetailDto)
         {
-            foreach (var children in adultChildrenDetailDto.Childrens)
+            foreach (var adultChild in adultChildrenDetailDto.AdultChildren)
             {
-                children.FirstName = children.FirstName.ToUpper();
-                children.LastName = children.LastName.ToUpper();
+                adultChild.FirstName = adultChild.FirstName.ToUpper();
+                adultChild.LastName = adultChild.LastName.ToUpper();
             }
-            
+
             return new SuccessResult();
 
         }

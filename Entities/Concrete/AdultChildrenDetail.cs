@@ -7,10 +7,7 @@ using Core.Entities;
 
 namespace Entities.Concrete
 {
-   public class AdultChildren:PersonInformation,IEntity
+   public class AdultChildrenDetail:Children,IEntity
     {
-        
-        public int HowManyChildrens { get; set; }
-
     }
 }

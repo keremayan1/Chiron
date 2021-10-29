@@ -8,10 +8,8 @@ using Core.Entities;
 
 namespace Entities.Concrete
 {
-   public class Adult:PersonInformation,IEntity
+   public class Adult:ContactInformation,IEntity
     {
-       
-       
 
         public string EthnicName { get; set; }
         public int ReligionId { get; set; }
@@ -21,7 +19,6 @@ namespace Entities.Concrete
         public string HerHasJob { get; set; }
         public string WhereIsLiveCountry { get; set; }
         public string WhereIsLiveHerHasDoes { get; set; }
-
         public string WhoDidSheHeComeWith { get; set; }
         public string ReasonOfApplication { get; set; }
         public DateTime IsAdded { get; set; }

@@ -18,7 +18,7 @@ namespace Entities.Concrete.Dto
         public List<AdultChildrenDetailDto> AdultChildrenDetail { get; set; }
         public bool DoesHaveWife { get; set; }
         public AdultWife AdultWifes { get; set; }
-        public ChildrenPerson ChildrenPerson { get; set; }
+        
         
        
     

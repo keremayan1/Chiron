@@ -94,6 +94,9 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<ChildrenSiblingsManager>().As<IChildrenSiblingsService>().SingleInstance();
             builder.RegisterType<EfChildrenSiblingsDal>().As<IChildrenSiblingsDal>().SingleInstance();
+
+            builder.RegisterType<AdultAdultChildrenManager>().As<IAdultAdultChildrenService>().SingleInstance();
+            builder.RegisterType<EfAdultAdultChildren>().As<IAdultAdultChildrenDal>().SingleInstance();
                 
             builder.RegisterType<KpsServiceManager>().As<IKpsService>().SingleInstance();
 

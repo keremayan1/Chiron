@@ -12,13 +12,15 @@ namespace Business.ValidationRules.FluentValidation
     {
         public AdultDetailValidator()
         {
-            RuleFor(ad => ad.ChildrenPerson).SetValidator(new ChildrenPersonValidator());
+          
             RuleForEach(ad => ad.Addresses).SetValidator(new AddressValidator());
             RuleForEach(ad => ad.Telephones).SetValidator(new TelephoneValidator());
             RuleFor(ad => ad.DoesHaveChildren).NotNull().WithMessage("Bos olamaz");
             RuleFor(ad => ad.DoesHaveWife).NotNull().WithMessage("Evlilik Durumu Bos Gecilemez");
-            RuleForEach(ad => ad.AdultChildrenDetail).SetValidator(new AdultChildrenDetailValidator());
+           // RuleForEach(ad => ad.AdultChildrenDetail).SetValidator(new AdultChildrenDetailValidator());
             RuleFor(ad => ad.Adults).SetValidator(new AdultValidator());
+            When(ad => ad.DoesHaveChildren==true, () =>
+                RuleForEach(ad => ad.AdultChildrenDetail).SetValidator(new AdultChildrenDetailValidator()));
 
 
         }

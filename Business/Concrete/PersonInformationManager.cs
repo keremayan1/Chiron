@@ -19,14 +19,14 @@ namespace Business.Concrete
     public class PersonInformationManager : IPersonInformationService
     {
         private IPersonInformationDal _personInformationDal;
-        private IKpsService _kpsService;
+       
         private IPersonGenderService _personGenderService;
         
 
-        public PersonInformationManager(IPersonInformationDal personInformationDal, IKpsService kpsService, IGenderService genderService, IPersonService personService, IPersonGenderService personGenderService)
+        public PersonInformationManager(IPersonInformationDal personInformationDal, IPersonGenderService personGenderService)
         {
             _personInformationDal = personInformationDal;
-            _kpsService = kpsService;
+           
             
             _personGenderService = personGenderService;
         }

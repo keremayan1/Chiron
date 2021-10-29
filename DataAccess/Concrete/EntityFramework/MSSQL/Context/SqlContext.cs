@@ -53,6 +53,9 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL.Context
        public DbSet<AdultChildren> AdultChildrens { get; set; }
        public DbSet<ContactInformation> ContactInformations { get; set; }
        public DbSet<ChildrenSiblings> ChildrenSiblings { get; set; }
+       public DbSet<AdultAdultChildren> AdultAdultChildrens { get; set; }
+
+
 
 
 

@@ -69,7 +69,6 @@ namespace Business.Concrete
         {
             foreach (var childrenPersonDetail in childrenPersonDetails)
             {
-              
                 var result = BusinessRules.Run(CheckTelephoneNumberExists(childrenPersonDetail.Telephones));
                 if (result != null)
                 {

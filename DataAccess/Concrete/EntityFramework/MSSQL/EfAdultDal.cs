@@ -19,7 +19,7 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
         public async Task<List<AdultDetailDto>> GetAdultDetails(Expression<Func<AdultDetailDto, bool>> filter = null)
         {
             var result = from adult in context.Adults
-                join personInformation in context.PersonInformations on adult.Id equals personInformation.Id
+                join contactInformation in context.ContactInformations on adult.Id equals contactInformation.Id
                 join personGender in context.PersonGenders on adult.PersonGenderId equals personGender.Id
                 join gender in context.Genders on personGender.GenderId equals gender.GenderId
                 join person in context.Persons on personGender.PersonId equals person.PersonId
