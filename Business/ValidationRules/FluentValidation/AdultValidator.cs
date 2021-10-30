@@ -12,13 +12,8 @@ namespace Business.ValidationRules.FluentValidation
     {
         public AdultValidator()
         {
-            //RuleFor(a => a.NationalId).NotNull().WithMessage("TC-Kimlik No Boş Geçilemez!");
-            //RuleFor(a => a.NationalId).MinimumLength(11).WithMessage("TC-Kimlik No 11 Karakter Olmak Zorundadır");
-            RuleFor(a => a.FirstName).NotNull().WithMessage("Adı  Boş Geçilemez!");
-            RuleFor(a => a.FirstName).Length(2, 65).WithMessage("Adı En az 2 en fazla 65 karakter olmak zorundadır");
-            RuleFor(a => a.LastName).NotNull().WithMessage("Soyadı  Boş Geçilemez!");
-            RuleFor(a => a.LastName).Length(2, 65).WithMessage("Soyadı En az 2 en fazla 65 karakter olmak zorundadır");
-            RuleFor(a => a.DateOfBirth).NotNull().WithMessage("DOB boş olamaz");
+           
+           Include(new PersonInformationValidator());
             RuleFor(a => a.JobName).NotNull().WithMessage("Mesleği Boş Olamaz");
             RuleFor(a => a.JobName).MinimumLength(2).WithMessage("Mesleği En Az 2 karakterli olmalıdır");
             RuleFor(a => a.JobName).MaximumLength(150).WithMessage("Mesleği En Fazla 150 karakterli olmalıdır");

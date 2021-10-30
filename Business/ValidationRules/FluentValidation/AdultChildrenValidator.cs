@@ -9,9 +9,10 @@ namespace Business.ValidationRules.FluentValidation
     {
         public AdultChildrenValidator()
         {
-            RuleFor(ac => ac.FirstName).NotNull();
+           Include(new PersonInformationValidator()); //Inheritance alinan sinifi cagirmasi Include==>Dahil Etmek
             RuleFor(ac => ac.HowManyChildrens).NotNull().WithMessage("Kaç Tane Çocuk Değeri  Boş Girilemez");
             RuleFor(ac => ac.HowManyChildrens).GreaterThan(0).WithMessage("Kaç Tane çocuk değeri 0'dan büyük olmalıdır");
+        
 
         }
     }

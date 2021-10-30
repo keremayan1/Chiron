@@ -23,20 +23,20 @@ namespace Business.Concrete
         private ITelephoneService _telephoneService;
         private IAdultChildrenService _adultChildrenService;
         private IAdultWifeService _adultWifeService;
-        private IChildrenPersonService _childrenPersonService;
+      
         private IAddressService _addressService;
         private IContactInformationService _contactInformationService;
         private IAdultAdultChildrenService _adultAdultChildrenService;
 
 
-        public AdultManager(IAdultDal adultDal, ITelephoneService telephoneService, IAdultChildrenService adultChildrenService, IAdultWifeService adultWifeService, IChildrenPersonService childrenPersonService, IAddressService addressService, IContactInformationService contactInformationService, IAdultAdultChildrenService adultAdultChildrenService)
+        public AdultManager(IAdultDal adultDal, ITelephoneService telephoneService, IAdultChildrenService adultChildrenService, IAdultWifeService adultWifeService,  IAddressService addressService, IContactInformationService contactInformationService, IAdultAdultChildrenService adultAdultChildrenService)
         {
             _adultDal = adultDal;
             
             _telephoneService = telephoneService;
             _adultChildrenService = adultChildrenService;
             _adultWifeService = adultWifeService;
-            _childrenPersonService = childrenPersonService;
+            
             _addressService = addressService;
             _contactInformationService = contactInformationService;
             _adultAdultChildrenService = adultAdultChildrenService;
@@ -75,7 +75,7 @@ namespace Business.Concrete
         }
 
         
-      // [ValidationAspect(typeof(AdultDetailValidator))]
+       [ValidationAspect(typeof(AdultDetailValidator))]
         public async Task<IResult> AdultDetailDtoAdd(AdultDetailDto adultDetail)
         {
             var result = BusinessRules.Run(/*VerifyNationalId(adultDetail.Adults),
@@ -86,12 +86,12 @@ namespace Business.Concrete
             }
           
             await _adultDal.AddAsync(adultDetail.Adults);
-            await HaveChildren(adultDetail);
             await HaveWife(adultDetail);
+            await HaveChildren(adultDetail);
             await AdultAdultChildrenAdd(adultDetail);
             await _telephoneService.MultipleAddWithList(adultDetail.Telephones);
             await _addressService.MultipleAddWithList(adultDetail.Addresses);
-            return new SuccessResult();
+            return new SuccessResult("Basarili");
         }
 
         private async Task AdultAdultChildrenAdd(AdultDetailDto adultDetail)
@@ -143,7 +143,7 @@ namespace Business.Concrete
 
             }
         }
-        [ValidationAspect(typeof(AdultChildrenDetailValidator))]
+  
         private async Task HaveChildren(AdultDetailDto adultDetail)
         {
             if (adultDetail.DoesHaveChildren)

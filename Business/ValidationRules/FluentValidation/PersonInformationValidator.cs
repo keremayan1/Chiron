@@ -12,10 +12,13 @@ namespace Business.ValidationRules.FluentValidation
     {
         public PersonInformationValidator()
         {
-           // RuleFor(ps => ps.NationalId).NotEmpty().WithMessage("TC-Kimlik No Boş Olamaz!");
-            
-           // RuleFor(ps => ps.NationalId).Length(11).WithMessage("TC-Kimlik No 11 Karakter Olmalıdır");
+          
             RuleFor(ps => ps.FirstName).NotEmpty().WithMessage("Ad Boş Olamaz!");
+            RuleFor(ps => ps.FirstName).MinimumLength(2).WithMessage("Karakter Min 2 Karakter Olmalidir");
+            RuleFor(c => c.LastName).NotEmpty().WithMessage("Soyad Boş Olamaz!");
+            RuleFor(c => c.LastName).MinimumLength(2).WithMessage("Soyad Minimum 2 Karakterli Olmalıdır!");
+            RuleFor(ps => ps.DateOfBirth).NotNull().WithMessage("DOB bos gecilemez");
+           
         }
     }
 }

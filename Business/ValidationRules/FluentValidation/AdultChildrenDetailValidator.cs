@@ -10,7 +10,8 @@ namespace Business.ValidationRules.FluentValidation
         {
        
             RuleForEach(ac => ac.AdultChildren).SetValidator(new AdultChildrenValidator());
-            RuleFor(ac => ac.FamilyStatusId).GreaterThan(0).WithMessage("Aile Durumu Id'si 0'dan buyuk olmalidir");
+            RuleFor(ac => ac.FamilyStatusId).GreaterThanOrEqualTo(0).WithMessage("Aile Durumu Id'si 0'dan buyuk olmalidir");
+
         }
     }
 }

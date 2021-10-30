@@ -7,9 +7,7 @@ namespace Business.ValidationRules.FluentValidation
     {
         public ChildrenValidator()
         {
-            RuleFor(c => c.NationalId).NotNull().WithMessage("Hata");
-            //RuleFor(c => c.NationalId).MinimumLength(11).WithMessage("TC-Kimlik No 11 Karakterli olmalıdır");
-          
+            Include(new ContactInformationValidator());
         }
     }
 }
