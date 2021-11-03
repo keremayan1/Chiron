@@ -13,7 +13,7 @@ namespace Business.ValidationRules.FluentValidation
         public AdultValidator()
         {
            
-           Include(new PersonInformationValidator());
+           Include(new ContactInformationValidator());
             RuleFor(a => a.JobName).NotNull().WithMessage("Mesleği Boş Olamaz");
             RuleFor(a => a.JobName).MinimumLength(2).WithMessage("Mesleği En Az 2 karakterli olmalıdır");
             RuleFor(a => a.JobName).MaximumLength(150).WithMessage("Mesleği En Fazla 150 karakterli olmalıdır");

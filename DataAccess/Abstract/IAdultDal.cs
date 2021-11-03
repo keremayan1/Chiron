@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using Core.DataAccess;
 using Entities.Concrete;
 using Entities.Concrete.Dto;
+using Entities.Concrete.Dto.SelectProcess;
 
 namespace DataAccess.Abstract
 {
   public  interface IAdultDal:IEntityRepository<Adult>,IAsyncEntityRepository<Adult>
   {
-      Task<List<AdultDetailDto>> GetAdultDetails(Expression<Func<AdultDetailDto, bool>> filter = null);
+  
+     // Task<List<AdultDetailWithRead>> GetAdultsDetail(Expression<Func<AdultDetailWithRead, bool>> filter = null);
   }
 }

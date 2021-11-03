@@ -13,6 +13,7 @@ namespace Business.Abstract
     {
         Task<IDataResult<List<Telephone>>> GetAll();
         Task<IDataResult<Telephone>> GetById(int telephoneId);
+        Task<IDataResult<List<Telephone>>> GetByPersonInformationId(int personInformationId);
         Task<IResult> Add(Telephone telephone);
         Task<IResult> Update(Telephone telephone);
         Task<IResult> Delete(Telephone telephone);

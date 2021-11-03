@@ -19,24 +19,24 @@ namespace Business.Concrete
     public class AdultManager : IAdultService
     {
         private IAdultDal _adultDal;
-      
+
         private ITelephoneService _telephoneService;
         private IAdultChildrenService _adultChildrenService;
         private IAdultWifeService _adultWifeService;
-      
+
         private IAddressService _addressService;
         private IContactInformationService _contactInformationService;
         private IAdultAdultChildrenService _adultAdultChildrenService;
 
 
-        public AdultManager(IAdultDal adultDal, ITelephoneService telephoneService, IAdultChildrenService adultChildrenService, IAdultWifeService adultWifeService,  IAddressService addressService, IContactInformationService contactInformationService, IAdultAdultChildrenService adultAdultChildrenService)
+        public AdultManager(IAdultDal adultDal, ITelephoneService telephoneService, IAdultChildrenService adultChildrenService, IAdultWifeService adultWifeService, IAddressService addressService, IContactInformationService contactInformationService, IAdultAdultChildrenService adultAdultChildrenService)
         {
             _adultDal = adultDal;
-            
+
             _telephoneService = telephoneService;
             _adultChildrenService = adultChildrenService;
             _adultWifeService = adultWifeService;
-            
+
             _addressService = addressService;
             _contactInformationService = contactInformationService;
             _adultAdultChildrenService = adultAdultChildrenService;
@@ -49,7 +49,9 @@ namespace Business.Concrete
 
         public async Task<IDataResult<Adult>> GetById(int adultId)
         {
-            return new SuccessDataResult<Adult>(await _adultDal.GetAsync(a => a.Id == adultId));
+            var result = await _adultDal.GetAsync(a => a.Id == adultId);
+            await _telephoneService.GetByPersonInformationId(result.Id);
+            return new SuccessDataResult<Adult>(result);
         }
 
         public async Task<IResult> Add(Adult adult)
@@ -69,22 +71,19 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IDataResult<List<AdultDetailDto>>> GetAdultDetails()
-        {
-            return new SuccessDataResult<List<AdultDetailDto>>(await _adultDal.GetAdultDetails());
-        }
-
         
-       [ValidationAspect(typeof(AdultDetailValidator))]
+
+
+        [ValidationAspect(typeof(AdultDetailValidator))]
         public async Task<IResult> AdultDetailDtoAdd(AdultDetailDto adultDetail)
         {
             var result = BusinessRules.Run(/*VerifyNationalId(adultDetail.Adults),
                 CheckIfNationalIdExists(adultDetail.Adults.NationalId),CheckTelephoneListNumberExists(adultDetail.Telephones)*/);
-            if (result!=null)
+            if (result != null)
             {
                 return result;
             }
-          
+
             await _adultDal.AddAsync(adultDetail.Adults);
             await HaveWife(adultDetail);
             await HaveChildren(adultDetail);
@@ -143,7 +142,7 @@ namespace Business.Concrete
 
             }
         }
-  
+
         private async Task HaveChildren(AdultDetailDto adultDetail)
         {
             if (adultDetail.DoesHaveChildren)
@@ -200,6 +199,6 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-     
+
     }
 }
