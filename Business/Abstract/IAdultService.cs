@@ -18,8 +18,8 @@ namespace Business.Abstract
 
         Task<IResult> Update(Adult adult);
         Task<IResult> Delete(Adult adult);
-     
 
+        Task<IDataResult<List<AdultDetailDto>>> GetAdultsDetails();
         Task<IResult> AdultDetailDtoAdd(AdultDetailDto adultDetail);
     }
 }

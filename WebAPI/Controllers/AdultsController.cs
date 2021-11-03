@@ -19,17 +19,17 @@ namespace WebAPI.Controllers
         {
             _adultService = adultService;
         }
-        //[HttpGet("getall")]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    var result = await _adultService.Add();
-        //    if (result.Success)
-        //    {
-        //        return Ok(result);
-        //    }
+        [HttpGet("getall")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _adultService.GetAdultsDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
 
-        //    return BadRequest(result);
-        //}
+            return BadRequest(result);
+        }
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetById(int id)
         {

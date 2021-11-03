@@ -71,7 +71,10 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        
+        public async Task<IDataResult<List<AdultDetailDto>>> GetAdultsDetails()
+        {
+            return new SuccessDataResult<List<AdultDetailDto>>(await _adultDal.GetAdultDetails2());
+        }
 
 
         [ValidationAspect(typeof(AdultDetailValidator))]

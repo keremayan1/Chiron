@@ -102,10 +102,6 @@ namespace DataAccess.Concrete.EntityFramework.MSSQL
                              //},
                              TelephoneNumber = string.Join(',',from telephone2 in context.Telephones where adult.Id == telephone2.PersonInformationId select telephone2.TelephoneNumber + " "+ telephone2.PersonInformationId),
                              AddressName = string.Join(',', from address in context.Addresses where adult.Id==address.PersonInformationId select address.AddressName)
-                             
-
-
-
 
                          };
             return filter == null ? await result.ToListAsync() : await result.Where(filter).ToListAsync();

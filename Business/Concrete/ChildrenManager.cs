@@ -68,7 +68,6 @@ namespace Business.Concrete
             MultipleProcessInChildrenPerson(children);
             await _childrenPersonService.MultipleAddWithList(children.ChildrenPersonDetail);
             MultipleProcessInTelephonesOnChildren(children);
-
             await _telephoneService.MultipleAddWithList(children.Telephones);
             foreach (var childrenSibling in children.ChildrenSiblings)
             {
