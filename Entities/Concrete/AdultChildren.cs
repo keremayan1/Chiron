@@ -9,7 +9,7 @@ namespace Entities.Concrete
 {
    public class AdultChildren:PersonInformation,IEntity
     {
-        public Adult Adult { get; set; }
+       
         public int HowManyChildrens { get; set; }
 
     }
