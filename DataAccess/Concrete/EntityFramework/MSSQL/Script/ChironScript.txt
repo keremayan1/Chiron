@@ -1,6 +1,6 @@
 ﻿USE [Chiron]
 GO
-/****** Object:  Table [dbo].[Addresses]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[Addresses]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15,7 +15,76 @@ CREATE TABLE [dbo].[Addresses](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ChildrenPersons]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[AdultAdultChildrens]    Script Date: 11/3/2021 10:59:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AdultAdultChildrens](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[AdultId] [int] NULL,
+	[AdultChildrenId] [int] NULL,
+ CONSTRAINT [PK_AdultAdultChildrens] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[AdultChildrens]    Script Date: 11/3/2021 10:59:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AdultChildrens](
+	[Id] [int] NOT NULL,
+	[HowManyChildrens] [int] NOT NULL,
+ CONSTRAINT [PK_AdultChildrens] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Adults]    Script Date: 11/3/2021 10:59:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Adults](
+	[Id] [int] NOT NULL,
+	[EthnicName] [nvarchar](250) NOT NULL,
+	[ReligionId] [int] NOT NULL,
+	[EducationStatusId] [int] NOT NULL,
+	[MarriedStatusId] [int] NOT NULL,
+	[JobName] [nvarchar](500) NOT NULL,
+	[HerHasJob] [nvarchar](500) NOT NULL,
+	[WhereIsLiveCountry] [nvarchar](500) NOT NULL,
+	[WhereIsLiveHerHasDoes] [nvarchar](500) NOT NULL,
+	[WhoDidSheHeComeWith] [nvarchar](50) NOT NULL,
+	[ReasonOfApplication] [nvarchar](max) NOT NULL,
+	[IsAdded] [date] NOT NULL,
+	[IsActive] [bit] NOT NULL,
+ CONSTRAINT [PK_Adults] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[AdultWifes]    Script Date: 11/3/2021 10:59:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AdultWifes](
+	[Id] [int] NOT NULL,
+	[WifeId] [int] NOT NULL,
+	[JobName] [nvarchar](500) NOT NULL,
+ CONSTRAINT [PK_AdultWifes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ChildrenPersons]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -25,14 +94,14 @@ CREATE TABLE [dbo].[ChildrenPersons](
 	[ChildrenId] [int] NOT NULL,
 	[FamilyStatusId] [int] NOT NULL,
 	[EducationStatusId] [int] NOT NULL,
-	[JobsId] [int] NOT NULL,
+	[JobName] [nvarchar](500) NOT NULL,
  CONSTRAINT [PK_ChildrenPersons] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Childrens]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[Childrens]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -47,7 +116,37 @@ CREATE TABLE [dbo].[Childrens](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EducationStatus]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[ChildrenSiblings]    Script Date: 11/3/2021 10:59:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ChildrenSiblings](
+	[Id] [int] NOT NULL,
+	[ChildrenId] [int] NOT NULL,
+	[EducationStatusId] [int] NOT NULL,
+	[WhichChild] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_ChildrenSiblings] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ContactInformations]    Script Date: 11/3/2021 10:59:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ContactInformations](
+	[Id] [int] NOT NULL,
+	[NationalId] [char](11) NOT NULL,
+ CONSTRAINT [PK_PersonInformationIdentityNumbers] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EducationStatus]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -61,7 +160,7 @@ CREATE TABLE [dbo].[EducationStatus](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[FamilyStatus]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[FamilyStatus]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -75,7 +174,7 @@ CREATE TABLE [dbo].[FamilyStatus](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Genders]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[Genders]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -89,7 +188,7 @@ CREATE TABLE [dbo].[Genders](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Jobs]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[Jobs]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -99,7 +198,21 @@ CREATE TABLE [dbo].[Jobs](
 	[Name] [nvarchar](max) NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[OperationClaims]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[MarriedStatus]    Script Date: 11/3/2021 10:59:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MarriedStatus](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_MarriedStatus] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OperationClaims]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -113,7 +226,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PersonGenders]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[PersonGenders]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -128,7 +241,7 @@ CREATE TABLE [dbo].[PersonGenders](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PersonInformations]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[PersonInformations]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -136,7 +249,6 @@ GO
 CREATE TABLE [dbo].[PersonInformations](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[PersonGenderId] [int] NOT NULL,
-	[NationalId] [nvarchar](11) NOT NULL,
 	[FirstName] [nvarchar](250) NOT NULL,
 	[LastName] [nvarchar](250) NOT NULL,
 	[DateOfBirth] [date] NOT NULL,
@@ -146,7 +258,7 @@ CREATE TABLE [dbo].[PersonInformations](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Persons]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[Persons]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -160,7 +272,37 @@ CREATE TABLE [dbo].[Persons](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Telephones]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[Questions]    Script Date: 11/3/2021 10:59:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Questions](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[QuestionTitleId] [int] NOT NULL,
+	[QuestionName] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_Questions] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[QuestionTitles]    Script Date: 11/3/2021 10:59:27 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[QuestionTitles](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[PersonId] [int] NOT NULL,
+	[QuestionTitleName] [nvarchar](250) NOT NULL,
+ CONSTRAINT [PK_QuestionTitles] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Telephones]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -168,14 +310,14 @@ GO
 CREATE TABLE [dbo].[Telephones](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[PersonInformationId] [int] NOT NULL,
-	[TelephoneNumber] [nvarchar](10) NOT NULL,
+	[TelephoneNumber] [char](10) NOT NULL,
  CONSTRAINT [PK_Telephones] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserOperationClaims]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[UserOperationClaims]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -190,7 +332,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 10/1/2021 12:13:35 PM ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 11/3/2021 10:59:27 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
