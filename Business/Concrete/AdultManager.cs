@@ -92,18 +92,28 @@ namespace Business.Concrete
             await HaveWife(adultDetail);
             await HaveChildren(adultDetail);
             await AdultAdultChildrenAdd(adultDetail);
-            foreach (var telephone in adultDetail.Telephones)
-            {
-                telephone.PersonInformationId = adultDetail.Adults.Id;
-            }
+            AdultTelephones(adultDetail);
             await _telephoneService.MultipleAddWithList(adultDetail.Telephones);
+            AdultAddresses(adultDetail);
+            await _addressService.MultipleAddWithList(adultDetail.Addresses);
+
+            return new SuccessResult("Basarili");
+        }
+
+        private static void AdultAddresses(AdultDetailDto adultDetail)
+        {
             foreach (var adultDetailAddress in adultDetail.Addresses)
             {
                 adultDetailAddress.PersonInformationId = adultDetail.Adults.Id;
             }
-            await _addressService.MultipleAddWithList(adultDetail.Addresses);
+        }
 
-            return new SuccessResult("Basarili");
+        private static void AdultTelephones(AdultDetailDto adultDetail)
+        {
+            foreach (var telephone in adultDetail.Telephones)
+            {
+                telephone.PersonInformationId = adultDetail.Adults.Id;
+            }
         }
 
         private async Task AdultAdultChildrenAdd(AdultDetailDto adultDetail)
