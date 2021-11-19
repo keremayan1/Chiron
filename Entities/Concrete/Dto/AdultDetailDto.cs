@@ -13,7 +13,6 @@ namespace Entities.Concrete.Dto
         public Adult Adults { get; set; }
         public List<Address> Addresses { get; set; }
         public List<Telephone> Telephones { get; set; }
-        public Religion Religion { get; set; }
         public string ReasonOfApplication { get; set; }
         public bool DoesHaveChildren { get; set; }
         public List<AdultChildrenDetailDto> AdultChildrenDetail { get; set; }
@@ -21,10 +20,16 @@ namespace Entities.Concrete.Dto
         public AdultWife AdultWifes { get; set; }
         public string TelephoneNumber { get; set; }
         public string AddressName { get; set; }
-        
-        
-       
-    
+        public List<string> Telephones2 { get; set; }
+        public List<string> Addresses2 { get; set; }
+        public List<string> AdultChildren { get; set; }
+
+        public string AdultWife { get; set; }
+
+        public string PersonName { get; set; }
+        public string GenderName { get; set; }
+
+
 
 
     }

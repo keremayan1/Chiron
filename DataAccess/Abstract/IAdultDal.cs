@@ -16,5 +16,6 @@ namespace DataAccess.Abstract
 
         // Task<List<AdultDetailWithRead>> GetAdultsDetail(Expression<Func<AdultDetailWithRead, bool>> filter = null);
         Task<List<AdultDetailDto>> GetAdultDetails2(Expression<Func<AdultDetailDto, bool>> filter = null);
-  }
+        Task<List<AdultDetailWithRead>> GetAdultsDetail(Expression<Func<AdultDetailWithRead, bool>> filter = null);
+    }
 }

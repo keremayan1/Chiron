@@ -9,7 +9,7 @@ namespace Business.Rules
 {
     public interface IContactInformationRuleServiceList<T>
     {
-        IResult CheckIfNationalIdExistsList(List<T> nationalId);
+      protected  IResult CheckIfNationalIdExistsList(List<T> nationalId);
         IResult VerifyNationalIdList(List<T> personInformation);
     }
 }

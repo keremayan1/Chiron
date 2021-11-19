@@ -11,9 +11,14 @@ namespace Entities.Concrete.Dto.SelectProcess
     {
         public int Id { get; set; }
         public int PersonGenderId { get; set; }
+        public string NationalId { get; set; }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        
         public DateTime DateOfBirth { get; set; }
+        public string PersonName { get; set; }
+        public string GenderName { get; set; }
         public string EthnicName { get; set; }
         public int ReligionId { get; set; }
         public string ReligionName { get; set; }
@@ -27,7 +32,13 @@ namespace Entities.Concrete.Dto.SelectProcess
         public string WhereIsLiveHerHasDoes { get; set; }
         public string WhoDidSheHeComeWith { get; set; }
         public string ReasonOfApplication { get; set; }
-        public string AddressName { get; set; }
-        public string TelephoneNumber { get; set; }
+
+        public string AdultWife { get; set; }
+        public List<string> Addresses { get; set; }
+        public List<string> Telephones { get; set; }
+        public List<string> AdultChildren { get; set; }
+
+       
+
     }
 }

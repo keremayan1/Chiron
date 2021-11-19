@@ -13,8 +13,8 @@ namespace Business.ValidationRules.FluentValidation
         public AdultDetailValidator()
         {
             RuleFor(ad => ad.Adults).SetValidator(new AdultValidator());
-            //RuleForEach(ad => ad.Addresses).SetValidator(new AddressValidator());
-            //RuleForEach(ad => ad.Telephones).SetValidator(new TelephoneValidator());
+            RuleForEach(ad => ad.Addresses).SetValidator(new AddressValidator());
+            RuleForEach(ad => ad.Telephones).SetValidator(new TelephoneValidator());
             When(ad => ad.DoesHaveWife == false, () =>
             {
                 RuleFor(ad => ad.AdultWifes).SetValidator(new AdultWifeValidator());

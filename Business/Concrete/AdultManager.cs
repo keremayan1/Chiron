@@ -13,6 +13,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Concrete.Dto;
+using Entities.Concrete.Dto.SelectProcess;
 
 namespace Business.Concrete
 {
@@ -23,7 +24,6 @@ namespace Business.Concrete
         private ITelephoneService _telephoneService;
         private IAdultChildrenService _adultChildrenService;
         private IAdultWifeService _adultWifeService;
-
         private IAddressService _addressService;
         private IContactInformationService _contactInformationService;
         private IAdultAdultChildrenService _adultAdultChildrenService;
@@ -44,6 +44,7 @@ namespace Business.Concrete
 
         public async Task<IDataResult<List<Adult>>> GetAll()
         {
+           
             return new SuccessDataResult<List<Adult>>(await _adultDal.GetAllAsync());
         }
 
@@ -77,7 +78,7 @@ namespace Business.Concrete
         }
 
 
-        [ValidationAspect(typeof(AdultDetailValidator))]
+     //   [ValidationAspect(typeof(AdultDetailValidator))]
         public async Task<IResult> AdultDetailDtoAdd(AdultDetailDto adultDetail)
         {
             var result = BusinessRules.Run(/*VerifyNationalId(adultDetail.Adults),
@@ -91,8 +92,17 @@ namespace Business.Concrete
             await HaveWife(adultDetail);
             await HaveChildren(adultDetail);
             await AdultAdultChildrenAdd(adultDetail);
+            foreach (var telephone in adultDetail.Telephones)
+            {
+                telephone.PersonInformationId = adultDetail.Adults.Id;
+            }
             await _telephoneService.MultipleAddWithList(adultDetail.Telephones);
+            foreach (var adultDetailAddress in adultDetail.Addresses)
+            {
+                adultDetailAddress.PersonInformationId = adultDetail.Adults.Id;
+            }
             await _addressService.MultipleAddWithList(adultDetail.Addresses);
+
             return new SuccessResult("Basarili");
         }
 
@@ -202,6 +212,9 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-
+        public async Task<IDataResult<List<AdultDetailWithRead>>> GetAdultDetail()
+        {
+            return new SuccessDataResult<List<AdultDetailWithRead>>(await _adultDal.GetAdultsDetail());
+        }
     }
 }

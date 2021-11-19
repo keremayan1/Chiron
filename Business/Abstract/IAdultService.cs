@@ -7,6 +7,7 @@ using Business.Rules;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.Concrete.Dto;
+using Entities.Concrete.Dto.SelectProcess;
 
 namespace Business.Abstract
 {
@@ -21,5 +22,6 @@ namespace Business.Abstract
 
         Task<IDataResult<List<AdultDetailDto>>> GetAdultsDetails();
         Task<IResult> AdultDetailDtoAdd(AdultDetailDto adultDetail);
+        Task<IDataResult<List<AdultDetailWithRead>>> GetAdultDetail();
     }
 }

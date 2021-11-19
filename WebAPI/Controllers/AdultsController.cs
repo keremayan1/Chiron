@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _adultService.GetAdultsDetails();
+            var result = await _adultService.GetAdultDetail();
             if (result.Success)
             {
                 return Ok(result);
