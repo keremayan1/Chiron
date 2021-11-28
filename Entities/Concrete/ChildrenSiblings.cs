@@ -11,7 +11,6 @@ namespace Entities.Concrete
     {
         public int ChildrenId { get; set; }
         public string WhichChild { get; set; }
-
         public int EducationStatusId { get; set; }
     }
 }

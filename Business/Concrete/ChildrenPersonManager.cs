@@ -60,20 +60,17 @@ namespace Business.Concrete
             return new SuccessResult();
         }
       
-        public async Task<IDataResult<List<ChildrenPersonDetail>>> GetChildrenPersonDetails()
-        {
-            return new SuccessDataResult<List<ChildrenPersonDetail>>(await  _childrenPersonDal.GetChildrenPersonDetails());
-        }
-     //   [ValidationAspect(typeof(ChildrenPersonDetailValidator))]
+     
+     
         public async Task<IResult> MultipleAddWithList(List<ChildrenPersonDetail> childrenPersonDetails)
         {
             foreach (var childrenPersonDetail in childrenPersonDetails)
             {
-                var result = BusinessRules.Run(CheckTelephoneNumberExists(childrenPersonDetail.Telephones));
-                if (result != null)
-                {
-                    return result;
-                }
+                //var result = BusinessRules.Run(CheckTelephoneNumberExists(childrenPersonDetail.Telephones));
+                //if (result != null)
+                //{
+                //    return result;
+                //}
                 await _childrenPersonDal.AddAsync(childrenPersonDetail.ChildrenPerson);
                 MultipleAddInAdressesOnChildrenPerson(childrenPersonDetail, childrenPersonDetail.ChildrenPerson);
                 await _addressService.MultipleAddWithList(childrenPersonDetail.Addresses);

@@ -38,6 +38,7 @@ namespace Entities.Concrete.Dto.SelectProcess
         public List<string> Telephones { get; set; }
         public List<string> AdultChildren { get; set; }
 
+
        
 
     }

@@ -13,14 +13,8 @@ namespace Business.Abstract
 {
   public  interface IAdultService:IContactInformationRuleService<Adult>,ITelephoneRuleService,ITelephoneRuleServiceList
     {
-        Task<IDataResult<List<Adult>>> GetAll();
+        
         Task<IDataResult<Adult>> GetById(int adultId);
-        Task<IResult> Add(Adult adult);
-
-        Task<IResult> Update(Adult adult);
-        Task<IResult> Delete(Adult adult);
-
-        Task<IDataResult<List<AdultDetailDto>>> GetAdultsDetails();
         Task<IResult> AdultDetailDtoAdd(AdultDetailDto adultDetail);
         Task<IDataResult<List<AdultDetailWithRead>>> GetAdultDetail();
     }

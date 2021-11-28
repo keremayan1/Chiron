@@ -13,9 +13,6 @@ namespace DataAccess.Abstract
 {
   public  interface IAdultDal:IEntityRepository<Adult>,IAsyncEntityRepository<Adult>
   {
-
-        // Task<List<AdultDetailWithRead>> GetAdultsDetail(Expression<Func<AdultDetailWithRead, bool>> filter = null);
-        Task<List<AdultDetailDto>> GetAdultDetails2(Expression<Func<AdultDetailDto, bool>> filter = null);
         Task<List<AdultDetailWithRead>> GetAdultsDetail(Expression<Func<AdultDetailWithRead, bool>> filter = null);
     }
 }

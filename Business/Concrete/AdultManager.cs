@@ -27,58 +27,27 @@ namespace Business.Concrete
         private IAddressService _addressService;
         private IContactInformationService _contactInformationService;
         private IAdultAdultChildrenService _adultAdultChildrenService;
-
-
         public AdultManager(IAdultDal adultDal, ITelephoneService telephoneService, IAdultChildrenService adultChildrenService, IAdultWifeService adultWifeService, IAddressService addressService, IContactInformationService contactInformationService, IAdultAdultChildrenService adultAdultChildrenService)
         {
             _adultDal = adultDal;
-
             _telephoneService = telephoneService;
             _adultChildrenService = adultChildrenService;
             _adultWifeService = adultWifeService;
-
             _addressService = addressService;
             _contactInformationService = contactInformationService;
             _adultAdultChildrenService = adultAdultChildrenService;
         }
-
-        public async Task<IDataResult<List<Adult>>> GetAll()
-        {
-           
-            return new SuccessDataResult<List<Adult>>(await _adultDal.GetAllAsync());
-        }
-
         public async Task<IDataResult<Adult>> GetById(int adultId)
         {
             var result = await _adultDal.GetAsync(a => a.Id == adultId);
             await _telephoneService.GetByPersonInformationId(result.Id);
             return new SuccessDataResult<Adult>(result);
         }
-
-        public async Task<IResult> Add(Adult adult)
+        public async Task<IDataResult<List<AdultDetailWithRead>>> GetAdultDetail()
         {
-            return new SuccessResult();
+            return new SuccessDataResult<List<AdultDetailWithRead>>(await _adultDal.GetAdultsDetail());
         }
-
-        public async Task<IResult> Update(Adult adult)
-        {
-            await _adultDal.UpdateAsync(adult);
-            return new SuccessResult();
-        }
-
-        public async Task<IResult> Delete(Adult adult)
-        {
-            await _adultDal.DeleteAsync(adult);
-            return new SuccessResult();
-        }
-
-        public async Task<IDataResult<List<AdultDetailDto>>> GetAdultsDetails()
-        {
-            return new SuccessDataResult<List<AdultDetailDto>>(await _adultDal.GetAdultDetails2());
-        }
-
-
-     //   [ValidationAspect(typeof(AdultDetailValidator))]
+        [ValidationAspect(typeof(AdultDetailValidator))]
         public async Task<IResult> AdultDetailDtoAdd(AdultDetailDto adultDetail)
         {
             var result = BusinessRules.Run(/*VerifyNationalId(adultDetail.Adults),
@@ -96,8 +65,7 @@ namespace Business.Concrete
             await _telephoneService.MultipleAddWithList(adultDetail.Telephones);
             AdultAddresses(adultDetail);
             await _addressService.MultipleAddWithList(adultDetail.Addresses);
-
-            return new SuccessResult("Basarili");
+             return new SuccessResult("Basarili");
         }
 
         private static void AdultAddresses(AdultDetailDto adultDetail)
@@ -162,7 +130,6 @@ namespace Business.Concrete
             {
                 GetAdultWifeId(adultDetail);
                 await _adultWifeService.Add(adultDetail.AdultWifes);
-
             }
         }
 
@@ -221,10 +188,8 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
+        
 
-        public async Task<IDataResult<List<AdultDetailWithRead>>> GetAdultDetail()
-        {
-            return new SuccessDataResult<List<AdultDetailWithRead>>(await _adultDal.GetAdultsDetail());
-        }
+       
     }
 }

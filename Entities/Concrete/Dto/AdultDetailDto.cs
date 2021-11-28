@@ -18,16 +18,7 @@ namespace Entities.Concrete.Dto
         public List<AdultChildrenDetailDto> AdultChildrenDetail { get; set; }
         public bool DoesHaveWife { get; set; }
         public AdultWife AdultWifes { get; set; }
-        public string TelephoneNumber { get; set; }
-        public string AddressName { get; set; }
-        public List<string> Telephones2 { get; set; }
-        public List<string> Addresses2 { get; set; }
-        public List<string> AdultChildren { get; set; }
-
-        public string AdultWife { get; set; }
-
-        public string PersonName { get; set; }
-        public string GenderName { get; set; }
+     
 
 
 

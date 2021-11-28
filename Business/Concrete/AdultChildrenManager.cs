@@ -86,8 +86,6 @@ namespace Business.Concrete
                 {
                     return result;
                 }
-
-
                 await _adultChildrenDal.MultipleAddAsyncWithList(childrenDetailDto.AdultChildren);
 
             }

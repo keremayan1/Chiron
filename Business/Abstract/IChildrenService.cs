@@ -7,6 +7,7 @@ using Business.Rules;
 using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.Concrete.Dto;
+using Entities.Concrete.Dto.SelectProcess;
 
 namespace Business.Abstract
 {
@@ -22,12 +23,12 @@ namespace Business.Abstract
 
 
         //ChildrenDetail
-        IDataResult<List<ChildrenDetail>> GetChildrenDetails();
+     
         Task<IResult> MultipleChildrenDetailAdd(ChildrenDetail children);
         Task<IResult> MultipleChildrenDetailUpdate(ChildrenDetail children);
         Task<IResult> MultipleChildrenDetailDelete(ChildrenDetail children);
         //
-        Task<IDataResult<List<GetByChildrenDetailDto>>> GetChildrenDetailss();
+        Task<IDataResult<List<ChildrenDetailDtoJustRead>>> GetChildrenDetails();
 
     }
 }

@@ -15,7 +15,9 @@ using Core.Utilities.Security.Jwt;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.EntityFramework.MSSQL;
+using DataAccess.Concrete.EntityFramework.MSSQL.Context;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel;
 using Module = Autofac.Module;
 
@@ -97,6 +99,8 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<AdultAdultChildrenManager>().As<IAdultAdultChildrenService>().SingleInstance();
             builder.RegisterType<EfAdultAdultChildren>().As<IAdultAdultChildrenDal>().SingleInstance();
+
+          //  builder.RegisterType<SqlContext>().As<DbContext>().SingleInstance();
                 
             builder.RegisterType<KpsServiceManager>().As<IKpsService>().SingleInstance();
 

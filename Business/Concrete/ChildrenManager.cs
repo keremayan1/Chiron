@@ -12,6 +12,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Concrete.Dto;
+using Entities.Concrete.Dto.SelectProcess;
 using FluentValidation.Results;
 
 namespace Business.Concrete
@@ -50,11 +51,8 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IDataResult<List<ChildrenDetail>> GetChildrenDetails()
-        {
-            return new SuccessDataResult<List<ChildrenDetail>>();
-        }
-        //  [ValidationAspect(typeof(ChildrenDetailValidator))]
+        
+        // [ValidationAspect(typeof(ChildrenDetailValidator))]
         public async Task<IResult> MultipleChildrenDetailAdd(ChildrenDetail children)
         {
 
@@ -69,14 +67,29 @@ namespace Business.Concrete
             await _childrenPersonService.MultipleAddWithList(children.ChildrenPersonDetail);
             MultipleProcessInTelephonesOnChildren(children);
             await _telephoneService.MultipleAddWithList(children.Telephones);
+            
+            await HaveChildrenSiblings(children);
+            return new SuccessResult("Basarili");
+        }
+
+        private async Task HaveChildrenSiblings(ChildrenDetail children)
+        {
+            if (children.DoedHaveChildrenSiblings)
+            {
+                GetChildrenSiblings(children);
+                await _childrenSiblingsService.MultipleAddWithList(children.ChildrenSiblings);
+            }
+            
+        }
+
+        private static void GetChildrenSiblings(ChildrenDetail children)
+        {
             foreach (var childrenSibling in children.ChildrenSiblings)
             {
                 childrenSibling.ChildrenId = children.Children.Id;
             }
-
-            await _childrenSiblingsService.MultipleAddWithList(children.ChildrenSiblings);
-            return new SuccessResult("Basarili");
         }
+
         [ValidationAspect(typeof(ChildrenDetailValidator))]
         public async Task<IResult> MultipleChildrenDetailUpdate(ChildrenDetail children)
         {
@@ -127,10 +140,7 @@ namespace Business.Concrete
 
 
 
-        public async Task<IDataResult<List<GetByChildrenDetailDto>>> GetChildrenDetailss()
-        {
-            return new SuccessDataResult<List<GetByChildrenDetailDto>>(await _childrenDal.GetChildrenDetails());
-        }
+    
 
         public async Task<IResult> Add(Children children)
         {
@@ -226,6 +236,18 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
-
+        private IResult ChildPersonCheckTelephoneNumberExists(string telephoneNumber)
+        {
+            var result = _childrenPersonService.CheckTelephoneNumberExists(telephoneNumber);
+            if (!result.Success)
+            {
+                return new ErrorResult(result.Message);
+            }
+            return new SuccessResult();
+        }
+        public async Task<IDataResult<List<ChildrenDetailDtoJustRead>>> GetChildrenDetails()
+        {
+            return new SuccessDataResult<List<ChildrenDetailDtoJustRead>>(await _childrenDal.GetChildrenDetails());
+        }
     }
 }

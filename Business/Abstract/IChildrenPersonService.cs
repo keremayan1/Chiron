@@ -16,7 +16,7 @@ namespace Business.Abstract
         Task<IDataResult<ChildrenPerson>> GetById(int childrenPersonId);
         Task<IResult> Update(ChildrenPerson childrenPerson);
         Task<IResult> Delete(ChildrenPerson childrenPerson);
-        Task<IDataResult<List<ChildrenPersonDetail>>> GetChildrenPersonDetails();
+       
         Task<IResult> MultipleAddWithList(List<ChildrenPersonDetail> childrenPersonDetails);
         Task<IResult> MultipleDeleteWithList(List<ChildrenPersonDetail> childrenPersonDetails);
         Task<IResult> MultipleUpdateWithList(List<ChildrenPersonDetail> childrenPersonDetails);

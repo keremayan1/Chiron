@@ -16,6 +16,8 @@ namespace Entities.Concrete.Dto
 
         public List<ChildrenPersonDetail> ChildrenPersonDetail { get; set; }
 
+        public bool DoedHaveChildrenSiblings { get; set; }
+
         public List<ChildrenSiblings> ChildrenSiblings { get; set; }
 
 
