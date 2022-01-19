@@ -224,6 +224,12 @@ namespace DataAccess.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("IsAdded")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -405,12 +411,6 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("HerHasJob")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("IsAdded")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("JobName")
                         .HasColumnType("nvarchar(max)");

@@ -123,7 +123,9 @@ namespace DataAccess.Migrations
                     PersonGenderId = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -355,9 +357,7 @@ namespace DataAccess.Migrations
                     WhereIsLiveCountry = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WhereIsLiveHerHasDoes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WhoDidSheHeComeWith = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReasonOfApplication = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    ReasonOfApplication = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
