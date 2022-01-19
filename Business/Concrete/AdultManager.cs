@@ -47,6 +47,15 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<AdultDetailWithRead>>(await _adultDal.GetAdultsDetail());
         }
+
+        public async Task<IResult> Delete(int id)
+        {
+            var result = await _adultDal.GetAsync(x => x.Id == id);
+            result.IsActive = false;
+          await  _adultDal.UpdateAsync(result);
+          return new SuccessResult("basarili");
+        }
+
         [ValidationAspect(typeof(AdultDetailValidator))]
         public async Task<IResult> AdultDetailDtoAdd(AdultDetailDto adultDetail)
         {

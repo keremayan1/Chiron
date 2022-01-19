@@ -21,9 +21,7 @@ namespace Entities.Concrete
         public string WhereIsLiveHerHasDoes { get; set; }
         public string WhoDidSheHeComeWith { get; set; }
         public string ReasonOfApplication { get; set; }
-        public DateTime IsAdded { get; set; }
-
-        public bool IsActive { get; set; }
+      
         
 
 

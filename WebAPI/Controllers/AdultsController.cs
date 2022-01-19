@@ -53,5 +53,17 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _adultService.Delete(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }

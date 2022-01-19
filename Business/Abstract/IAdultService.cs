@@ -17,5 +17,6 @@ namespace Business.Abstract
         Task<IDataResult<Adult>> GetById(int adultId);
         Task<IResult> AdultDetailDtoAdd(AdultDetailDto adultDetail);
         Task<IDataResult<List<AdultDetailWithRead>>> GetAdultDetail();
+        Task<IResult> Delete(int id);
     }
 }
