@@ -1,0 +1,563 @@
+﻿USE [Chiron]
+GO
+---Create Database Chiron
+---Go
+/****** Object:  Table [dbo].[Addresses]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Addresses](
+	[AddressId] [int] IDENTITY(1,1) NOT NULL,
+	[PersonInformationId] [int] NOT NULL,
+	[AddressName] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_Address] PRIMARY KEY CLUSTERED 
+(
+	[AddressId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[AdultAdultChildrens]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AdultAdultChildrens](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[AdultId] [int] NULL,
+	[AdultChildrenId] [int] NULL,
+ CONSTRAINT [PK_AdultAdultChildrens] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[AdultChildrens]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AdultChildrens](
+	[Id] [int] NOT NULL,
+	[HowManyChildrens] [int] NOT NULL,
+ CONSTRAINT [PK_AdultChildrens] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Adults]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Adults](
+	[Id] [int] NOT NULL,
+	[EthnicName] [nvarchar](250) NOT NULL,
+	[ReligionId] [int] NOT NULL,
+	[EducationStatusId] [int] NOT NULL,
+	[MarriedStatusId] [int] NOT NULL,
+	[JobName] [nvarchar](500) NOT NULL,
+	[HerHasJob] [nvarchar](500) NOT NULL,
+	[WhereIsLiveCountry] [nvarchar](500) NOT NULL,
+	[WhereIsLiveHerHasDoes] [nvarchar](500) NOT NULL,
+	[WhoDidSheHeComeWith] [nvarchar](50) NOT NULL,
+	[ReasonOfApplication] [nvarchar](max) NOT NULL,
+	[IsAdded] [date] NOT NULL,
+	[IsActive] [bit] NOT NULL,
+ CONSTRAINT [PK_Adults] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[AdultWifes]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[AdultWifes](
+	[Id] [int] NOT NULL,
+	[WifeId] [int] NOT NULL,
+	[JobName] [nvarchar](500) NOT NULL,
+ CONSTRAINT [PK_AdultWifes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ChildrenPersons]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ChildrenPersons](
+	[Id] [int] NOT NULL,
+	[ChildrenId] [int] NOT NULL,
+	[FamilyStatusId] [int] NOT NULL,
+	[EducationStatusId] [int] NOT NULL,
+	[JobName] [nvarchar](500) NOT NULL,
+ CONSTRAINT [PK_ChildrenPersons] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Childrens]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Childrens](
+	[Id] [int] NOT NULL,
+	[SchoolName] [nvarchar](50) NOT NULL,
+	[ClassName] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Childrens] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ChildrenSiblings]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ChildrenSiblings](
+	[Id] [int] NOT NULL,
+	[ChildrenId] [int] NOT NULL,
+	[EducationStatusId] [int] NOT NULL,
+	[WhichChild] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_ChildrenSiblings] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ContactInformations]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ContactInformations](
+	[Id] [int] NOT NULL,
+	[NationalId] [char](11) NOT NULL,
+ CONSTRAINT [PK_PersonInformationIdentityNumbers] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EducationStatus]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EducationStatus](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_EducationStatus] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[FamilyStatus]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[FamilyStatus](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_FamilyStatus] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Genders]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Genders](
+	[GenderId] [int] IDENTITY(1,1) NOT NULL,
+	[GenderName] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Genders] PRIMARY KEY CLUSTERED 
+(
+	[GenderId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Jobs]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Jobs](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](max) NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MarriedStatus]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MarriedStatus](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_MarriedStatus] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OperationClaims]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OperationClaims](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PersonGenders]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PersonGenders](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[PersonId] [int] NOT NULL,
+	[GenderId] [int] NOT NULL,
+ CONSTRAINT [PK_PersonGenderss] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PersonInformations]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PersonInformations](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[PersonGenderId] [int] NOT NULL,
+	[FirstName] [nvarchar](250) NOT NULL,
+	[LastName] [nvarchar](250) NOT NULL,
+	[DateOfBirth] [date] NOT NULL,
+ CONSTRAINT [PK_PersonInformations] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Persons]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Persons](
+	[PersonId] [int] IDENTITY(1,1) NOT NULL,
+	[PersonName] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Persons] PRIMARY KEY CLUSTERED 
+(
+	[PersonId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[QuestionAnswers]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[QuestionAnswers](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[QuestionId] [int] NOT NULL,
+	[PersonInformationId] [int] NOT NULL,
+	[Answer] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_QuestionAnswers] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Questions]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Questions](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[QuestionTitleId] [int] NOT NULL,
+	[QuestionName] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_Questions] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[QuestionTitles]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[QuestionTitles](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[PersonId] [int] NOT NULL,
+	[QuestionTitleName] [nvarchar](250) NOT NULL,
+ CONSTRAINT [PK_QuestionTitles] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Religions]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Religions](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ReligionName] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Religions] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Telephones]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Telephones](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[PersonInformationId] [int] NOT NULL,
+	[TelephoneNumber] [char](10) NOT NULL,
+ CONSTRAINT [PK_Telephones] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserOperationClaims]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserOperationClaims](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [int] NULL,
+	[OperationClaimId] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 11/29/2021 1:14:49 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [varchar](50) NULL,
+	[LastName] [varchar](50) NULL,
+	[Email] [varchar](50) NULL,
+	[PasswordSalt] [varbinary](500) NULL,
+	[PasswordHash] [varbinary](500) NULL,
+	[Status] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[EducationStatus] ON 
+
+INSERT [dbo].[EducationStatus] ([Id], [Name]) VALUES (1, N'Üniversite')
+INSERT [dbo].[EducationStatus] ([Id], [Name]) VALUES (2, N'Lise')
+INSERT [dbo].[EducationStatus] ([Id], [Name]) VALUES (3, N'Ortaokul')
+SET IDENTITY_INSERT [dbo].[EducationStatus] OFF
+GO
+SET IDENTITY_INSERT [dbo].[FamilyStatus] ON 
+
+INSERT [dbo].[FamilyStatus] ([Id], [Name]) VALUES (1, N'Anne')
+INSERT [dbo].[FamilyStatus] ([Id], [Name]) VALUES (2, N'Baba ')
+INSERT [dbo].[FamilyStatus] ([Id], [Name]) VALUES (3, N'Kardeş')
+SET IDENTITY_INSERT [dbo].[FamilyStatus] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Genders] ON 
+
+INSERT [dbo].[Genders] ([GenderId], [GenderName]) VALUES (1, N'Kadin')
+INSERT [dbo].[Genders] ([GenderId], [GenderName]) VALUES (2, N'Erkek')
+SET IDENTITY_INSERT [dbo].[Genders] OFF
+GO
+SET IDENTITY_INSERT [dbo].[MarriedStatus] ON 
+
+INSERT [dbo].[MarriedStatus] ([Id], [Name]) VALUES (1, N'Evli')
+INSERT [dbo].[MarriedStatus] ([Id], [Name]) VALUES (2, N'Bekar')
+SET IDENTITY_INSERT [dbo].[MarriedStatus] OFF
+GO
+SET IDENTITY_INSERT [dbo].[PersonGenders] ON 
+
+INSERT [dbo].[PersonGenders] ([Id], [PersonId], [GenderId]) VALUES (1, 1, 1)
+INSERT [dbo].[PersonGenders] ([Id], [PersonId], [GenderId]) VALUES (2, 2, 2)
+INSERT [dbo].[PersonGenders] ([Id], [PersonId], [GenderId]) VALUES (3, 1, 2)
+INSERT [dbo].[PersonGenders] ([Id], [PersonId], [GenderId]) VALUES (4, 2, 1)
+SET IDENTITY_INSERT [dbo].[PersonGenders] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Persons] ON 
+
+INSERT [dbo].[Persons] ([PersonId], [PersonName]) VALUES (1, N'Yetişkin')
+INSERT [dbo].[Persons] ([PersonId], [PersonName]) VALUES (2, N'Çocuk')
+SET IDENTITY_INSERT [dbo].[Persons] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Religions] ON 
+
+INSERT [dbo].[Religions] ([Id], [ReligionName]) VALUES (1, N'Müslüman')
+INSERT [dbo].[Religions] ([Id], [ReligionName]) VALUES (2, N'Hristiyan')
+INSERT [dbo].[Religions] ([Id], [ReligionName]) VALUES (3, N'Budist')
+INSERT [dbo].[Religions] ([Id], [ReligionName]) VALUES (4, N'Yahudi')
+SET IDENTITY_INSERT [dbo].[Religions] OFF
+GO
+ALTER TABLE [dbo].[Addresses]  WITH CHECK ADD  CONSTRAINT [FK_Addresses_Adults] FOREIGN KEY([PersonInformationId])
+REFERENCES [dbo].[Adults] ([Id])
+GO
+ALTER TABLE [dbo].[Addresses] CHECK CONSTRAINT [FK_Addresses_Adults]
+GO
+ALTER TABLE [dbo].[AdultAdultChildrens]  WITH CHECK ADD  CONSTRAINT [FK_AdultAdultChildrens_AdultChildrens] FOREIGN KEY([AdultChildrenId])
+REFERENCES [dbo].[AdultChildrens] ([Id])
+GO
+ALTER TABLE [dbo].[AdultAdultChildrens] CHECK CONSTRAINT [FK_AdultAdultChildrens_AdultChildrens]
+GO
+ALTER TABLE [dbo].[AdultAdultChildrens]  WITH CHECK ADD  CONSTRAINT [FK_AdultAdultChildrens_Adults] FOREIGN KEY([AdultId])
+REFERENCES [dbo].[Adults] ([Id])
+GO
+ALTER TABLE [dbo].[AdultAdultChildrens] CHECK CONSTRAINT [FK_AdultAdultChildrens_Adults]
+GO
+ALTER TABLE [dbo].[AdultChildrens]  WITH CHECK ADD  CONSTRAINT [FK_AdultChildrens_PersonInformations] FOREIGN KEY([Id])
+REFERENCES [dbo].[PersonInformations] ([Id])
+GO
+ALTER TABLE [dbo].[AdultChildrens] CHECK CONSTRAINT [FK_AdultChildrens_PersonInformations]
+GO
+ALTER TABLE [dbo].[Adults]  WITH CHECK ADD  CONSTRAINT [FK_Adults_EducationStatus] FOREIGN KEY([EducationStatusId])
+REFERENCES [dbo].[EducationStatus] ([Id])
+GO
+ALTER TABLE [dbo].[Adults] CHECK CONSTRAINT [FK_Adults_EducationStatus]
+GO
+ALTER TABLE [dbo].[Adults]  WITH CHECK ADD  CONSTRAINT [FK_Adults_MarriedStatus] FOREIGN KEY([MarriedStatusId])
+REFERENCES [dbo].[MarriedStatus] ([Id])
+GO
+ALTER TABLE [dbo].[Adults] CHECK CONSTRAINT [FK_Adults_MarriedStatus]
+GO
+ALTER TABLE [dbo].[Adults]  WITH CHECK ADD  CONSTRAINT [FK_Adults_PersonInformations] FOREIGN KEY([Id])
+REFERENCES [dbo].[PersonInformations] ([Id])
+GO
+ALTER TABLE [dbo].[Adults] CHECK CONSTRAINT [FK_Adults_PersonInformations]
+GO
+ALTER TABLE [dbo].[Adults]  WITH CHECK ADD  CONSTRAINT [FK_Adults_Religions] FOREIGN KEY([ReligionId])
+REFERENCES [dbo].[Religions] ([Id])
+GO
+ALTER TABLE [dbo].[Adults] CHECK CONSTRAINT [FK_Adults_Religions]
+GO
+ALTER TABLE [dbo].[AdultWifes]  WITH CHECK ADD  CONSTRAINT [FK_AdultWifes_PersonInformations] FOREIGN KEY([Id])
+REFERENCES [dbo].[PersonInformations] ([Id])
+GO
+ALTER TABLE [dbo].[AdultWifes] CHECK CONSTRAINT [FK_AdultWifes_PersonInformations]
+GO
+ALTER TABLE [dbo].[ChildrenPersons]  WITH CHECK ADD  CONSTRAINT [FK_ChildrenPersons_Childrens] FOREIGN KEY([ChildrenId])
+REFERENCES [dbo].[Childrens] ([Id])
+GO
+ALTER TABLE [dbo].[ChildrenPersons] CHECK CONSTRAINT [FK_ChildrenPersons_Childrens]
+GO
+ALTER TABLE [dbo].[ChildrenPersons]  WITH CHECK ADD  CONSTRAINT [FK_ChildrenPersons_EducationStatus] FOREIGN KEY([EducationStatusId])
+REFERENCES [dbo].[EducationStatus] ([Id])
+GO
+ALTER TABLE [dbo].[ChildrenPersons] CHECK CONSTRAINT [FK_ChildrenPersons_EducationStatus]
+GO
+ALTER TABLE [dbo].[ChildrenPersons]  WITH CHECK ADD  CONSTRAINT [FK_ChildrenPersons_FamilyStatus] FOREIGN KEY([FamilyStatusId])
+REFERENCES [dbo].[FamilyStatus] ([Id])
+GO
+ALTER TABLE [dbo].[ChildrenPersons] CHECK CONSTRAINT [FK_ChildrenPersons_FamilyStatus]
+GO
+ALTER TABLE [dbo].[ChildrenSiblings]  WITH CHECK ADD  CONSTRAINT [FK_ChildrenSiblings_Childrens] FOREIGN KEY([ChildrenId])
+REFERENCES [dbo].[Childrens] ([Id])
+GO
+ALTER TABLE [dbo].[ChildrenSiblings] CHECK CONSTRAINT [FK_ChildrenSiblings_Childrens]
+GO
+ALTER TABLE [dbo].[ChildrenSiblings]  WITH CHECK ADD  CONSTRAINT [FK_ChildrenSiblings_EducationStatus] FOREIGN KEY([EducationStatusId])
+REFERENCES [dbo].[EducationStatus] ([Id])
+GO
+ALTER TABLE [dbo].[ChildrenSiblings] CHECK CONSTRAINT [FK_ChildrenSiblings_EducationStatus]
+GO
+ALTER TABLE [dbo].[ContactInformations]  WITH CHECK ADD  CONSTRAINT [FK_ContactInformations_Adults] FOREIGN KEY([Id])
+REFERENCES [dbo].[Adults] ([Id])
+GO
+ALTER TABLE [dbo].[ContactInformations] CHECK CONSTRAINT [FK_ContactInformations_Adults]
+GO
+ALTER TABLE [dbo].[ContactInformations]  WITH CHECK ADD  CONSTRAINT [FK_ContactInformations_PersonInformations] FOREIGN KEY([Id])
+REFERENCES [dbo].[PersonInformations] ([Id])
+GO
+ALTER TABLE [dbo].[ContactInformations] CHECK CONSTRAINT [FK_ContactInformations_PersonInformations]
+GO
+ALTER TABLE [dbo].[PersonGenders]  WITH CHECK ADD  CONSTRAINT [FK_PersonGenders_Genders] FOREIGN KEY([GenderId])
+REFERENCES [dbo].[Genders] ([GenderId])
+GO
+ALTER TABLE [dbo].[PersonGenders] CHECK CONSTRAINT [FK_PersonGenders_Genders]
+GO
+ALTER TABLE [dbo].[PersonGenders]  WITH CHECK ADD  CONSTRAINT [FK_PersonGenders_Persons] FOREIGN KEY([PersonId])
+REFERENCES [dbo].[Persons] ([PersonId])
+GO
+ALTER TABLE [dbo].[PersonGenders] CHECK CONSTRAINT [FK_PersonGenders_Persons]
+GO
+ALTER TABLE [dbo].[PersonInformations]  WITH CHECK ADD  CONSTRAINT [FK_PersonInformations_PersonGenders] FOREIGN KEY([PersonGenderId])
+REFERENCES [dbo].[PersonGenders] ([Id])
+GO
+ALTER TABLE [dbo].[PersonInformations] CHECK CONSTRAINT [FK_PersonInformations_PersonGenders]
+GO
+ALTER TABLE [dbo].[QuestionAnswers]  WITH CHECK ADD  CONSTRAINT [FK_QuestionAnswers_PersonInformations] FOREIGN KEY([PersonInformationId])
+REFERENCES [dbo].[PersonInformations] ([Id])
+GO
+ALTER TABLE [dbo].[QuestionAnswers] CHECK CONSTRAINT [FK_QuestionAnswers_PersonInformations]
+GO
+ALTER TABLE [dbo].[QuestionAnswers]  WITH CHECK ADD  CONSTRAINT [FK_QuestionAnswers_Questions] FOREIGN KEY([QuestionId])
+REFERENCES [dbo].[Questions] ([Id])
+GO
+ALTER TABLE [dbo].[QuestionAnswers] CHECK CONSTRAINT [FK_QuestionAnswers_Questions]
+GO
+ALTER TABLE [dbo].[Questions]  WITH CHECK ADD  CONSTRAINT [FK_Questions_QuestionTitles] FOREIGN KEY([QuestionTitleId])
+REFERENCES [dbo].[QuestionTitles] ([Id])
+GO
+ALTER TABLE [dbo].[Questions] CHECK CONSTRAINT [FK_Questions_QuestionTitles]
+GO
+ALTER TABLE [dbo].[QuestionTitles]  WITH CHECK ADD  CONSTRAINT [FK_QuestionTitles_Persons] FOREIGN KEY([PersonId])
+REFERENCES [dbo].[Persons] ([PersonId])
+GO
+ALTER TABLE [dbo].[QuestionTitles] CHECK CONSTRAINT [FK_QuestionTitles_Persons]
+GO
+ALTER TABLE [dbo].[Telephones]  WITH CHECK ADD  CONSTRAINT [FK_Telephones_PersonInformations] FOREIGN KEY([PersonInformationId])
+REFERENCES [dbo].[PersonInformations] ([Id])
+GO
+ALTER TABLE [dbo].[Telephones] CHECK CONSTRAINT [FK_Telephones_PersonInformations]
+GO
+ALTER TABLE [dbo].[UserOperationClaims]  WITH CHECK ADD  CONSTRAINT [FK_UserOperationClaims_OperationClaims] FOREIGN KEY([OperationClaimId])
+REFERENCES [dbo].[OperationClaims] ([Id])
+GO
+ALTER TABLE [dbo].[UserOperationClaims] CHECK CONSTRAINT [FK_UserOperationClaims_OperationClaims]
+GO
+ALTER TABLE [dbo].[UserOperationClaims]  WITH CHECK ADD  CONSTRAINT [FK_UserOperationClaims_Users] FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([Id])
+GO
+ALTER TABLE [dbo].[UserOperationClaims] CHECK CONSTRAINT [FK_UserOperationClaims_Users]
+GO
